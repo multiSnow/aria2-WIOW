@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/function.add.js"></script>
+    <script type="text/javascript" src="js/function.common.js"></script>
+    <script type="text/javascript" src="js/function.connection.js"></script>
+    <script type="text/javascript" src="js/function.message.js"></script>
+    <script type="text/javascript" src="js/function.operate.js"></script>
+    <script type="text/javascript" src="js/function.option.js"></script>
+    <script type="text/javascript" src="js/function.show.js"></script>
+    <script type="text/javascript" src="js/json.min.js"></script>
+    <title>aria2 WIOW</title>
+  </head>
+  <body>
+    <div class="side">
+      <div id="start" class="sidetag" onclick="topage(id)">
+        Start
+      </div>
+      <div id="active" class="sidetag" onclick="topage(id);showactive();">
+        Active
+      </div>
+      <div id="stopped" class="sidetag" onclick="topage(id);showstopped();">
+        Stopped
+      </div>
+      <div id="waiting" class="sidetag" onclick="topage(id);showwaiting();">
+        Waiting
+      </div>
+      <div id="info" class="sidetag" onclick="topage(id);globaloption();">
+        Global Option
+      </div>
+      <div id="sidestatic">
+        <div id="ws_address">
+          host:<input id="wshost" type="text"/><br/>
+          port:<input id="wsport" type="number" min="1" max="65535"/><br/>
+        </div>
+        <button id="connect" type="button" onclick="connect()">connect</button>
+        <button id="disconnect" type="button" onclick="disconnect()" style="display:none">disconnect</button>
+        <div id="sideinfo" class="sideinfo" onclick="sideinfo();"></div>
+      </div>
+    </div>
+    <div class="main">
+      <div id="mainstart">
+        <div id="add" style="display:none">
+          Add URI:
+          <input id="adduri" type="url"/>
+          <button type="button" onclick="clearadd('adduri')">Clear</button>
+          <button type="button" onclick="adduri()">Add</button><br/>
+          Add Torrent:
+          <input id="addtorrent" type="file" accept="application/x-bittorrent"/>
+          <button type="button" onclick="clearadd('addtorrent')">Clear</button>
+          <button type="button" onclick="addtorrent()">Add</button><br/>
+          Add Metalink:
+          <input id="addmetalink" type="file" accept="application/metalink+xml,application/metalink4+xml"/>
+          <button type="button" onclick="clearadd('addmetalink')">Clear</button>
+          <button type="button" onclick="addmetalink()">Add</button>
+          <div id="shutdown_button" style="display:none">
+            <button type="button" onclick="shutdown()">shutdown</button>
+            <button id="forceshutdown" type="button" style="display:none">force shutdown</button>
+          </div><!--
+                    <input id="tmpsend" style="width:100%"/>
+                    <button onclick="tmpsend()">send</button>
+                    <div id="echo"></div>-->
+        </div>
+      </div>
+      <div id="mainactive" style="display:none">active page</div>
+      <div id="mainstopped" style="display:none">stopped page</div>
+      <div id="mainwaiting" style="display:none">waiting page</div>
+      <div id="maininfo" style="display:none">
+        <div id="g_o_c">changed option will be shown here.<br/>
+          <!--<textarea id="g_option_changed" rows="16" readonly="readonly"></textarea>-->
+          <div id="g_option_changed"></div>
+          <button onclick="clear_option_cache('g_option_changed')">Clear</button>
+          <button onclick="change_global_option()">Change Option</button>
+          <div id="cgo_echo"></div>
+        </div>
+        <div id="b_o" class="go_">
+          <!--Basic-->
+          dir: <input id="go_dir" type="text" onchange="global_option_cache(id);"/><br/>
+          log: <input id="go_log" type="text" onchange="global_option_cache(id);"/><br/>
+          max-concurrent-downloads: <input id="go_max-concurrent-downloads" type="number" min="1" onchange="global_option_cache(id);"/><br/>
+          check-integrity: <input id="go_check-integrity" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          continue: <input id="go_continue" type="checkbox" onchange="global_option_cache(id);"/><br/>
+        </div>
+        <hr/>
+        <div id="h_f_o" class="go_">
+          <!--HTTP(S)/FTP-->
+          all-proxy: <input id="go_all-proxy" type="text" onchange="global_option_cache(id);"/><br/>
+          all-proxy-user: <input id="go_all-proxy-user" type="text" onchange="global_option_cache(id);"/><br/>
+          all-proxy-passwd: <input id="go_all-proxy-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          connect-timeout: <input id="go_connect-timeout" type="number" min="1" max="600" onchange="global_option_cache(id);"/><br/>
+          dry-run: <input id="go_dry-run" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          lowest-speed-limit: <input id="go_lowest-speed-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          max-connection-per-server: <input id="go_max-connection-per-server" type="number" min="1" max="16" onchange="global_option_cache(id);"/><br/>
+          max-file-not-found: <input id="go_max-file-not-found" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          max-tries: <input id="go_max-tries" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          min-split-size: <input id="go_min-split-size" type="text" onchange="global_option_cache(id);"/><br/>
+          no-netrc: <input id="go_no-netrc" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          no-proxy: <input id="go_no-proxy" type="text" onchange="global_option_cache(id);"/><br/>
+          proxy-method: 
+          <select id="go_proxy-method" onchange="global_option_cache(id);">
+            <option value="get">get</option>
+            <option value="tunnel">tunnel</option>
+          </select><br/>
+          remote-time: <input id="go_remote-time" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          reuse-uri: <input id="go_reuse-uri" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          retry-wait: <input id="go_retry-wait" type="number" min="0" max="600" onchange="global_option_cache(id);"/><br/>
+          server-stat-of: <input id="go_server-stat-of" type="text" onchange="global_option_cache(id);"/><br/>
+          split: <input id="go_split" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          stream-piece-selector: 
+          <select id="go_stream-piece-selector" onchange="global_option_cache(id);">
+            <option value="default">default</option>
+            <option value="inorder">inorder</option>
+            <option value="geom">geom</option>
+          </select><br/>
+          timeout: <input id="go_timeout" type="number" min="1" max="600" onchange="global_option_cache(id);"/><br/>
+          uri-selector: 
+          <select id="go_uri-selector" onchange="global_option_cache(id);">
+            <option value="inorder">inorder</option>
+            <option value="feedback">feedback</option>
+            <option value="adaptive">adaptive</option>
+          </select><br/>
+        </div>
+        <hr/>
+        <div id="h_o" class="go_">
+          <!--HTTP(S)-->
+          http-accept-gzip: <input id="go_http-accept-gzip" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          http-auth-challenge: <input id="go_http-auth-challenge" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          http-no-cache: <input id="go_http-no-cache" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          http-user: <input id="go_http-user" type="text" onchange="global_option_cache(id);"/><br/>
+          http-passwd: <input id="go_http-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          http-proxy: <input id="go_http-proxy" type="text" onchange="global_option_cache(id);"/><br/>
+          http-proxy-user: <input id="go_http-proxy-user" type="text" onchange="global_option_cache(id);"/><br/>
+          http-proxy-passwd: <input id="go_http-proxy-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          https-proxy: <input id="go_https-proxy" type="text" onchange="global_option_cache(id);"/><br/>
+          https-proxy-user: <input id="go_https-proxy-user" type="text" onchange="global_option_cache(id);"/><br/>
+          https-proxy-passwd: <input id="go_https-proxy-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          referer: <input id="go_referer" type="url" onchange="global_option_cache(id);"/><br/>
+          enable-http-keep-alive: <input id="go_enable-http-keep-alive" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          enable-http-pipelining: <input id="go_enable-http-pipelining" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          header: <input id="go_header" type="text" onchange="global_option_cache(id);"/><br/>
+          save-cookies: <input id="go_save-cookies" type="text" onchange="global_option_cache(id);"/><br/>
+          use-head: <input id="go_use-head" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          user-agent: <input id="go_user-agent" type="text" onchange="global_option_cache(id);"/><br/>
+        </div>
+        <hr/>
+        <div id="f_o" class="go_">
+          <!--FTP-->
+          ftp-user: <input id="go_ftp-user" type="text" onchange="global_option_cache(id);"/><br/>
+          ftp-passwd: <input id="go_ftp-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          ftp-pasv: <input id="go_ftp-pasv" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          ftp-proxy: <input id="go_ftp-proxy" type="text" onchange="global_option_cache(id);"/><br/>
+          ftp-proxy-user: <input id="go_ftp-proxy-user" type="text" onchange="global_option_cache(id);"/><br/>
+          ftp-proxy-passwd: <input id="go_ftp-proxy-passwd" type="password" onchange="global_option_cache(id);"/><br/>
+          ftp-type: 
+          <select id="go_ftp-type" onchange="global_option_cache(id);">
+            <option value="binary">binary</option>
+            <option value="ascii">ascii</option>
+          </select><br/>
+          ftp-reuse-connection: <input id="go_ftp-reuse-connection" type="checkbox" onchange="global_option_cache(id);"/><br/>
+        </div>
+        <hr/>
+        <div id="b_o" class="go_">
+          <!--BitTorrent-->
+          bt-enable-lpd: <input id="go_bt-enable-lpd" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-exclude-tracker: <input id="go_bt-exclude-tracker" type="text" onchange="global_option_cache(id);"/><br/>
+          bt-external-ip: <input id="go_bt-external-ip" type="text" onchange="global_option_cache(id);"/><br/>
+          bt-hash-check-seed: <input id="go_bt-hash-check-seed" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-max-open-files: <input id="go_bt-max-open-files" type="number" min="1" onchange="global_option_cache(id);"/><br/>
+          bt-max-peers: <input id="go_bt-max-peers" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          bt-metadata-only: <input id="go_bt-metadata-only" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-min-crypto-level: 
+          <select id="go_bt-min-crypto-level" onchange="global_option_cache(id);">
+            <option value="plain">plain</option>
+            <option value="arc4">arc4</option>
+          </select><br/>
+          bt-prioritize-piece: <input id="go_bt-prioritize-piece" type="text" onchange="global_option_cache(id);"/><br/>
+          bt-remove-unselected-file: <input id="go_bt-remove-unselected-file" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-request-peer-speed-limit: <input id="go_bt-request-peer-speed-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          bt-require-crypto: <input id="go_bt-require-crypto" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-save-metadata: <input id="go_bt-save-metadata" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-seed-unverified: <input id="go_bt-seed-unverified" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          bt-stop-timeout: <input id="go_bt-stop-timeout" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          bt-tracker: <input id="go_bt-tracker" type="text" onchange="global_option_cache(id);"/><br/>
+          bt-tracker-connect-timeout: <input id="go_bt-tracker-connect-timeout" type="number" min="1" onchange="global_option_cache(id);"/><br/>
+          bt-tracker-interval: <input id="go_bt-tracker-interval" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          bt-tracker-timeout: <input id="go_bt-tracker-timeout" type="number" min="1" onchange="global_option_cache(id);"/><br/>
+          enable-peer-exchange: <input id="go_enable-peer-exchange" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          follow-torrent: 
+          <select id="go_follow-torrent" onchange="global_option_cache(id);">
+            <option value="true">true</option>
+            <option value="false">false</option>
+            <option value="mem">mem</option>
+          </select><br/>
+          max-overall-upload-limit: <input id="go_max-overall-upload-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          max-upload-limit: <input id="go_max-upload-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          seed-ratio: <input id="go_seed-ratio" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          seed-time: <input id="go_seed-time" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+        </div>
+        <hr/>
+        <div id="m_o" class="go_">
+          <!--Metalink-->
+          follow-metalink: 
+          <select id="go_follow-metalink" onchange="global_option_cache(id);">
+            <option value="true">true</option>
+            <option value="false">false</option>
+            <option value="mem">mem</option>
+          </select><br/>
+          metalink-base-uri: <input id="go_metalink-base-uri" type="text" onchange="global_option_cache(id);"/><br/>
+          metalink-language: <input id="go_metalink-language" type="text" onchange="global_option_cache(id);"/><br/>
+          metalink-location: <input id="go_metalink-location" type="text" onchange="global_option_cache(id);"/><br/>
+          metalink-os: <input id="go_metalink-os" type="text" onchange="global_option_cache(id);"/><br/>
+          metalink-version: <input id="go_metalink-version" type="text" onchange="global_option_cache(id);"/><br/>
+          metalink-preferred-protocol: 
+          <select id="go_metalink-preferred-protocol" onchange="global_option_cache(id);">
+            <option value="http">http</option>
+            <option value="https">https</option>
+            <option value="ftp">ftp</option>
+            <option value="none">none</option>
+          </select><br/>
+          metalink-enable-unique-protocol: <input id="go_metalink-enable-unique-protocol" type="checkbox" onchange="global_option_cache(id);"/><br/>
+        </div>
+        <hr/>
+        <div id="a_o" class="go_">
+          <!--Advanced-->
+          allow-overwrite: <input id="go_allow-overwrite" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          allow-piece-length-change: <input id="go_allow-piece-length-change" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          always-resume: <input id="go_always-resume" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          async-dns: <input id="go_async-dns" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          auto-file-renaming: <input id="go_auto-file-renaming" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          conditional-get: <input id="go_conditional-get" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          enable-async-dns6: <input id="go_enable-async-dns6" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          enable-mmap: <input id="go_enable-mmap" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          file-allocation: 
+          <select id="go_file-allocation" onchange="global_option_cache(id);">
+            <option value="none">none</option>
+            <option value="prealloc">prealloc</option>
+            <option value="falloc">falloc</option>
+            <option value="trunc">trunc</option>
+          </select><br/>
+          hash-check-only: <input id="go_hash-check-only" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          max-download-result: <input id="go_max-download-result" type="number" min="1" onchange="global_option_cache(id);"/><br/>
+          max-resume-failure-tries: <input id="go_max-resume-failure-tries" type="number" min="0" onchange="global_option_cache(id);"/><br/>
+          log-level: 
+          <select id="go_log-level" onchange="global_option_cache(id);">
+            <option value="debug">debug</option>
+            <option value="info">info</option>
+            <option value="notice">notice</option>
+            <option value="warn">warn</option>
+            <option value="error">error</option>
+          </select><br/>
+          no-file-allocation-limit: <input id="go_no-file-allocation-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          piece-length: <input id="go_piece-length" type="text" onchange="global_option_cache(id);"/><br/>
+          max-overall-download-limit: <input id="go_max-overall-download-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          max-download-limit: <input id="go_max-download-limit" type="text" onchange="global_option_cache(id);"/><br/>
+          parameterized-uri: <input id="go_parameterized-uri" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          realtime-chunk-checksum: <input id="go_realtime-chunk-checksum" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          remove-control-file: <input id="go_remove-control-file" type="checkbox" onchange="global_option_cache(id);"/><br/>
+          save-session: <input id="go_save-session" type="text" onchange="global_option_cache(id);"/><br/>
+        </div>
+      </div>
+      <div id="showoption">
+        <div id="close_option" onclick="hideoption()">Close</div>
+        <div id="showoption_status">
+          <div id="showoption_status_basic">
+            <div><code id="showoption_status_gid">gid</code> in <code id="showoption_status_dir">dir</code></div>
+            <div>Status: <code id="showoption_status_status">status</code></div>
+            <div><progress id="showoption_status_progress" value="completedLength" max="totalLength"></progress>(<code id="showoption_status_completedlength">completedLength</code>/<code id="showoption_status_totallength">totalLength</code>)</div>
+            <div>download from <code id="showoption_status_connections">connections</code> connection.</div>
+          </div>
+          <div id="showoption_status_bittorrent">
+            <div id="showoption_status_infohash">infohash</div>
+            <div>Seeders: <code id="showoption_status_numseeders">numSeeders</code></div>
+            <div>Tracker: <blockquote id="showoption_status_announcelist">announceList</blockquote></div>
+            <div>Peers: <blockquote id="showoption_statue_peers">Peers</blockquote></div>
+          </div>
+          <div>Files: <blockquote id="showoption_statue_file"></blockquote></div>
+          <div id="showoption_option">
+            <div id="showoption_option_basic">
+              max-download-limit: <input id="so_max-download-limit" type="text" onchange="single_option_cache(id,1);"/><br/>
+              max-upload-limit: <input id="so_max-upload-limit" type="text" onchange="single_option_cache(id,1);"/><br/>
+            </div>
+            <hr/>
+            <div id="showoption_option_bittorrent">
+              bt-max-peers: <input id="so_bt-max-peers" type="number" min="0" onchange="single_option_cache(id,2);"/><br/>
+              bt-request-peer-speed-limit: <input id="so_bt-request-peer-speed-limit" type="text" onchange="single_option_cache(id,2);"/><br/>
+              bt-remove-unselected-file: <input id="so_bt-remove-unselected-file" type="checkbox" onchange="single_option_cache(id,2);"/><br/>
+            </div>
+            <hr/>
+            <div id="showoption_option_all">
+              <!--Basic-->
+              dir: <input id="so_dir" type="text" onchange="single_option_cache(id,3);"/><br/>
+              check-integrity: <input id="so_check-integrity" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              continue: <input id="so_continue" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              <!--HTTP(S)/FTP-->
+              all-proxy: <input id="so_all-proxy" type="text" onchange="single_option_cache(id,3);"/><br/>
+              all-proxy-user: <input id="so_all-proxy-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              all-proxy-passwd: <input id="so_all-proxy-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              checksum: <input id="so_checksum" type="text" onchange="single_option_cache(id,3);"/><br/>
+              connect-timeout: <input id="so_connect-timeout" type="number" min="1" max="600" onchange="single_option_cache(id,3);"/><br/>
+              lowest-speed-limit: <input id="so_lowest-speed-limit" type="text" onchange="single_option_cache(id,3);"/><br/>
+              max-connection-per-server: <input id="so_max-connection-per-server" type="number" min="1" max="16" onchange="single_option_cache(id,3);"/><br/>
+              max-file-not-found: <input id="so_max-file-not-found" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              max-tries: <input id="so_max-tries" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              min-split-size: <input id="so_min-split-size" type="text" onchange="single_option_cache(id,3);"/><br/>
+              no-netrc: <input id="so_no-netrc" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              no-proxy: <input id="so_no-proxy" type="text" onchange="single_option_cache(id,3);"/><br/>
+              out: <input id="so_out" type="text" onchange="single_option_cache(id,3);"/><br/>
+              proxy-method: 
+              <select id="so_proxy-method" onchange="single_option_cache(id,3);">
+                <option value="get">get</option>
+                <option value="tunnel">tunnel</option>
+              </select><br/>
+              remote-time: <input id="so_remote-time" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              reuse-uri: <input id="so_reuse-uri" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              retry-wait: <input id="so_retry-wait" type="number" min="0" max="600" onchange="single_option_cache(id,3);"/><br/>
+              split: <input id="so_split" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              stream-piece-selector: 
+              <select id="so_stream-piece-selector" onchange="single_option_cache(id,3);">
+                <option value="default">default</option>
+                <option value="inorder">inorder</option>
+                <option value="geom">geom</option>
+              </select><br/>
+              timeout: <input id="so_timeout" type="number" min="1" max="600" onchange="single_option_cache(id,3);"/><br/>
+              uri-selector: 
+              <select id="so_uri-selector" onchange="single_option_cache(id,3);">
+                <option value="inorder">inorder</option>
+                <option value="feedback">feedback</option>
+                <option value="adaptive">adaptive</option>
+              </select><br/>
+              <!--HTTP(S)-->
+              http-accept-gzip: <input id="so_http-accept-gzip" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              http-auth-challenge: <input id="so_http-auth-challenge" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              http-no-cache: <input id="so_http-no-cache" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              http-user: <input id="so_http-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              http-passwd: <input id="so_http-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              http-proxy: <input id="so_http-proxy" type="text" onchange="single_option_cache(id,3);"/><br/>
+              http-proxy-user: <input id="so_http-proxy-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              http-proxy-passwd: <input id="so_http-proxy-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              https-proxy: <input id="so_https-proxy" type="text" onchange="single_option_cache(id,3);"/><br/>
+              https-proxy-user: <input id="so_https-proxy-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              https-proxy-passwd: <input id="so_https-proxy-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              referer: <input id="so_referer" type="url" onchange="single_option_cache(id,3);"/><br/>
+              enable-http-keep-alive: <input id="so_enable-http-keep-alive" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              enable-http-pipelining: <input id="so_enable-http-pipelining" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              header: <input id="so_header" type="text" onchange="single_option_cache(id,3);"/><br/>
+              use-head: <input id="so_use-head" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              user-agent: <input id="so_user-agent" type="text" onchange="single_option_cache(id,3);"/><br/>
+              <!--FTP-->
+              ftp-user: <input id="so_ftp-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              ftp-passwd: <input id="so_ftp-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              ftp-pasv: <input id="so_ftp-pasv" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              ftp-proxy: <input id="so_ftp-proxy" type="text" onchange="single_option_cache(id,3);"/><br/>
+              ftp-proxy-user: <input id="so_ftp-proxy-user" type="text" onchange="single_option_cache(id,3);"/><br/>
+              ftp-proxy-passwd: <input id="so_ftp-proxy-passwd" type="password" onchange="single_option_cache(id,3);"/><br/>
+              ftp-type: 
+              <select id="so_ftp-type" onchange="single_option_cache(id,3);">
+                <option value="binary">binary</option>
+                <option value="ascii">ascii</option>
+              </select><br/>
+              ftp-reuse-connection: <input id="so_ftp-reuse-connection" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              <!--BitTorrent/Metalink-->
+              select-file: <input id="so_select-file" type="text" onchange="single_option_cache(id,3);"/><br/>
+              <!--BitTorrent-->
+              bt-enable-lpd: <input id="so_bt-enable-lpd" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-exclude-tracker: <input id="so_bt-exclude-tracker" type="text" onchange="single_option_cache(id,3);"/><br/>
+              bt-external-ip: <input id="so_bt-external-ip" type="text" onchange="single_option_cache(id,3);"/><br/>
+              bt-hash-check-seed: <input id="so_bt-hash-check-seed" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-max-open-files: <input id="so_bt-max-open-files" type="number" min="1" onchange="single_option_cache(id,3);"/><br/>
+              bt-metadata-only: <input id="so_bt-metadata-only" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-min-crypto-level: 
+              <select id="so_bt-min-crypto-level" onchange="single_option_cache(id,3);">
+                <option value="plain">plain</option>
+                <option value="arc4">arc4</option>
+              </select><br/>
+              bt-prioritize-piece: <input id="so_bt-prioritize-piece" type="text" onchange="single_option_cache(id,3);"/><br/>
+              bt-require-crypto: <input id="so_bt-require-crypto" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-save-metadata: <input id="so_bt-save-metadata" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-seed-unverified: <input id="so_bt-seed-unverified" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              bt-stop-timeout: <input id="so_bt-stop-timeout" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              bt-tracker: <input id="so_bt-tracker" type="text" onchange="single_option_cache(id,3);"/><br/>
+              bt-tracker-connect-timeout: <input id="so_bt-tracker-connect-timeout" type="number" min="1" onchange="single_option_cache(id,3);"/><br/>
+              bt-tracker-interval: <input id="so_bt-tracker-interval" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              bt-tracker-timeout: <input id="so_bt-tracker-timeout" type="number" min="1" onchange="single_option_cache(id,3);"/><br/>
+              enable-peer-exchange: <input id="so_enable-peer-exchange" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              follow-torrent: 
+              <select id="so_follow-torrent" onchange="single_option_cache(id,3);">
+                <option value="true">true</option>
+                <option value="false">false</option>
+                <option value="mem">mem</option>
+              </select><br/>
+              index-out: <input id="so_index-out" type="text" onchange="single_option_cache(id,3);"/><br/>
+              seed-ratio: <input id="so_seed-ratio" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              seed-time: <input id="so_seed-time" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              <!--Metalink-->
+              follow-metalink: 
+              <select id="so_follow-metalink" onchange="single_option_cache(id,3);">
+                <option value="true">true</option>
+                <option value="false">false</option>
+                <option value="mem">mem</option>
+              </select><br/>
+              metalink-language: <input id="so_metalink-language" type="text" onchange="single_option_cache(id,3);"/><br/>
+              metalink-location: <input id="so_metalink-location" type="text" onchange="single_option_cache(id,3);"/><br/>
+              metalink-os: <input id="so_metalink-os" type="text" onchange="single_option_cache(id,3);"/><br/>
+              metalink-version: <input id="so_metalink-version" type="text" onchange="single_option_cache(id,3);"/><br/>
+              metalink-preferred-protocol: 
+              <select id="so_metalink-preferred-protocol" onchange="single_option_cache(id,3);">
+                <option value="http">http</option>
+                <option value="https">https</option>
+                <option value="ftp">ftp</option>
+                <option value="none">none</option>
+              </select><br/>
+              metalink-enable-unique-protocol: <input id="so_metalink-enable-unique-protocol" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              <!--Advanced-->
+              allow-overwrite: <input id="so_allow-overwrite" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              allow-piece-length-change: <input id="so_allow-piece-length-change" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              always-resume: <input id="so_always-resume" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              async-dns: <input id="so_async-dns" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              auto-file-renaming: <input id="so_auto-file-renaming" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              conditional-get: <input id="so_conditional-get" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              enable-async-dns6: <input id="so_enable-async-dns6" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              enable-mmap: <input id="so_enable-mmap" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              file-allocation: 
+              <select id="so_file-allocation" onchange="single_option_cache(id,3);">
+                <option value="none">none</option>
+                <option value="prealloc">prealloc</option>
+                <option value="falloc">falloc</option>
+                <option value="trunc">trunc</option>
+              </select><br/>
+              hash-check-only: <input id="so_hash-check-only" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              max-resume-failure-tries: <input id="so_max-resume-failure-tries" type="number" min="0" onchange="single_option_cache(id,3);"/><br/>
+              no-file-allocation-limit: <input id="so_no-file-allocation-limit" type="text" onchange="single_option_cache(id,3);"/><br/>
+              realtime-chunk-checksum: <input id="so_realtime-chunk-checksum" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+              remove-control-file: <input id="so_remove-control-file" type="checkbox" onchange="single_option_cache(id,3);"/><br/>
+            </div>
+          </div>
+          <div id="showoption_area"></div>
+          <div id="s_o_c">changed option will be shown here.<br/>
+            <div id="s_option_changed"></div>
+            <button onclick="clear_option_cache('s_option_changed')">Clear</button>
+            <button onclick="change_single_option()">Change Option</button>
+            <div id="cso_echo"></div>
+          </div>
+        </div>
+      </div>
+      <div id="notification" style="display:none" onclick="document.getElementById('notification').style.display='none';"></div>
+  </body>
+</html> 
