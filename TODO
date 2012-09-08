@@ -1,4 +1,5 @@
 * optimize and clearup #maininfo and #showoption_option.
+* optimize #showoption_statue_peers and #showoption_statue_file when showing a large number of items.
 * make a friendly interface to view and change these options:
   * bt-prioritize-piece
   * checksum
