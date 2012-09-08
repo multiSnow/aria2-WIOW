@@ -33,8 +33,8 @@ function addtorrent(){
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
-	message_process();
-	return 0;
+message_process();
+return 0;
     };
     return 0;
 };
@@ -62,8 +62,8 @@ function addmetalink(){
         json.params[0]=file_event.target.result.replace('data:application/metalink+xml;base64,','').replace('data:application/metalink4+xml;base64,','');
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
-	message_process();
-	return 0;
+message_process();
+return 0;
     };
     return 0;
 };

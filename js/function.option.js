@@ -267,6 +267,7 @@ function global_option_process(msg){
 };
 function global_option_cache(id){
     var json_option_cache=new Object();
+    document.getElementById('g_o_c').style.display='block';
     //document.getElementById('cgo_echo').innerHTML=document.getElementById('g_option_changed').innerHTML;
     json_option_cache=(document.getElementById('g_option_changed').innerHTML=='')?JSON.parse('{}'):JSON.parse(document.getElementById('g_option_changed').innerHTML);
     var true_id=id.replace(/^go_/,'');
@@ -312,6 +313,7 @@ function change_global_option(){
 };
 function single_option_process(type,msg_result){
     var i,j,color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
+    document.getElementById('s_o_c').style.display='block';
     document.getElementById('showoption_status_gid').innerHTML=msg_result[0][0].gid;
     document.getElementById('showoption_status_dir').innerHTML=msg_result[0][0].dir;
     document.getElementById('showoption_status_status').innerHTML=msg_result[0][0].status;
@@ -626,9 +628,4 @@ function stopped_status_process(msg_result){
     };
     //document.getElementById('showoption_area').innerHTML=JSON.stringify(msg_result);
     return 0;
-};
-function tmpsend(){
-    document.getElementById('echo').innerHTML=document.getElementById('tmpsend').value
-    ws.send(document.getElementById('tmpsend').value);
-    message_process();
 };
