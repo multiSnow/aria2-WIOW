@@ -313,7 +313,6 @@ function change_global_option(){
 };
 function single_option_process(type,msg_result){
     var i,j,color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
-    document.getElementById('s_o_c').style.display='block';
     document.getElementById('showoption_status_gid').innerHTML=msg_result[0][0].gid;
     document.getElementById('showoption_status_dir').innerHTML=msg_result[0][0].dir;
     document.getElementById('showoption_status_status').innerHTML=msg_result[0][0].status;
@@ -532,6 +531,7 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_area').innerHTML=JSON.stringify(msg_result[0][0])+JSON.stringify(msg_result[1][0])+JSON.stringify(msg_result[2][0]);
         return 0;
     };
+    document.getElementById('s_o_c').style.display='block';
     return 0;
 };
 function single_option_cache(id,type){
