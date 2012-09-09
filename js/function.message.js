@@ -27,7 +27,6 @@ function message_process(){
         switch(msg_data.id)
         {
         case '0':
-            //document.getElementById('echo').innerHTML=message.data;
             document.title='aria2 WIOW '+msg_data.result[0][0].version;
             document.getElementById('sideinfo').innerHTML
                 ='Connected!<br/>aria2<sup>'+msg_data.result[0][0].version+'</sup><br/>'
@@ -59,13 +58,12 @@ function message_process(){
             notification(msg_data);
             return 0;
         case '24':
-            document.getElementById('echo').innerHTML=message.data;
+            notification(msg_data);
             return 0;
         case '25':
             notification(msg_data);
             return 0;
         case '30':
-            //document.getElementById('mainactive').innerHTML+=message.data;
             num=Number(msg_data.result.length)-1;
             while(i<=num)
             {
@@ -125,7 +123,6 @@ function message_process(){
             };
             return 0;
         case '31':
-            //document.getElementById('mainstopped').innerHTML+=message.data;
             num=Number(msg_data.result.length)-1;
             while(i<=num)
             {
@@ -149,7 +146,6 @@ function message_process(){
             };
             return 0;
         case '32':
-            //document.getElementById('mainwaiting').innerHTML+=message.data;
             num=Number(msg_data.result.length)-1;
             while(i<=num)
             {
