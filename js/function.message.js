@@ -21,7 +21,7 @@
 //42 change_single_option
 
 function message_process(){
-    var i=0,num,downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
+    var i=0,num,downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color,note={};
     ws.onmessage=function(message){
         msg_data=JSON.parse(message.data)
         switch(msg_data.id)
@@ -37,30 +37,48 @@ function message_process(){
                 +'U: '+human_read(msg_data.result[1][0].uploadSpeed)+'b<br/>';
             return 0;
         case '10':
+            node.type=10;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '11':
+            node.type=11;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '12':
+            node.type=12;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '20':
+            node.type=20;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '21':
+            node.type=21;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '22':
+            node.type=22;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '23':
+            node.type=23;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '24':
+            node.type=24;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '25':
+            node.type=25;
+            node.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '30':
@@ -220,7 +238,48 @@ function message_process(){
             global_option_process(msg_data.result);
             return 0;
         case '41':
+            node.type=41;
+            node.gid=msg_data.result;
             notification(msg_data);
+            return 0;
+        case '42':
+            node.type=42;
+            node.gid=msg_data.result;
+            notification(msg_data);
+            return 0;
+        case undefined:
+            switch(msg_data.method)
+            {
+            case 'aria2.onDownloadStart':
+                note.type=1;
+                note.gid=msg_data.params[0].gid;
+                break;
+            case 'aria2.onDownloadPause':
+                note.type=2;
+                note.gid=msg_data.params[0].gid;
+                break;
+            case 'aria2.onDownloadStop':
+                note.type=3;
+                note.gid=msg_data.params[0].gid;
+                break;
+            case 'aria2.onDownloadComplete':
+                note.type=4;
+                note.gid=msg_data.params[0].gid;
+                break;
+            case 'aria2.onDownloadError':
+                note.type=5;
+                note.gid=msg_data.params[0].gid;
+                break;
+            case 'aria2.onBtDownloadComplete':
+                note.type=6;
+                note.gid=msg_data.params[0].gid;
+                break;
+            default:
+                note.type=-1;
+                note.data=JSON.stringify(msg_data);
+                break;
+            };
+            notification(note);
             return 0;
         default:
             notification(msg_data);
