@@ -37,48 +37,48 @@ function message_process(){
                 +'U: '+human_read(msg_data.result[1][0].uploadSpeed)+'b<br/>';
             return 0;
         case '10':
-            node.type=10;
-            node.gid=msg_data.result;
+            note.type=10;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '11':
-            node.type=11;
-            node.gid=msg_data.result;
+            note.type=11;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '12':
-            node.type=12;
-            node.gid=msg_data.result;
+            note.type=12;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '20':
-            node.type=20;
-            node.gid=msg_data.result;
+            note.type=20;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '21':
-            node.type=21;
-            node.gid=msg_data.result;
+            note.type=21;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '22':
-            node.type=22;
-            node.gid=msg_data.result;
+            note.type=22;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '23':
-            node.type=23;
-            node.gid=msg_data.result;
+            note.type=23;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '24':
-            node.type=24;
-            node.gid=msg_data.result;
+            note.type=24;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '25':
-            node.type=25;
-            node.gid=msg_data.result;
+            note.type=25;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '30':
@@ -238,13 +238,13 @@ function message_process(){
             global_option_process(msg_data.result);
             return 0;
         case '41':
-            node.type=41;
-            node.gid=msg_data.result;
+            note.type=41;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case '42':
-            node.type=42;
-            node.gid=msg_data.result;
+            note.type=42;
+            note.gid=msg_data.result;
             notification(msg_data);
             return 0;
         case undefined:
