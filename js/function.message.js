@@ -39,47 +39,47 @@ function message_process(){
         case '10':
             note.type=10;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '11':
             note.type=11;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '12':
             note.type=12;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '20':
             note.type=20;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '21':
             note.type=21;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '22':
             note.type=22;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '23':
             note.type=23;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '24':
             note.type=24;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '25':
             note.type=25;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '30':
             num=Number(msg_data.result.length)-1;
@@ -240,12 +240,12 @@ function message_process(){
         case '41':
             note.type=41;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case '42':
             note.type=42;
             note.gid=msg_data.result;
-            notification(msg_data);
+            notification(note);
             return 0;
         case undefined:
             switch(msg_data.method)
