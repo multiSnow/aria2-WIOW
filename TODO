@@ -5,6 +5,7 @@
   * checksum
   * select-file
   * index-out
+  * header
 * use canvas to show icons instead of text in some place.
 * an extra place to show debug infomations.
 * take advantage of more RPC Methods.
