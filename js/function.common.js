@@ -12,11 +12,6 @@ function topage(page){
     document.getElementById(page).className='sidetag side_clicked';
     return 0;
 };
-function notification(input_json){
-    document.getElementById('notification').style.display='block';
-    document.getElementById('notification').innerHTML=JSON.stringify(input_json)+'<br/>'+document.getElementById('notification').innerHTML;
-    return 0;
-};
 function clearadd(add){
     document.getElementById(add).value='';
     return 0;
