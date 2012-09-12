@@ -63,7 +63,7 @@ function message_process(){
             return 0;
         case '22':
             note.type=22;
-            note.gid=msg_data.result;
+            note.status=msg_data.result;
             notification(note);
             return 0;
         case '23':
@@ -73,12 +73,12 @@ function message_process(){
             return 0;
         case '24':
             note.type=24;
-            note.gid=msg_data.result;
+            note.status=msg_data.result;
             notification(note);
             return 0;
         case '25':
             note.type=25;
-            note.gid=msg_data.result;
+            note.status=msg_data.result;
             notification(note);
             return 0;
         case '30':
@@ -239,7 +239,7 @@ function message_process(){
             return 0;
         case '41':
             note.type=41;
-            note.gid=msg_data.result;
+            note.status=msg_data.result;
             notification(note);
             return 0;
         case '42':
@@ -275,7 +275,7 @@ function message_process(){
                 note.gid=msg_data.params[0].gid;
                 break;
             default:
-                note.type=-1;
+                note.type=255;
                 note.data=JSON.stringify(msg_data);
                 break;
             };
