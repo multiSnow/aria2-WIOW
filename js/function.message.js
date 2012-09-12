@@ -244,7 +244,7 @@ function message_process(){
             return 0;
         case '42':
             note.type=42;
-            note.gid=msg_data.result;
+            note.status=msg_data.result;
             notification(note);
             return 0;
         case undefined:

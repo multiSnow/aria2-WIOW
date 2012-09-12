@@ -475,6 +475,7 @@ function single_option_process(type,msg_result){
             break;
         };
     };
+    document.getElementById('s_o_c').style.display='block';
     switch(type)
     {
     case 33:
@@ -531,7 +532,6 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_area').innerHTML=JSON.stringify(msg_result[0][0])+JSON.stringify(msg_result[1][0])+JSON.stringify(msg_result[2][0]);
         return 0;
     };
-    document.getElementById('s_o_c').style.display='block';
     return 0;
 };
 function single_option_cache(id,type){
