@@ -11,6 +11,8 @@
 * take advantage of more RPC Methods.
 * readable #notification.
 * handle errorcode and notification from RPC Server.
+* add torrent with web-seeding.
+* add multiple link, torrent and metalink, with additional options.
 * testapi.html with more infomation.
 * more readable, friendly and beautiful
 * ...
