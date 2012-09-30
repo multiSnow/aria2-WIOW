@@ -18,7 +18,9 @@
  */
 function connect(){
     document.getElementById('sideinfo').innerHTML='Connecting...<br/>';
-    var url='ws://'+document.getElementById('wshost').value+':'+document.getElementById('wsport').value+'/jsonrpc';
+    var url=(document.getElementById('wss_scheme').checked===true?'wss://':'ws://')
+        +document.getElementById('wshost').value
+        +':'+document.getElementById('wsport').value+'/jsonrpc';
     ws=new WebSocket(url);
     ws.onopen=function(){
         document.getElementById('shutdown_button').style.display='block';
