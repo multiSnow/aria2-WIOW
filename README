@@ -6,7 +6,7 @@ aria2-WIOW
 
 Aria2 Web Interface Over WebSocket. All in html, css and javascript so
 it counld be used in local file system or visited from a HTTP(S)
-server (Use WebSocket Secure connection in HTTP protocol, since a
+server (Use WebSocket Secure connection in HTTPS protocol, since a
 normal WebSocket connection in HTTPS is insecure).
 
 Required:
