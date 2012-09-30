@@ -5,14 +5,14 @@ aria2-WIOW
 ==========
 
 Aria2 Web Interface Over WebSocket. All in html, css and javascript so
-it counld be used in local file system or visited from a HTTP server
-(only with HTTP protocol, since aria2 does not support WebSocket
-Secure connection and a normal WebSocket connection in HTTPS is
-insecure).
+it counld be used in local file system or visited from a HTTP(S)
+server (Use WebSocket Secure connection in HTTP protocol, since a
+normal WebSocket connection in HTTPS is insecure).
 
 Required:
 
-* aria2 higher than 1.15.0, build with WebSocket support, running with
+* aria2 higher than 1.15.0 (wss protocol is supported only in latest
+develop version), build with WebSocket support, running with
 --enable-rpc=true option.
 
 * a web browser that support JavaScript, WebSocket, FileReader and
