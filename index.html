@@ -30,6 +30,12 @@
     <script type="text/javascript" src="js/function.option.js"></script>
     <script type="text/javascript" src="js/function.show.js"></script>
     <script type="text/javascript" src="js/json.min.js"></script>
+    <script>
+      window.onload=function(){
+      document.getElementById('wss_scheme').checked=(location.protocol==='https:'?true:false);
+      document.getElementById('wss_scheme').readOnly=(location.protocol==='https:'?true:false);
+      }
+    </script>
     <title>aria2 WIOW</title>
   </head>
   <body>
