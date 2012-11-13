@@ -501,7 +501,7 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_status_bittorrent').style.display='none';
         document.getElementById('showoption_statue_file').style.display='block';
         document.getElementById('showoption_option_basic').style.display='block';
-        document.getElementById('showoption_option_bittorrent').style.display='block';
+        document.getElementById('showoption_option_bittorrent').style.display='none';
         document.getElementById('showoption_option_all').style.display='block';
         for(name in sa_option_bittorrent)
         {
@@ -544,6 +544,31 @@ function single_option_process(type,msg_result){
         for(name in s_option)
         {
             document.getElementById('so_'+name).readOnly=true;
+        };
+        return 0;
+    case 36:
+        document.getElementById('showoption_status_basic').style.display='block';
+        document.getElementById('showoption_status_bittorrent').style.display='none';
+        document.getElementById('showoption_statue_file').style.display='block';
+        document.getElementById('showoption_option_basic').style.display='block';
+        document.getElementById('showoption_option_bittorrent').style.display='none';
+        document.getElementById('showoption_option_all').style.display='block';
+        return 0;
+    case 37:
+        document.getElementById('showoption_status_basic').style.display='block';
+        document.getElementById('showoption_status_bittorrent').style.display='block';
+        document.getElementById('showoption_statue_file').style.display='block';
+        document.getElementById('showoption_statue_peers').style.display='block';
+        document.getElementById('showoption_option_basic').style.display='block';
+        document.getElementById('showoption_option_bittorrent').style.display='block';
+        document.getElementById('showoption_option_all').style.display='block';
+        document.getElementById('showoption_status_announcelist').innerHTML='';
+        document.getElementById('showoption_statue_peers').innerHTML='';
+        document.getElementById('showoption_status_infohash').innerHTML=msg_result[0][0].infoHash;
+        document.getElementById('showoption_status_numseeders').innerHTML=msg_result[0][0].numSeeders;
+        for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1)
+        {
+            document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i]+'<br/>';
         };
         return 0;
     default:

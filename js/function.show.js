@@ -160,7 +160,7 @@ function showoption(gid,type,status){
         //document.getElementById('showoption_area').innerHTML='<div>waiting,http</div>';
         break;
     case 31:
-        json.id='36';
+        json.id='37';
         json.params=[[]];
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -175,7 +175,7 @@ function showoption(gid,type,status){
         //document.getElementById('showoption_area').innerHTML='<div>waiting,bittorrent</div>';
         break;
     case 32:
-        json.id='36';
+        json.id='37';
         json.params=[[]];
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';

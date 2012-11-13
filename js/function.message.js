@@ -33,7 +33,8 @@
 //33 showoption (active http)
 //34 showoption (active bittorrent/metalink)
 //35 showoption (stopped)
-//36 showoption (waiting)
+//36 showoption (waiting http)
+//37 showoption (waiting bittorrent/metalink)
 //40 globaloption
 //41 change_global_option
 //42 change_single_option
@@ -250,7 +251,10 @@ function message_process(){
             stopped_status_process(msg_data.result);
             return 0;
         case '36':
-            document.getElementById('showoption_area').innerHTML+=msg_data;
+            single_option_process(36,msg_data.result);
+            return 0;
+        case '37':
+            single_option_process(37,msg_data.result);
             return 0;
         case '40':
             global_option_process(msg_data.result);
