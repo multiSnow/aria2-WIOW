@@ -145,9 +145,9 @@ function message_process(){
                 document.getElementById('mainactive').innerHTML
                     +='<div class="item"><div class="item_title" style="color:'+color+'">'
                     +gid+' '+name
-                    +'</div><div class="item_button"><div id="pause_icon" onclick="pause('+gid+');">pause</div>'
-                    +'<div id="remove_icon" onclick="remove('+gid+');">remove</div>'
-                    +'<div id="option_icon" onclick="showoption('+gid+','+type_bittorrent+',10);">status&option</div></div><div class="item_summery">'
+                    +'</div><div class="item_button"><div id="pause_icon" onclick="pause(\''+gid+'\');">pause</div>'
+                    +'<div id="remove_icon" onclick="remove(\''+gid+'\');">remove</div>'
+                    +'<div id="option_icon" onclick="showoption(\''+gid+'\','+type_bittorrent+',10);">status&option</div></div><div class="item_summery">'
                     +infohash
                     +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress>'
                     +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
@@ -170,8 +170,8 @@ function message_process(){
                 document.getElementById('mainstopped').innerHTML
                     +='<div class="item"><div class="item_title">'
                     +gid+' '+name
-                    +'</div><div class="item_button"><div id="remove_icon" onclick="remove_stopped('+gid+');showstopped();">remove</div>'
-                    +'<div id="option_icon" onclick="showoption('+gid+',0,20);">status</div></div><div class="item_summery">'
+                    +'</div><div class="item_button"><div id="remove_icon" onclick="remove_stopped(\''+gid+'\');showstopped();">remove</div>'
+                    +'<div id="option_icon" onclick="showoption(\''+gid+'\',0,20);">status</div></div><div class="item_summery">'
                     +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress><br/>'
                     +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
                     +'</div></div><br/>';
@@ -227,9 +227,9 @@ function message_process(){
                 document.getElementById('mainwaiting').innerHTML
                     +='<div class="item"><div class="item_title" style="color:'+color+'">'
                     +gid+' '+name
-                    +'</div><div class="item_button"><div id="pause_icon" onclick="unpause('+gid+');">unpause</div>'
-                    +'<div id="remove_icon" onclick="remove('+gid+');">remove</div>'
-                    +'<div id="option_icon" onclick="showoption('+gid+','+type_bittorrent+',30);">status&option</div></div><div class="item_summery">'
+                    +'</div><div class="item_button"><div id="pause_icon" onclick="unpause(\''+gid+'\');">unpause</div>'
+                    +'<div id="remove_icon" onclick="remove(\''+gid+'\');">remove</div>'
+                    +'<div id="option_icon" onclick="showoption(\''+gid+'\','+type_bittorrent+',30);">status&option</div></div><div class="item_summery">'
                     +infohash
                     +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress>'
                     +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
