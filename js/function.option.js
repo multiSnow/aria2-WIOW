@@ -496,7 +496,7 @@ function single_option_process(type,msg_result){
     document.getElementById('s_o_c').style.display='block';
     switch(type)
     {
-    case 33:
+    case '33':
         document.getElementById('showoption_status_basic').style.display='block';
         document.getElementById('showoption_status_bittorrent').style.display='none';
         document.getElementById('showoption_statue_file').style.display='block';
@@ -512,7 +512,7 @@ function single_option_process(type,msg_result){
             document.getElementById('so_'+name).readOnly=true;
         };
         return 0;
-    case 34:
+    case '34':
         document.getElementById('showoption_status_basic').style.display='block';
         document.getElementById('showoption_status_bittorrent').style.display='block';
         document.getElementById('showoption_statue_file').style.display='block';
@@ -546,7 +546,7 @@ function single_option_process(type,msg_result){
             document.getElementById('so_'+name).readOnly=true;
         };
         return 0;
-    case 36:
+    case '36':
         document.getElementById('showoption_status_basic').style.display='block';
         document.getElementById('showoption_status_bittorrent').style.display='none';
         document.getElementById('showoption_statue_file').style.display='block';
@@ -554,7 +554,7 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_option_bittorrent').style.display='none';
         document.getElementById('showoption_option_all').style.display='block';
         return 0;
-    case 37:
+    case '37':
         document.getElementById('showoption_status_basic').style.display='block';
         document.getElementById('showoption_status_bittorrent').style.display='block';
         document.getElementById('showoption_statue_file').style.display='block';

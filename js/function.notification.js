@@ -88,17 +88,17 @@ function notification(input_json){
         summary='BitTorrent Download Complete';
         text='GID "'+input_json.gid+'" downloading has been completed, and will continue to seed.';
         break;
-    case 10:
+    case '10':
         urgency=1;
         summary='Add Download Required';
         text='Apply downloading via link and should start in GID "'+input_json.gid+'".';
         break;
-    case 11:
+    case '11':
         urgency=1;
         summary='Add Download Required';
         text='Apply downloading via torrent file and should start in GID "'+input_json.gid+'".';
         break;
-    case 12:
+    case '12':
         urgency=1;
         summary='Add Download Required';
         text='Apply downloading via metalink file and should start in GID';
@@ -110,17 +110,17 @@ function notification(input_json){
         };
         text+='.';
         break;
-    case 20:
+    case '20':
         urgency=1;
         summary='Pause Download Required';
         text='Apply pause downloading GID "'+input_json.gid+'".';
         break;
-    case 21:
+    case '21':
         urgency=1;
         summary='Remove Download Required';
         text='Apply remove downloading GID "'+input_json.gid+'".';
         break;
-    case 22:
+    case '22':
         if(input_json.status==='OK')
         {
             urgency=1;
@@ -138,13 +138,13 @@ function notification(input_json){
             return 1;
         };
         break;
-    case 23:
+    case '23':
         urgency=1;
         summary='Continue Download Required';
         text='Apply continue downloading GID "'+input_json.gid+'".';
         break;
-    case 24:
-        if(input_json.status==='OK')
+    case '24':
+        if(input_json.gid==='OK')
         {
             urgency=1;
             summary='Shutdown aria2'
@@ -161,8 +161,8 @@ function notification(input_json){
             return 1;
         };
         break;
-    case 25:
-        if(input_json.status==='OK')
+    case '25':
+        if(input_json.gid==='OK')
         {
             urgency=1;
             summary='Clear Any Download Result'
@@ -174,13 +174,13 @@ function notification(input_json){
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
             ugly.error_id=25;
-            ugly.error_status=JSON.stringify(input_json);
+            ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
             return 1;
         };
         break;
-    case 41:
-        if(input_json.status==='OK')
+    case '41':
+        if(input_json.gid==='OK')
         {
             urgency=1;
             summary='Option Changed'
@@ -192,13 +192,13 @@ function notification(input_json){
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
             ugly.error_id=41;
-            ugly.error_status=JSON.stringify(input_json);
+            ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
             return 1;
         };
         break;
-    case 42:
-        if(input_json.status==='OK')
+    case '42':
+        if(input_json.gid==='OK')
         {
             urgency=1;
             summary='Option Changed'
@@ -210,12 +210,12 @@ function notification(input_json){
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
             ugly.error_id=42;
-            ugly.error_status=JSON.stringify(input_json);
+            ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
             return 1;
         };
         break;
-    case 255:
+    case '255':
         urgency=3;
         summary='aria2 send an unexpected notification.';
         text=JSON.stringify(input_json);
