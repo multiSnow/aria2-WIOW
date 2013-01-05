@@ -43,7 +43,7 @@ function receive_common(input_data){
     var note=new Object();
     note.type=input_data.id;
     note.gid=input_data.result;
-    node.data=input_data;
+    note.data=input_data;
     notification(note);
     return 0;
 };    
