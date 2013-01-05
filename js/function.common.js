@@ -21,12 +21,13 @@ function warning_dialog(string){
     return 0;
 };
 function topage(page){
-    for(var all_page in {start:'',active:'',stopped:'',waiting:'',info:''})
+    var all_page={'start':'mainstart','active':'mainactive','stopped':'mainstopped','waiting':'mainwaiting','info':'maininfo'}
+    for(each in all_page)
     {
-	document.getElementById('main'+all_page).style.display='none';
-	document.getElementById(all_page).className='sidetag';
+	document.getElementById(all_page[each]).style.display='none';
+	document.getElementById(each).className='sidetag';
     };
-    document.getElementById('main'+page).style.display='block';
+    document.getElementById(all_page[page]).style.display='block';
     document.getElementById(page).className='sidetag side_clicked';
     return 0;
 };
@@ -76,7 +77,7 @@ function spendtime(speed,completedsize,totalsize){
     case 4:return Math.floor(time_raw/604300)+'week'+Math.floor((time_raw%604300)/86400)+'day';
     default:return -1;
     };
-};	
+};
 function human_read(num){
     switch(type_unit)
     {

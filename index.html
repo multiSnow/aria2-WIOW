@@ -45,21 +45,6 @@
   </head>
   <body>
     <div class="side">
-      <div id="start" class="sidetag" onclick="topage(id)">
-        Start
-      </div>
-      <div id="active" class="sidetag" onclick="topage(id);showactive();">
-        Active
-      </div>
-      <div id="stopped" class="sidetag" onclick="topage(id);showstopped();">
-        Stopped
-      </div>
-      <div id="waiting" class="sidetag" onclick="topage(id);showwaiting();">
-        Waiting
-      </div>
-      <div id="info" class="sidetag" onclick="topage(id);globaloption();">
-        Global Option
-      </div>
       <div id="sidestatic">
         <div id="ws_address">
           wss: <input id="wss_scheme" type="checkbox"/><br/>
@@ -70,10 +55,27 @@
         <button id="disconnect" type="button" onclick="disconnect()" style="display:none">disconnect</button>
         <div id="sideinfo" class="sideinfo" onclick="sideinfo();"></div>
       </div>
+      <div id="sidetags" style="display:none">
+        <div id="start" class="sidetag" onclick="topage(id)">
+          Start
+        </div>
+        <div id="active" class="sidetag" onclick="topage(id);showactive();">
+          Active
+        </div>
+        <div id="stopped" class="sidetag" onclick="topage(id);showstopped();">
+          Stopped
+        </div>
+        <div id="waiting" class="sidetag" onclick="topage(id);showwaiting();">
+          Waiting
+        </div>
+        <div id="info" class="sidetag" onclick="topage(id);globaloption();">
+          Global Option
+        </div>
+      </div>
     </div>
-    <div class="main">
+    <div id="main" style="display:none">
       <div id="mainstart">
-        <div id="add" style="display:none">
+        <div id="add">
           Add URI:
           <input id="adduri" type="url"/>
           <button type="button" onclick="clearadd('adduri')">Clear</button>

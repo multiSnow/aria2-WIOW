@@ -23,8 +23,11 @@ function connect(){
         +':'+document.getElementById('wsport').value+'/jsonrpc';
     ws=new WebSocket(url);
     ws.onopen=function(){
+        document.getElementById('sidetags').style.display='block';
         document.getElementById('shutdown_button').style.display='block';
-        document.getElementById('add').style.display='block';
+        document.getElementById('main').style.display='block';
+        //document.getElementById('add').style.display='block';
+        topage('start');
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
         document.getElementById('connect').style.display='none';
@@ -52,8 +55,9 @@ function disconnect(){
     ws.close();
     ws.onclose=function(){
         document.getElementById('sideinfo').innerHTML='Disconnected!';
+        document.getElementById('sidetags').style.display='none';
+        document.getElementById('main').style.display='none';
         document.getElementById('shutdown_button').style.display='none';
-        document.getElementById('add').style.display='none';
         document.getElementById('disconnect').style.display='none';
         document.getElementById('ws_address').style.display='block';
         document.getElementById('connect').style.display='block';
