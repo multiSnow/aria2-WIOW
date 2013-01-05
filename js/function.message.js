@@ -49,22 +49,43 @@ function receive_common(input_data){
 };    
 
 function receive_connect(input_data){
+    var sideinfo,node;
+    sideinfo=document.getElementById('sideinfo');
     document.title='aria2 WIOW '+input_data.result[0][0].version;
-    document.getElementById('sideinfo').innerHTML
-        ='Connected!<br/>aria2<sup>'+input_data.result[0][0].version+'</sup><br/>'
-        +input_data.result[1][0].numActive+' Active<br/>'
-        +input_data.result[1][0].numStopped+' Stopped<br/>'
-        +input_data.result[1][0].numWaiting+' Waiting<br/>'
-        +'D: '+human_read(input_data.result[1][0].downloadSpeed)+'b<br/>'
-        +'U: '+human_read(input_data.result[1][0].uploadSpeed)+'b<br/>';
+    sideinfo.innerHTML='Connected!'
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode('aria2'));
+    node=document.createElement('sup');
+    node.appendChild(document.createTextNode(input_data.result[0][0].version));
+    sideinfo.appendChild(node);
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numActive+' Active'));
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numStopped+' Stopped'));
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numWaiting+' Waiting'));
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode('D: '+human_read(input_data.result[1][0].downloadSpeed)+'b'));
+    sideinfo.appendChild(document.createElement('br'));
+    sideinfo.appendChild(document.createTextNode('U: '+human_read(input_data.result[1][0].uploadSpeed)+'b'));
+    sideinfo.appendChild(document.createElement('br'));
     return 0;
 };
 
 function receive_active(input_data){
-    var i=0,num,downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    num=Number(input_data.result.length)-1;
-    while(i<=num)
+    var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
+    var node,item_title,item_button,pause_icon,remove_icon,option_icon,item_summery,progress_bar;
+    var num=Number(input_data.result.length)-1;
+    for(var i=0;i<=num;i++)
     {
+        node=document.createElement('div');
+        node.id='active_'+String(i);
+        node.className='item';
+        document.getElementById('mainactive').appendChild(node);
+    };
+    for(var i=0;i<=num;i++)
+    {
+        active_element=document.getElementById('active_'+String(i));
         downloadSpeed=input_data.result[i].downloadSpeed;
         uploadSpeed=input_data.result[i].uploadSpeed;
         gid=input_data.result[i].gid;
@@ -83,7 +104,7 @@ function receive_active(input_data){
         {
             type_bittorrent=1;
         };
-        infohash=(type_bittorrent==1)?input_data.result[i].infoHash+'<br/>':'';
+        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
         switch(type_bittorrent)
         {
         case 2:
@@ -103,55 +124,127 @@ function receive_active(input_data){
             color='#ff0000';
             break;
         };
-        document.getElementById('mainactive').innerHTML
-            +='<div class="item"><div class="item_title" style="color:'+color+'">'
-            +gid+' '+name
-            +'</div><div class="item_button"><div id="pause_icon" onclick="pause(\''+gid+'\');">pause</div>'
-            +'<div id="remove_icon" onclick="remove(\''+gid+'\');">remove</div>'
-            +'<div id="option_icon" onclick="showoption(\''+gid+'\','+type_bittorrent+',10);">status&option</div></div><div class="item_summery">'
-            +infohash
-            +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress>'
-            +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
-            +'D: '+human_read(downloadSpeed)+'b/s<br/>'
-            +'U: '+human_read(uploadSpeed)+'b/s<br/>'
-            +'ETA: '+spendtime(downloadSpeed,completedLength,totalLength)+'<br/>'
-            +'download from '+connections+' connection.'+'<br/>'
-            +'</div></div><br/>';
-        i+=1
+
+        item_title=document.createElement('div');
+        item_button=document.createElement('div');
+        pause_icon=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
+        item_summery=document.createElement('div');
+        progress_bar=document.createElement('progress');
+
+        item_title.className='item_title';
+        item_title.style.color=color;
+        item_title.appendChild(document.createTextNode(gid+' '+name));
+        item_button.className='item_button';
+        pause_icon.id='pause_icon';
+        pause_icon.appendChild(document.createTextNode('pause'));
+        pause_icon.onclick=function(){pause(gid);};
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.onclick=function(){remove(gid);};
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        option_icon.onclick=function(){showoption(gid,type_bittorrent,10);};
+        item_summery.className='item_summery';
+        progress_bar.value=completedLength;
+        progress_bar.max=totalLength;
+
+        item_button.appendChild(pause_icon);
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
+        item_summery.appendChild(document.createTextNode(infohash));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(progress_bar);
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('D: '+human_read(downloadSpeed)+'b/s'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('U: '+human_read(uploadSpeed)+'b/s'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('download from '+connections+' connection.'));
+
+        active_element.appendChild(item_title);
+        active_element.appendChild(item_button);
+        active_element.appendChild(item_summery);
     };
     return 0;
 };
 
 function receive_stopped(input_data){
-    var i=0,num,gid,totalLength,name;
-    num=Number(input_data.result.length)-1;
-    while(i<=num)
+    var gid,totalLength,name;
+    var node,item_title,item_button,remove_icon,option_icon,item_summery,progress_bar,purge_button;
+    var num=Number(input_data.result.length)-1;
+    for(var i=0;i<=num;i++)
+    {
+        node=document.createElement('div');
+        node.id='stopped_'+String(i);
+        node.className='item';
+        document.getElementById('mainstopped').appendChild(node);
+    };
+    for(var i=0;i<=num;i++)
     {
         gid=input_data.result[i].gid;
         completedLength=input_data.result[i].completedLength;
         totalLength=input_data.result[i].totalLength;
         name=input_data.result[i].files[0].path;
-        document.getElementById('mainstopped').innerHTML
-            +='<div class="item"><div class="item_title">'
-            +gid+' '+name
-            +'</div><div class="item_button"><div id="remove_icon" onclick="remove_stopped(\''+gid+'\');showstopped();">remove</div>'
-            +'<div id="option_icon" onclick="showoption(\''+gid+'\',0,20);">status</div></div><div class="item_summery">'
-            +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress><br/>'
-            +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
-            +'</div></div><br/>';
-        i+=1
+
+        item_title=document.createElement('div');
+        item_button=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
+        item_summery=document.createElement('div');
+        progress_bar=document.createElement('progress');
+
+        item_title.className='item_title';
+        item_title.appendChild(document.createTextNode(gid+' '+name));
+        item_button.className='item_button';
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.onclick=function(){remove(gid);};
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        option_icon.onclick=function(){showoption(gid,type_bittorrent,20);};
+        item_summery.className='item_summery';
+        progress_bar.value=completedLength;
+        progress_bar.max=totalLength;
+
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
+        item_summery.appendChild(progress_bar);
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
+
+        document.getElementById('stopped_'+String(i)).appendChild(item_title);
+        document.getElementById('stopped_'+String(i)).appendChild(item_button);
+        document.getElementById('stopped_'+String(i)).appendChild(item_summery);
     };
     if(i>=1)
     {
-        document.getElementById('mainstopped').innerHTML+='<button type="button" onclick="purgestopped()">Purge Stopped</button>';
+        purge_button=document.createElement('button');
+        purge_button.type='button'
+        purge_button.onclick=function(){purgestopped();};
+        purge_button.appendChild(document.createTextNode('Purge Stopped'));
+        document.getElementById('mainstopped').appendChild(purge_button);
     };
     return 0;
 };
 
 function receive_waiting(input_data){
-    var i=0,num,downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    num=Number(input_data.result.length)-1;
-    while(i<=num)
+    var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
+    var node,item_title,item_button,unpause_icon,remove_icon,option_icon,item_summery,progress_bar;
+    var num=Number(input_data.result.length)-1;
+    for(var i=0;i<=num;i++)
+    {
+        node=document.createElement('div');
+        node.id='waiting_'+String(i);
+        node.className='item';
+        document.getElementById('mainwaiting').appendChild(node);
+    };
+    for(var i=0;i<=num;i++)
     {
         downloadSpeed=input_data.result[i].downloadSpeed;
         uploadSpeed=input_data.result[i].uploadSpeed;
@@ -191,21 +284,51 @@ function receive_waiting(input_data){
             color='#ff0000';
             break;
         };
-        document.getElementById('mainwaiting').innerHTML
-            +='<div class="item"><div class="item_title" style="color:'+color+'">'
-            +gid+' '+name
-            +'</div><div class="item_button"><div id="pause_icon" onclick="unpause(\''+gid+'\');">unpause</div>'
-            +'<div id="remove_icon" onclick="remove(\''+gid+'\');">remove</div>'
-            +'<div id="option_icon" onclick="showoption(\''+gid+'\','+type_bittorrent+',30);">status&option</div></div><div class="item_summery">'
-            +infohash
-            +'<progress value="'+completedLength+'" max="'+totalLength+'"></progress>'
-            +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
-            +'D: '+human_read(downloadSpeed)+'b/s<br/>'
-            +'U: '+human_read(uploadSpeed)+'b/s<br/>'
-            +'ETA: '+spendtime(downloadSpeed,completedLength,totalLength)+'<br/>'
-            +'download from '+connections+' connection.'+'<br/>'
-            +'</div></div><br/>';
-        i+=1
+        item_title=document.createElement('div');
+        item_button=document.createElement('div');
+        unpause_icon=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
+        item_summery=document.createElement('div');
+        progress_bar=document.createElement('progress');
+
+        item_title.className='item_title';
+        item_title.style.color=color;
+        item_title.appendChild(document.createTextNode(gid+' '+name));
+        item_button.className='item_button';
+        unpause_icon.id='unpause_icon';
+        unpause_icon.appendChild(document.createTextNode('unpause'));
+        unpause_icon.onclick=function(){unpause(gid);};
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.onclick=function(){remove(gid);};
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        option_icon.onclick=function(){showoption(gid,type_bittorrent,30);};
+        item_summery.className='item_summery';
+        progress_bar.value=completedLength;
+        progress_bar.max=totalLength;
+
+        item_button.appendChild(unpause_icon);
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
+        item_summery.appendChild(document.createTextNode(infohash));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(progress_bar);
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('D: '+human_read(downloadSpeed)+'b/s'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('U: '+human_read(uploadSpeed)+'b/s'));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
+        item_summery.appendChild(document.createElement('br'));
+        item_summery.appendChild(document.createTextNode('download from '+connections+' connection.'));
+
+        document.getElementById('active_'+String(i)).appendChild(item_title);
+        document.getElementById('active_'+String(i)).appendChild(item_button);
+        document.getElementById('active_'+String(i)).appendChild(item_summery);
     };
     return 0;
 };
