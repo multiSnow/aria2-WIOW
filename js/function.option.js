@@ -526,7 +526,10 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_status_numseeders').innerHTML=msg_result[0][0].numSeeders;
         for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1)
         {
-            document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i]+'<br/>';
+            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1)
+            {
+                document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i][j]+'<br/>';
+            };
         };
         for(i=0;i<=Number(msg_result[2][0].length)-1;i+=1)
         {
@@ -568,7 +571,10 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_status_numseeders').innerHTML=msg_result[0][0].numSeeders;
         for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1)
         {
-            document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i]+'<br/>';
+            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1)
+            {
+                document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i][j]+'<br/>';
+            };
         };
         return 0;
     default:
