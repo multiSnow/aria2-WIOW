@@ -74,7 +74,7 @@ function receive_connect(input_data){
 
 function receive_active(input_data){
     var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    var node,item_title,item_button,item_summery,progress_bar;
+    var node,item_title,item_button,pause_icon,remove_icon,option_icon,item_summery,progress_bar;
     var num=Number(input_data.result.length)-1;
     for(var i=0;i<=num;i++)
     {
@@ -127,6 +127,9 @@ function receive_active(input_data){
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
+        pause_icon=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
@@ -134,11 +137,24 @@ function receive_active(input_data){
         item_title.style.color=color;
         item_title.appendChild(document.createTextNode(gid+' '+name));
         item_button.className='item_button';
-        item_button.innerHTML='<div onclick="pause(\''+gid+'\')",id="pause_icon">pause</div><div onclick="remove(\''+gid+'\')",id="remove_icon">remove</div><div onclick="showoption(\''+gid+'\','+type_bittorrent+',10)" id="option_icon">status&option</div>';
+        pause_icon.id='pause_icon';
+        pause_icon.appendChild(document.createTextNode('pause'));
+        pause_icon.setAttribute('onclick',"pause('gid')".replace('gid',gid));
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        //.replace().replace()
+        //It's stupid, but should be better than str+str+str+...
+        option_icon.setAttribute('onclick',"showoption('gid',type_bittorrent,10)".replace('gid',gid).replace('type_bittorrent',type_bittorrent));
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
 
+        item_button.appendChild(pause_icon);
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
         item_summery.appendChild(document.createTextNode(infohash));
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(progress_bar);
@@ -162,7 +178,7 @@ function receive_active(input_data){
 
 function receive_stopped(input_data){
     var gid,totalLength,name;
-    var node,item_title,item_button,item_summery,progress_bar,purge_button;
+    var node,item_title,item_button,remove_icon,option_icon,item_summery,progress_bar,purge_button;
     var num=Number(input_data.result.length)-1;
     for(var i=0;i<=num;i++)
     {
@@ -180,17 +196,26 @@ function receive_stopped(input_data){
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
         item_title.className='item_title';
         item_title.appendChild(document.createTextNode(gid+' '+name));
         item_button.className='item_button';
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        option_icon.setAttribute('onclick',"showoption('gid',0,20)".replace('gid',gid));
         item_summery.className='item_summery';
-        item_button.innerHTML='<div onclick="remove(\''+gid+'\')",id="remove_icon">remove</div><div onclick="showoption(\''+gid+'\',0,20)" id="option_icon">status&option</div>';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
 
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
         item_summery.appendChild(progress_bar);
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
@@ -212,7 +237,7 @@ function receive_stopped(input_data){
 
 function receive_waiting(input_data){
     var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    var node,item_title,item_button,item_summery,progress_bar;
+    var node,item_title,item_button,unpause_icon,remove_icon,option_icon,item_summery,progress_bar;
     var num=Number(input_data.result.length)-1;
     for(var i=0;i<=num;i++)
     {
@@ -263,6 +288,9 @@ function receive_waiting(input_data){
         };
         item_title=document.createElement('div');
         item_button=document.createElement('div');
+        unpause_icon=document.createElement('div');
+        remove_icon=document.createElement('div');
+        option_icon=document.createElement('div');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
@@ -270,11 +298,22 @@ function receive_waiting(input_data){
         item_title.style.color=color;
         item_title.appendChild(document.createTextNode(gid+' '+name));
         item_button.className='item_button';
-        item_button.innerHTML='<div onclick="unpause(\''+gid+'\')",id="unpause_icon">unpause</div><div onclick="remove(\''+gid+'\')",id="remove_icon">remove</div><div onclick="showoption(\''+gid+'\','+type_bittorrent+',30)" id="option_icon">status&option</div>';
+        unpause_icon.id='unpause_icon';
+        unpause_icon.appendChild(document.createTextNode('unpause'));
+        unpause_icon.setAttribute('onclick',"unpause('gid')".replace('gid',gid));
+        remove_icon.id='remove_icon';
+        remove_icon.appendChild(document.createTextNode('remove'));
+        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        option_icon.id='option_icon'
+        option_icon.appendChild(document.createTextNode('status&option'));
+        option_icon.setAttribute('onclick',"showoption('gid',type_bittorrent,30)".replace('gid',gid).replace('type_bittorrent',type_bittorrent));
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
 
+        item_button.appendChild(unpause_icon);
+        item_button.appendChild(remove_icon);
+        item_button.appendChild(option_icon);
         item_summery.appendChild(document.createTextNode(infohash));
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(progress_bar);
