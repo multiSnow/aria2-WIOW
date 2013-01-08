@@ -16,10 +16,13 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
+
 type_unit=0;//integer value 1 to "SI", any other value to "IEC"
+
 function warning_dialog(string){
     return 0;
 };
+
 function topage(page){
     var all_page={'start':'mainstart','active':'mainactive','stopped':'mainstopped','waiting':'mainwaiting','info':'maininfo'}
     for(each in all_page)
@@ -31,14 +34,32 @@ function topage(page){
     document.getElementById(page).className='sidetag side_clicked';
     return 0;
 };
+
+function switch_add_type(input_value){
+    var all_type={'uri':'adduri',
+                  'torrent':'addtorrent',
+                  'metalink':'addmetalink'}
+    for(var type in all_type)
+    {
+        document.getElementById(all_type[type]).style.display='none';
+        document.getElementById(all_type[type]).value='';
+    }
+    document.getElementById('reset_add').setAttribute('onclick',"clearadd('new_type')".replace('new_type',all_type[input_value]));
+    document.getElementById('start_add').setAttribute('onclick',"add_type_func['new_type']()".replace('new_type',all_type[input_value]));
+    document.getElementById(all_type[input_value]).style.display='block';
+    return 0;
+}
+
 function clearadd(add){
     document.getElementById(add).value='';
     return 0;
 };
+
 function clear_option_cache(option){
     document.getElementById(option).innerHTML='';
     return 0;
 };
+
 function spendtime(speed,completedsize,totalsize){
     if(Number(completedsize)>=Number(totalsize)||Number(speed)<=0)
     {
@@ -78,6 +99,7 @@ function spendtime(speed,completedsize,totalsize){
     default:return -1;
     };
 };
+
 function human_read(num){
     switch(type_unit)
     {

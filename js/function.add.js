@@ -16,6 +16,7 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
+
 function adduri(){
     var json=new Object();
     json.jsonrpc='2.0';
@@ -28,6 +29,7 @@ function adduri(){
     message_process();
     return 0;
 };
+
 function addtorrent(){
     var filter=/^(?:application\/x-bittorrent)$/i;
     var reader=new FileReader();
@@ -51,8 +53,8 @@ function addtorrent(){
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
-message_process();
-return 0;
+        message_process();
+        return 0;
     };
     return 0;
 };
@@ -80,8 +82,10 @@ function addmetalink(){
         json.params[0]=file_event.target.result.replace('data:application/metalink+xml;base64,','').replace('data:application/metalink4+xml;base64,','');
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
-message_process();
-return 0;
+        message_process();
+        return 0;
     };
     return 0;
 };
+
+var add_type_func={'adduri':adduri,'addtorrent':addtorrent,'addmetalink':addmetalink}
