@@ -24,6 +24,8 @@ function adduri(){
     json.method='aria2.addUri'
     json.params=[[]];
     json.params[0][0]=document.getElementById('adduri').value;
+    if(document.getElementById('add_with_option').checked==true){
+        json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
     //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
@@ -51,6 +53,8 @@ function addtorrent(){
         json.method='aria2.addTorrent';
         json.params=[];
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
+        if(document.getElementById('add_with_option').checked==true){
+            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
@@ -80,6 +84,8 @@ function addmetalink(){
         json.method='aria2.addMetalink';
         json.params=[];
         json.params[0]=file_event.target.result.replace('data:application/metalink+xml;base64,','').replace('data:application/metalink4+xml;base64,','');
+        if(document.getElementById('add_with_option').checked==true){
+            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();

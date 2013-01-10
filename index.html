@@ -27,6 +27,7 @@
     <script type="text/javascript" src="js/function.message.js"></script>
     <script type="text/javascript" src="js/function.notification.js"></script>
     <script type="text/javascript" src="js/function.operate.js"></script>
+    <script type="text/javascript" src="js/function.option_new.js"></script>
     <script type="text/javascript" src="js/function.option.js"></script>
     <script type="text/javascript" src="js/function.show.js"></script>
     <script type="text/javascript" src="js/json.min.js"></script>
@@ -88,6 +89,7 @@
           </div>
           <button id="reset_add" type="button" onclick="clearadd('adduri')">Reset</button>
           <button id="start_add" type="button" onclick="add_type_func['adduri']()">Start</button>
+          <input id="add_with_option" type="checkbox"/>Add with option
           <div id="shutdown_button" style="display:none">
             <button type="button" onclick="shutdown()">shutdown</button>
             <button id="forceshutdown" type="button" style="display:none">force shutdown</button>
@@ -96,6 +98,181 @@
                     <button onclick="tmpsend()">send</button>
                     <div id="echo"></div>-->
         </div>
+        
+        <div id="add_cache"></div>
+
+        <div id="add_option">
+          <!--Basic-->
+          dir:<input id="add_cache_dir" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          check-integrity:<input id="add_cache_check-integrity" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          continue:<input id="add_cache_continue" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          <!--HTTP(S)/FTP-->
+          all-proxy:<input id="add_cache_all-proxy" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          all-proxy-user:<input id="add_cache_all-proxy-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          all-proxy-passwd:<input id="add_cache_all-proxy-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          checksum:
+          <select id="add_cache_checksum_type" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="sha-1">sha-1</option>
+            <option value="sha-224">sha-224</option>
+            <option value="sha-256">sha-256</option>
+            <option value="sha-384">sha-384</option>
+            <option value="sha-512">sha-512</option>
+            <option value="md5">md5</option>
+          </select><input id="add_cache_checksum_digest" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          connect-timeout:<input id="add_cache_connect-timeout" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1" max="600"/><br/>
+          dry-run:<input id="add_cache_dry-run" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          lowest-speed-limit:<input id="add_cache_lowest-speed-limit" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          max-connection-per-server:<input id="add_cache_max-connection-per-server" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1" max="16"/><br/>
+          max-file-not-found:<input id="add_cache_max-file-not-found" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          max-tries:<input id="add_cache_max-tries" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          min-split-size:<input id="add_cache_min-split-size" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          no-netrc:<input id="add_cache_no-netrc" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          no-proxy:<input id="add_cache_no-proxy" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          out:<input id="add_cache_out" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          proxy-method:
+          <select id="add_cache_proxy-method" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="get">get</option>
+            <option value="tunnel">tunnel</option>
+          </select><br/>
+          remote-time:<input id="add_cache_remote-time" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          reuse-uri:<input id="add_cache_reuse-uri" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          retry-wait:<input id="add_cache_retry-wait" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0" max="600"/><br/>
+          split:<input id="add_cache_split" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          stream-piece-selector:
+          <select id="add_cache_stream-piece-selector" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="default">default</option>
+            <option value="inorder">inorder</option>
+            <option value="geom">geom</option>
+          </select><br/>
+          timeout:<input id="add_cache_timeout" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1" max="600"/><br/>
+          uri-selector:
+          <select id="add_cache_uri-selector" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="inorder">inorder</option>
+            <option value="feedback">feedback</option>
+            <option value="adaptive">adaptive</option>
+          </select><br/>
+          <!--HTTP(S)-->
+          http-accept-gzip:<input id="add_cache_http-accept-gzip" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          http-auth-challenge:<input id="add_cache_http-auth-challenge" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          http-no-cache:<input id="add_cache_http-no-cache" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          http-user:<input id="add_cache_http-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          http-passwd:<input id="add_cache_http-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          http-proxy:<input id="add_cache_http-proxy" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          http-proxy-user:<input id="add_cache_http-proxy-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          http-proxy-passwd:<input id="add_cache_http-proxy-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          https-proxy:<input id="add_cache_https-proxy" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          https-proxy-user:<input id="add_cache_https-proxy-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          https-proxy-passwd:<input id="add_cache_https-proxy-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          referer:<input id="add_cache_referer" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          enable-http-keep-alive:<input id="add_cache_enable-http-keep-alive" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          enable-http-pipelining:<input id="add_cache_enable-http-pipelining" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          header:<input id="add_cache_header" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/>
+          <ol id="add_cache_header_list"></ol>
+          <!--<li><input id="add_cache_header_string" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/></li>-->
+          use-head:<input id="add_cache_use-head" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          user-agent:<input id="add_cache_user-agent" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          <!--FTP-->
+          ftp-user:<input id="add_cache_ftp-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          ftp-passwd:<input id="add_cache_ftp-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          ftp-pasv:<input id="add_cache_ftp-pasv" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          ftp-proxy:<input id="add_cache_ftp-proxy" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          ftp-proxy-user:<input id="add_cache_ftp-proxy-user" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          ftp-proxy-passwd:<input id="add_cache_ftp-proxy-passwd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="password"/><br/>
+          ftp-type:
+          <select id="add_cache_ftp-type" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="binary">binary</option>
+            <option value="ascii">ascii</option>
+          </select><br/>
+          ftp-reuse-connection:<input id="add_cache_ftp-reuse-connection" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          <!--BitTorrent/Metalink-->
+          select-file:<input id="add_cache_select-file" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          <!--BitTorrent-->
+          bt-enable-lpd:<input id="add_cache_bt-enable-lpd" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-exclude-tracker:<input id="add_cache_bt-exclude-tracker" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          bt-external-ip:<input id="add_cache_bt-external-ip" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          bt-hash-check-seed:<input id="add_cache_bt-hash-check-seed" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-max-open-files:<input id="add_cache_bt-max-open-files" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1"/><br/>
+          bt-max-peers:<input id="add_cache_bt-max-peers" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          bt-metadata-only:<input id="add_cache_bt-metadata-only" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-min-crypto-level:
+          <select id="add_cache_bt-min-crypto-level" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="plain">plain</option>
+            <option value="arc4">arc4</option>
+          </select><br/>
+          bt-prioritize-piece:
+          head=<input id="add_cache_bt-prioritize-piece_head" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/>
+          tail=<input id="add_cache_bt-prioritize-piece_tail" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          bt-remove-unselected-file:<input id="add_cache_bt-remove-unselected-file" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-request-peer-speed-limit:<input id="add_cache_bt-request-peer-speed-limit" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          bt-require-crypto:<input id="add_cache_bt-require-crypto" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-save-metadata:<input id="add_cache_bt-save-metadata" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-seed-unverified:<input id="add_cache_bt-seed-unverified" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          bt-stop-timeout:<input id="add_cache_bt-stop-timeout" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          bt-tracker:<input id="add_cache_bt-tracker" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          bt-tracker-connect-timeout:<input id="add_cache_bt-tracker-connect-timeout" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1"/><br/>
+          bt-tracker-interval:<input id="add_cache_bt-tracker-interval" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          bt-tracker-timeout:<input id="add_cache_bt-tracker-timeout" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1"/><br/>
+          enable-peer-exchange:<input id="add_cache_enable-peer-exchange" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          follow-torrent:
+          <select id="add_cache_follow-torrent" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="true">true</option>
+            <option value="false">false</option>
+            <option value="mem">mem</option>
+          </select><br/>
+          index-out:<input id="add_cache_index-out" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number"/>
+          <ol id="add_cache_index-out_list"></ol>
+          <!--<li><input id="add_cache_index-out_index" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1"/>=<input id="add_cache_index-out_path" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/></li>-->
+          max-upload-limit:<input id="add_cache_max-upload-limit" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          seed-ratio:<input id="add_cache_seed-ratio" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          seed-time:<input id="add_cache_seed-time" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="0"/><br/>
+          <!--Metalink-->
+          follow-metalink:
+          <select id="add_cache_follow-metalink" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="true">true</option>
+            <option value="false">false</option>
+            <option value="mem">mem</option>
+          </select><br/>
+          metalink-base-uri:<input id="add_cache_metalink-base-uri" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          metalink-language:<input id="add_cache_metalink-language" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          metalink-location:<input id="add_cache_metalink-location" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          metalink-os:<input id="add_cache_metalink-os" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          metalink-version:<input id="add_cache_metalink-version" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          metalink-preferred-protocol:
+          <select id="add_cache_metalink-preferred-protocol" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="http">http</option>
+            <option value="https">https</option>
+            <option value="ftp">ftp</option>
+            <option value="none">none</option>
+          </select><br/>
+          metalink-enable-unique-protocol:<input id="add_cache_metalink-enable-unique-protocol" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          <!--RPC-->
+          pause:<input id="add_cache_pause" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          <!--Advanced-->
+          allow-overwrite:<input id="add_cache_allow-overwrite" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          allow-piece-length-change:<input id="add_cache_allow-piece-length-change" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          always-resume:<input id="add_cache_always-resume" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          async-dns:<input id="add_cache_async-dns" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          auto-file-renaming:<input id="add_cache_auto-file-renaming" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          conditional-get:<input id="add_cache_conditional-get" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          enable-async-dns6:<input id="add_cache_enable-async-dns6" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          enable-mmap:<input id="add_cache_enable-mmap" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          file-allocation:
+          <select id="add_cache_file-allocation" onchange="option_dict[this.id.split('_')[2]][0](this)">
+            <option value="none">none</option>
+            <option value="prealloc">prealloc</option>
+            <option value="falloc">falloc</option>
+            <option value="trunc">trunc</option>
+          </select><br/>
+          hash-check-only:<input id="add_cache_hash-check-only" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          max-resume-failure-tries:<input id="add_cache_max-resume-failure-tries" onchange="option_dict[this.id.split('_')[2]][0](this)" type="number" min="1"/><br/>
+          no-file-allocation-limit:<input id="add_cache_no-file-allocation-limit" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          piece-length:<input id="add_cache_piece-length" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          max-download-limit:<input id="add_cache_max-download-limit" onchange="option_dict[this.id.split('_')[2]][0](this)" type="text"/><br/>
+          parameterized-uri:<input id="add_cache_parameterized-uri" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          realtime-chunk-checksum:<input id="add_cache_realtime-chunk-checksum" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+          remove-control-file:<input id="add_cache_remove-control-file" onchange="option_dict[this.id.split('_')[2]][0](this)" type="checkbox"/><br/>
+        </div>
+
       </div>
       <div id="mainactive" style="display:none">active page</div>
       <div id="mainstopped" style="display:none">stopped page</div>
