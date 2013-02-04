@@ -129,7 +129,8 @@ g_option={"dir":2,//Basic
           "parameterized-uri":1,
           "realtime-chunk-checksum":1,
           "remove-control-file":1,
-          "save-session":2
+          "save-session":2,
+          "save-session-interval":3
          };
 s_option={"dir":2,//Basic
           "check-integrity":1,
