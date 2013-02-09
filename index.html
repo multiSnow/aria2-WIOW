@@ -33,13 +33,12 @@
     <script type="text/javascript" src="js/json.min.js"></script>
     <script>
       window.onload=function(){
-      document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
-      document.getElementById('wsport').value='6800';
-      if(location.protocol==='https:')
-      {
-      document.getElementById('wss_scheme').checked=true;
-      document.getElementById('wss_scheme').disabled=true;
-      };
+	  document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
+	  document.getElementById('wsport').value='6800';
+	  if(location.protocol==='https:'){
+	      document.getElementById('wss_scheme').checked=true;
+	      document.getElementById('wss_scheme').disabled=true;
+	  };
       };
     </script>
     <title>aria2 WIOW</title>

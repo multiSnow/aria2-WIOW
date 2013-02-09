@@ -26,4 +26,4 @@ function pausecanvas(){
 function showcanvas(){
     pausecanvas()
     return 0;
-}
+};

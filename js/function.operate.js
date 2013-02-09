@@ -16,13 +16,12 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
+
 function pause(gid){
-    if(confirm('Are you sure to pause it?')==false)
-    {
+    if(confirm('Are you sure to pause it?')==false){
         return 0;
     };
-    if(confirm('Really?')==false)
-    {
+    if(confirm('Really?')==false){
         return 0;
     };
     var json=new Object();
@@ -35,13 +34,12 @@ function pause(gid){
     message_process();
     return 0;
 };
+
 function remove(gid){
-    if(confirm('Are you sure to remove it?')==false)
-    {
+    if(confirm('Are you sure to remove it?')==false){
         return 0;
     };
-    if(confirm('Really?')==false)
-    {
+    if(confirm('Really?')==false){
         return 0;
     };
     var json=new Object();
@@ -54,6 +52,7 @@ function remove(gid){
     message_process();
     return 0;
 };
+
 function remove_stopped(gid){
     var json=new Object();
     json.jsonrpc='2.0';
@@ -65,13 +64,12 @@ function remove_stopped(gid){
     message_process();
     return 0;
 };
+
 function unpause(gid){
-    if(confirm('Are you sure to start it?')==false)
-    {
+    if(confirm('Are you sure to start it?')==false){
         return 0;
     };
-    if(confirm('Really?')==false)
-    {
+    if(confirm('Really?')==false){
         return 0;
     };
     var json=new Object();
@@ -86,12 +84,10 @@ function unpause(gid){
 };
 
 function shutdown(){
-    if(confirm('Are you sure to shutdown aria2?')==false)
-    {
+    if(confirm('Are you sure to shutdown aria2?')==false){
         return 0;
     };
-    if(confirm('Really?')==false)
-    {
+    if(confirm('Really?')==false){
         return 0;
     };
     var json=new Object();
@@ -102,13 +98,12 @@ function shutdown(){
     message_process();
     return 0;
 };
+
 function purgestopped(){
-    if(confirm('Are you sure to remove all stopped download?')==false)
-    {
+    if(confirm('Are you sure to remove all stopped download?')==false){
         return 0;
     };
-    if(confirm('Really?')==false)
-    {
+    if(confirm('Really?')==false){
         return 0;
     };
     var json=new Object();

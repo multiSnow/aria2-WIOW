@@ -16,6 +16,7 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
+
 function sideinfo(){
     var json=new Object(),methodName=new Array(),i=0;
     json.jsonrpc='2.0';
@@ -34,6 +35,7 @@ function sideinfo(){
     message_process();
     return 0;
 };
+
 function showactive(){
     document.getElementById('mainactive').innerHTML='';
     var json=new Object();
@@ -45,6 +47,7 @@ function showactive(){
     message_process();
     return 0;
 };
+
 function showstopped(){
     document.getElementById('mainstopped').innerHTML='';
     var json=new Object();
@@ -59,6 +62,7 @@ function showstopped(){
     message_process();
     return 0;
 };
+
 function showwaiting(){
     document.getElementById('mainwaiting').innerHTML='';
     var json=new Object();
@@ -73,6 +77,7 @@ function showwaiting(){
     message_process();
     return 0;
 };
+
 function globaloption(){
     //document.getElementById('maininfo').innerHTML='';
     var json=new Object();
@@ -84,6 +89,7 @@ function globaloption(){
     message_process();
     return 0;
 };
+
 function showoption(gid,type,status){
     document.getElementById('showoption').style.display='block';
     //document.getElementById('showoption_area').innerHTML='';
@@ -197,10 +203,12 @@ function showoption(gid,type,status){
     message_process();
     return 0;
 };
+
 function hideoption(){
     document.getElementById('showoption').style.display='none';
     return 0;
 };
+
 function showstatus(gid){
     return 0;
 };

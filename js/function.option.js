@@ -24,6 +24,7 @@
 //5 speed
 //6 size
 //9 special
+
 g_option={"dir":2,//Basic
           "log":2,
           "max-concurrent-downloads":3,
@@ -225,9 +226,11 @@ s_option={"dir":2,//Basic
           "realtime-chunk-checksum":1,
           "remove-control-file":1,
          };
+
 sa_option_basic={"max-download-limit":5,
                  "max-upload-limit":5,
                 };
+
 sa_option_bittorrent={"bt-max-peers":3,
                       "bt-request-peer-speed-limit":5,
                       "bt-remove-unselected-file":1,
@@ -235,11 +238,9 @@ sa_option_bittorrent={"bt-max-peers":3,
 
 function global_option_process(msg){
     var name=new String();
-    for(name in g_option)
-    {
+    for(name in g_option){
         //if(msg[name]===undefined){continue;};
-        switch(g_option[name])
-        {
+        switch(g_option[name]){
         case 1:
             document.getElementById('go_'+name).checked=(msg[name]=='true')?1:0;
             break;
@@ -264,8 +265,7 @@ function global_option_process(msg){
             document.getElementById('go_'+name).value=human_read(msg[name]);
             break;
         case 9:
-            switch(name)
-            {
+            switch(name){
             case 'bt-prioritize-piece':
                 document.getElementById('go_'+name).defaultValue=(msg[name]===undefined)?'head=0,tail=0':msg[name];
                 document.getElementById('go_'+name).value=(msg[name]===undefined)?'head=0,tail=0':msg[name];
@@ -284,14 +284,14 @@ function global_option_process(msg){
     };
     return 0;
 };
+
 function global_option_cache(id){
     var json_option_cache=new Object();
     document.getElementById('g_o_c').style.display='block';
     //document.getElementById('cgo_echo').innerHTML=document.getElementById('g_option_changed').innerHTML;
     json_option_cache=(document.getElementById('g_option_changed').innerHTML=='')?JSON.parse('{}'):JSON.parse(document.getElementById('g_option_changed').innerHTML);
     var true_id=id.replace(/^go_/,'');
-    switch(g_option[true_id])
-    {
+    switch(g_option[true_id]){
     case 1:
         json_option_cache[true_id]=String(document.getElementById(id).checked);
         break;
@@ -318,6 +318,7 @@ function global_option_cache(id){
     document.getElementById('g_option_changed').innerHTML=JSON.stringify(json_option_cache);
     return 0;
 };
+
 function change_global_option(){
     var json=new Object();
     json.jsonrpc='2.0';
@@ -330,6 +331,7 @@ function change_global_option(){
     message_process();
     return 0;
 };
+
 function single_option_process(type,msg_result){
     var i,j,color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
     document.getElementById('showoption_status_gid').innerHTML=msg_result[0][0].gid;
@@ -341,10 +343,8 @@ function single_option_process(type,msg_result){
     document.getElementById('showoption_status_totallength').innerHTML=human_read(msg_result[0][0].totalLength);
     document.getElementById('showoption_status_connections').innerHTML=msg_result[0][0].connections;
     document.getElementById('showoption_statue_file').innerHTML='';
-    for(i=0;i<=Number(msg_result[0][0].files.length)-1;i+=1)
-    {
-        for(j=0;j<=Number(msg_result[0][0].files[i].uris.length)-1;j+=1)
-        {
+    for(i=0;i<=Number(msg_result[0][0].files.length)-1;i+=1){
+        for(j=0;j<=Number(msg_result[0][0].files[i].uris.length)-1;j+=1){
             color=(msg_result[0][0].files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
             uris_all+='<div style="color:'+color+'">'+msg_result[0][0].files[i].uris[i].uri+'</div><br/>';
         };
@@ -359,8 +359,8 @@ function single_option_process(type,msg_result){
             +'<div class="selected">'+selected
             +'</div><div>Download from: <blockquote class="files_uris">'+uris_all+'</blockquote></div></div>';
     };
-    for(name in sa_option_basic)
-    {
+
+    for(name in sa_option_basic){
         //if(msg_result[2][0][name===undefined){continue;};
         switch(sa_option_basic[name]){
         case 1:
@@ -404,8 +404,8 @@ function single_option_process(type,msg_result){
             break;
         };
     };
-    for(name in sa_option_bittorrent)
-    {
+
+    for(name in sa_option_bittorrent){
         //if(msg_result[1][0][name]===undefined){continue;};
         switch(sa_option_bittorrent[name]){
         case 1:
@@ -449,8 +449,8 @@ function single_option_process(type,msg_result){
             break;
         };
     };
-    for(name in s_option)
-    {
+
+    for(name in s_option){
         //if(msg_result[1][0][name]===undefined){continue;};
         switch(s_option[name]){
         case 1:
@@ -494,9 +494,9 @@ function single_option_process(type,msg_result){
             break;
         };
     };
+
     document.getElementById('s_o_c').style.display='block';
-    switch(type)
-    {
+    switch(type){
     case '33':
         document.getElementById('showoption_status_basic').style.display='block';
         document.getElementById('showoption_status_bittorrent').style.display='none';
@@ -504,12 +504,10 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_option_basic').style.display='block';
         document.getElementById('showoption_option_bittorrent').style.display='none';
         document.getElementById('showoption_option_all').style.display='block';
-        for(name in sa_option_bittorrent)
-        {
+        for(name in sa_option_bittorrent){
             document.getElementById('so_'+name).readOnly=true;
         };
-        for(name in s_option)
-        {
+        for(name in s_option){
             document.getElementById('so_'+name).readOnly=true;
         };
         return 0;
@@ -525,15 +523,12 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_statue_peers').innerHTML='';
         document.getElementById('showoption_status_infohash').innerHTML=msg_result[0][0].infoHash;
         document.getElementById('showoption_status_numseeders').innerHTML=msg_result[0][0].numSeeders;
-        for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1)
-        {
-            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1)
-            {
+        for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1){
+            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1){
                 document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i][j]+'<br/>';
             };
         };
-        for(i=0;i<=Number(msg_result[2][0].length)-1;i+=1)
-        {
+        for(i=0;i<=Number(msg_result[2][0].length)-1;i+=1){
             amChoking=(msg_result[2][0][i].amChoking==='true')?'<div>amChoking</div>':'';
             peerChoking=(msg_result[2][0][i].peerChoking==='true')?'<div>peerChoking</div>':'';
             color=(msg_result[2][0][i].seeder==='true')?'#40ff40':'#ffff00';
@@ -545,8 +540,7 @@ function single_option_process(type,msg_result){
                 +'U: '+human_read(msg_result[2][0][i].uploadSpeed)+'b/s<br/>'
                 +'</div></div>';
         };
-        for(name in s_option)
-        {
+        for(name in s_option){
             document.getElementById('so_'+name).readOnly=true;
         };
         return 0;
@@ -570,10 +564,8 @@ function single_option_process(type,msg_result){
         document.getElementById('showoption_statue_peers').innerHTML='';
         document.getElementById('showoption_status_infohash').innerHTML=msg_result[0][0].infoHash;
         document.getElementById('showoption_status_numseeders').innerHTML=msg_result[0][0].numSeeders;
-        for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1)
-        {
-            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1)
-            {
+        for(i=0;i<=Number(msg_result[0][0].bittorrent.announceList.length)-1;i+=1){
+            for(j=0;j<=Number(msg_result[0][0].bittorrent.announceList[i].length)-1;j+=1){
                 document.getElementById('showoption_status_announcelist').innerHTML+=msg_result[0][0].bittorrent.announceList[i][j]+'<br/>';
             };
         };
@@ -584,13 +576,13 @@ function single_option_process(type,msg_result){
     };
     return 0;
 };
+
 function single_option_cache(id,type){
     var json_option_cache=new Object();
     //document.getElementById('cso_echo').innerHTML=document.getElementById('s_option_changed').innerHTML;
     json_option_cache=(document.getElementById('s_option_changed').innerHTML=='')?JSON.parse('{}'):JSON.parse(document.getElementById('s_option_changed').innerHTML);
     var true_id=id.replace(/^so_/,'');
-    switch(type)
-    {
+    switch(type){
     case 1:
         switch(sa_option_basic[true_id]){
         case 1:json_option_cache[true_id]=String(document.getElementById(id).checked);break;
@@ -600,7 +592,8 @@ function single_option_cache(id,type){
         case 5:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 6:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 9:json_option_cache[true_id]=document.getElementById(id).value;break;
-        default:break;};
+        default:break;
+        };
         break;
     case 2:
         switch(sa_option_bittorrent[true_id]){
@@ -611,7 +604,8 @@ function single_option_cache(id,type){
         case 5:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 6:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 9:json_option_cache[true_id]=document.getElementById(id).value;break;
-        default:break;};
+        default:break;
+        };
         break;
     case 3:
         switch(s_option[true_id]){
@@ -622,13 +616,15 @@ function single_option_cache(id,type){
         case 5:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 6:json_option_cache[true_id]=document.getElementById(id).value;break;
         case 9:json_option_cache[true_id]=document.getElementById(id).value;break;
-        default:break;};
+        default:break;
+        };
         break;
     default:break;
     };
     document.getElementById('s_option_changed').innerHTML=JSON.stringify(json_option_cache);
     return 0;
 };
+
 function change_single_option(){
     var json=new Object();
     json.jsonrpc='2.0';
@@ -658,10 +654,8 @@ function stopped_status_process(msg_result){
     document.getElementById('showoption_status_totallength').innerHTML=human_read(msg_result.totalLength);
     document.getElementById('showoption_status_connections').innerHTML=msg_result.connections;
     document.getElementById('showoption_statue_file').innerHTML='';
-    for(i=0;i<=Number(msg_result.files.length)-1;i+=1)
-    {
-        for(j=0;j<=Number(msg_result.files[i].uris.length)-1;j+=1)
-        {
+    for(i=0;i<=Number(msg_result.files.length)-1;i+=1){
+        for(j=0;j<=Number(msg_result.files[i].uris.length)-1;j+=1){
             color=(msg_result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
             uris_all+='<div style="color:'+color+'">'+msg_result.files[i].uris[i].uri+'</div><br/>';
         };

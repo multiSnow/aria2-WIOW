@@ -76,15 +76,13 @@ function receive_active(input_data){
     var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
     var node,item_title,item_button,pause_icon,remove_icon,option_icon,item_summery,progress_bar;
     var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         node=document.createElement('div');
         node.id='active_'+String(i);
         node.className='item';
         document.getElementById('mainactive').appendChild(node);
     };
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         active_element=document.getElementById('active_'+String(i));
         downloadSpeed=input_data.result[i].downloadSpeed;
         uploadSpeed=input_data.result[i].uploadSpeed;
@@ -92,21 +90,15 @@ function receive_active(input_data){
         completedLength=input_data.result[i].completedLength;
         totalLength=input_data.result[i].totalLength;
         connections=input_data.result[i].connections;
-        if(input_data.result[i].bittorrent===undefined)
-        {
+        if(input_data.result[i].bittorrent===undefined){
             type_bittorrent=0;
-        }
-        else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined)
-        {
+        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
             type_bittorrent=2;
-        }
-        else
-        {
+        }else{
             type_bittorrent=1;
         };
         infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-        switch(type_bittorrent)
-        {
+        switch(type_bittorrent){
         case 2:
             name=input_data.result[i].files[0].path;
             color='#ffff00';
@@ -180,15 +172,13 @@ function receive_stopped(input_data){
     var gid,totalLength,name;
     var node,item_title,item_button,remove_icon,option_icon,item_summery,progress_bar,purge_button;
     var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         node=document.createElement('div');
         node.id='stopped_'+String(i);
         node.className='item';
         document.getElementById('mainstopped').appendChild(node);
     };
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         gid=input_data.result[i].gid;
         completedLength=input_data.result[i].completedLength;
         totalLength=input_data.result[i].totalLength;
@@ -224,8 +214,7 @@ function receive_stopped(input_data){
         document.getElementById('stopped_'+String(i)).appendChild(item_button);
         document.getElementById('stopped_'+String(i)).appendChild(item_summery);
     };
-    if(i>=1)
-    {
+    if(i>=1){
         purge_button=document.createElement('button');
         purge_button.type='button'
         purge_button.onclick=function(){purgestopped();};
@@ -239,36 +228,28 @@ function receive_waiting(input_data){
     var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
     var node,item_title,item_button,unpause_icon,remove_icon,option_icon,item_summery,progress_bar;
     var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         node=document.createElement('div');
         node.id='waiting_'+String(i);
         node.className='item';
         document.getElementById('mainwaiting').appendChild(node);
     };
-    for(var i=0;i<=num;i++)
-    {
+    for(var i=0;i<=num;i++){
         downloadSpeed=input_data.result[i].downloadSpeed;
         uploadSpeed=input_data.result[i].uploadSpeed;
         gid=input_data.result[i].gid;
         completedLength=input_data.result[i].completedLength;
         totalLength=input_data.result[i].totalLength;
         connections=input_data.result[i].connections;
-        if(input_data.result[i].bittorrent===undefined)
-        {
+        if(input_data.result[i].bittorrent===undefined){
             type_bittorrent=0;
-        }
-        else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined)
-        {
+        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
             type_bittorrent=2;
-        }
-        else
-        {
+        }else{
             type_bittorrent=1;
         };
         infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-        switch(type_bittorrent)
-        {
+        switch(type_bittorrent){
         case 2:
             name=input_data.result[i].files[0].path;
             color='#ffff00';
@@ -359,14 +340,11 @@ function ws_notify(input_data){
                    'aria2.onDownloadError':5,
                    'aria2.onBtDownloadComplete':6}
     note.type=type_dict[input_data.method];
-    if(note.type==255)
-    {
+    if(note.type==255){
         note.data=JSON.stringify(input_data);
-    }
-    else
-    {
+    }else{
         note.gid=input_data.params[0].gid;
-    }
+    };
     notification(note);
     return 0;
 };
@@ -402,22 +380,19 @@ var func={'0':receive_connect,
 function message_process(){
     ws.onmessage=function(message){
         msg_data=JSON.parse(message.data)
-        if(msg_data.id===undefined)
-        {
-            if(func[msg_data.method]===undefined)
-            {ws_notify(255);}
-            else
-            {returncode=func[msg_data.method](msg_data);};
-        }
-        else
-        {
-            if(func[msg_data.id]===undefined)
-            {notification(msg_data);}
-            else
-            {returncode=func[msg_data.id](msg_data);};
+        if(msg_data.id===undefined){
+            if(func[msg_data.method]===undefined){
+                ws_notify(255);
+            }else{
+                returncode=func[msg_data.method](msg_data);
+            };
+        }else{
+            if(func[msg_data.id]===undefined){
+                notification(msg_data);
+            }else{
+                returncode=func[msg_data.id](msg_data);
+            };
         };
         return returncode;
     };
 };
-
-

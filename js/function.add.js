@@ -25,7 +25,8 @@ function adduri(){
     json.params=[[]];
     json.params[0][0]=document.getElementById('adduri').value;
     if(document.getElementById('add_with_option').checked==true){
-        json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
+        json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);
+    };
     //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
@@ -35,16 +36,14 @@ function adduri(){
 function addtorrent(){
     var filter=/^(?:application\/x-bittorrent)$/i;
     var reader=new FileReader();
-    if(document.getElementById('addtorrent').files.length===0)
-    {
+    if(document.getElementById('addtorrent').files.length===0){
         return 0;
-    }
+    };
     var file=document.getElementById("addtorrent").files[0];
-    if(!filter.test(file.type))
-    {
+    if(!filter.test(file.type)){
         alert("You must select a valid torrent file!");
         return 0;
-    }
+    };
     reader.readAsDataURL(file);
     reader.onload=function(file_event){
         var json=new Object();
@@ -54,7 +53,8 @@ function addtorrent(){
         json.params=[];
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
         if(document.getElementById('add_with_option').checked==true){
-            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
+            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);
+        };
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
@@ -66,16 +66,14 @@ function addtorrent(){
 function addmetalink(){
     var filter=/^(?:application\/metalink\+xml|application\/metalink4\+xml)$/i;
     var reader=new FileReader();
-    if(document.getElementById('addmetalink').files.length===0)
-    {
+    if(document.getElementById('addmetalink').files.length===0){
         return 0;
-    }
+    };
     var file=document.getElementById("addmetalink").files[0];
-    if(!filter.test(file.type))
-    {
+    if(!filter.test(file.type)){
         alert("You must select a valid metalink file!");
         return 0;
-    }
+    };
     reader.readAsDataURL(file);
     reader.onload=function(file_event){
         var json=new Object();
@@ -85,7 +83,8 @@ function addmetalink(){
         json.params=[];
         json.params[0]=file_event.target.result.replace('data:application/metalink+xml;base64,','').replace('data:application/metalink4+xml;base64,','');
         if(document.getElementById('add_with_option').checked==true){
-            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);};
+            json.params[1]=JSON.parse(document.getElementById('add_cache').innerHTML);
+        };
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
@@ -94,4 +93,6 @@ function addmetalink(){
     return 0;
 };
 
-var add_type_func={'adduri':adduri,'addtorrent':addtorrent,'addmetalink':addmetalink}
+var add_type_func={'adduri':adduri,
+                   'addtorrent':addtorrent,
+                   'addmetalink':addmetalink}

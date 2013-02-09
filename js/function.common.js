@@ -25,8 +25,7 @@ function warning_dialog(string){
 
 function topage(page){
     var all_page={'start':'mainstart','active':'mainactive','stopped':'mainstopped','waiting':'mainwaiting','info':'maininfo'}
-    for(each in all_page)
-    {
+    for(each in all_page){
 	document.getElementById(all_page[each]).style.display='none';
 	document.getElementById(each).className='sidetag';
     };
@@ -39,11 +38,10 @@ function switch_add_type(input_value){
     var all_type={'uri':'adduri',
                   'torrent':'addtorrent',
                   'metalink':'addmetalink'}
-    for(var type in all_type)
-    {
+    for(var type in all_type){
         document.getElementById(all_type[type]).style.display='none';
         document.getElementById(all_type[type]).value='';
-    }
+    };
     document.getElementById('reset_add').setAttribute('onclick',"clearadd('new_type')".replace('new_type',all_type[input_value]));
     document.getElementById('start_add').setAttribute('onclick',"add_type_func['new_type']()".replace('new_type',all_type[input_value]));
     document.getElementById(all_type[input_value]).style.display='block';
@@ -61,36 +59,23 @@ function clear_option_cache(option){
 };
 
 function spendtime(speed,completedsize,totalsize){
-    if(Number(completedsize)>=Number(totalsize)||Number(speed)<=0)
-    {
+    if(Number(completedsize)>=Number(totalsize)||Number(speed)<=0){
 	return -1;
-    }
-    else
-    {
+    }else{
 	var time_raw=((Number(totalsize)-Number(completedsize))/Number(speed)).toFixed(0);
     };
-    if(time_raw<60)
-    {
+    if(time_raw<60){
 	var flag=0;
-    }
-    else if(time_raw<3600)
-    {
+    }else if(time_raw<3600){
 	var flag=1;
-    }
-    else if(time_raw<86400)
-    {
+    }else if(time_raw<86400){
 	var flag=2;
-    }
-    else if(time_raw<604300)
-    {
+    }else if(time_raw<604300){
 	var flag=3;
-    }
-    else
-    {
+    }else{
 	var flag=4;
-    }
-    switch(flag)
-    {
+    };
+    switch(flag){
     case 0:return time_raw+'sec';
     case 1:return Math.floor(time_raw/60)+'min'+time_raw%60+'sec';
     case 2:return Math.floor(time_raw/3600)+'hour'+Math.floor((time_raw%3600)/60)+'min';
@@ -101,13 +86,11 @@ function spendtime(speed,completedsize,totalsize){
 };
 
 function human_read(num){
-    switch(type_unit)
-    {
+    switch(type_unit){
     case 0:var unit=Math.pow(2,10);break;
     default:var unit=Math.pow(10,3);break;
     };
-    switch(num.valueOf().length)
-    {
+    switch(num.valueOf().length){
     case 1:
     case 2:
     case 3:return num.valueOf();

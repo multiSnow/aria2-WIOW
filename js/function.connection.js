@@ -16,6 +16,7 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
+
 function connect(){
     document.getElementById('sideinfo').innerHTML='Connecting...<br/>';
     var url=(document.getElementById('wss_scheme').checked===true?'wss://':'ws://')
@@ -38,8 +39,7 @@ function connect(){
         json.method='system.multicall';
         methodName[0]='aria2.getVersion';
         methodName[1]='aria2.getGlobalStat';
-        while(i<=1)
-        {
+        while(i<=1){
             json.params[0][i]={};
             json.params[0][i].methodName=methodName[i];
             i+=1;
@@ -51,6 +51,7 @@ function connect(){
     };
     return 0;
 };
+
 function disconnect(){
     ws.close();
     ws.onclose=function(){

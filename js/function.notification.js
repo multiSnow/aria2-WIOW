@@ -56,8 +56,7 @@
 function notification(input_json){
     var i,urgency,summary,text;
     document.getElementById('notification').style.display='block';
-    switch(input_json.type)
-    {
+    switch(input_json.type){
     case 1:
         urgency=2;
         summary='Mission Start';
@@ -103,8 +102,7 @@ function notification(input_json){
         summary='Add Download Required';
         text='Apply downloading via metalink file and should start in GID';
         i=0;
-        while(i<=Number(input_json.gid.length)-1)
-        {
+        while(i<=Number(input_json.gid.length)-1){
             text+=' "'+input_json.gid[i]+'"';
             i+=1
         };
@@ -121,14 +119,11 @@ function notification(input_json){
         text='Apply remove downloading GID "'+input_json.gid+'".';
         break;
     case '22':
-        if(input_json.status==='OK')
-        {
+        if(input_json.status==='OK'){
             urgency=1;
             summary='Clear Download Result'
             text='Selected download result has been removed.';
-        }
-        else
-        {
+        }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
@@ -144,14 +139,11 @@ function notification(input_json){
         text='Apply continue downloading GID "'+input_json.gid+'".';
         break;
     case '24':
-        if(input_json.gid==='OK')
-        {
+        if(input_json.gid==='OK'){
             urgency=1;
             summary='Shutdown aria2'
             text='Aria2 will shutdown after any necessary actions finished.';
-        }
-        else
-        {
+        }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
@@ -162,14 +154,11 @@ function notification(input_json){
         };
         break;
     case '25':
-        if(input_json.gid==='OK')
-        {
+        if(input_json.gid==='OK'){
             urgency=1;
             summary='Clear Any Download Result'
             text='Any completed/error/removed download result has been removed.';
-        }
-        else
-        {
+        }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
@@ -180,14 +169,11 @@ function notification(input_json){
         };
         break;
     case '41':
-        if(input_json.gid==='OK')
-        {
+        if(input_json.gid==='OK'){
             urgency=1;
             summary='Option Changed'
             text='Specified global option has been changed';
-        }
-        else
-        {
+        }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};
@@ -198,14 +184,11 @@ function notification(input_json){
         };
         break;
     case '42':
-        if(input_json.gid==='OK')
-        {
+        if(input_json.gid==='OK'){
             urgency=1;
             summary='Option Changed'
             text='Specified option of selected download has been changed';
-        }
-        else
-        {
+        }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly={};

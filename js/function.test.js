@@ -33,6 +33,7 @@ function testapi(){
         document.getElementById('filereader_support').innerHTML='FileReader is supported.';
     };
 };
+
 function testtag(){
     document.getElementById('progress_tag').style.display='block';
     document.getElementById('progress_tag').style.color='#f0f0f0';
