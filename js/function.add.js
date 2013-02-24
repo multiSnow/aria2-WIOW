@@ -52,8 +52,9 @@ function addtorrent(){
         json.method='aria2.addTorrent';
         json.params=[];
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
+        json.params[1]=[]; // Here should be used for web-seeding.
         if(document.getElementById('add_with_option').checked==true){
-            json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
+            json.params[2]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
         //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
