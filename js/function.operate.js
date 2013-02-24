@@ -114,3 +114,16 @@ function purgestopped(){
     message_process();
     return 0;
 };
+
+function change_global_option(){
+    var json=new Object();
+    json.jsonrpc='2.0';
+    json.id='41';
+    json.method='aria2.changeGlobalOption';
+    json.params=[];
+    json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
+    //document.getElementById('cgo_echo').innerHTML=JSON.stringify(json);
+    ws.send(JSON.stringify(json));
+    message_process();
+    return 0;
+};

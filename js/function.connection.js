@@ -28,7 +28,7 @@ function connect(){
         document.getElementById('shutdown_button').style.display='block';
         document.getElementById('main').style.display='block';
         //document.getElementById('add').style.display='block';
-        topage('start');
+        topage('start');default_option();
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
         document.getElementById('connect').style.display='none';

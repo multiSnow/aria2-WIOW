@@ -36,6 +36,22 @@ function sideinfo(){
     return 0;
 };
 
+function default_option(){
+    if(document.getElementById('add_with_option').checked){
+        document.getElementById('add_option').style.display='inline';
+        var json=new Object();
+        json.jsonrpc='2.0';
+        json.id='19';
+        json.method='aria2.getGlobalOption';
+        //document.getElementById('maininfo').innerHTML+=JSON.stringify(json)+'<br/>';
+        ws.send(JSON.stringify(json));
+        message_process();
+    }else{
+        document.getElementById('add_option').style.display='none';
+    };
+    return 0;
+};
+
 function showactive(){
     document.getElementById('mainactive').innerHTML='';
     var json=new Object();

@@ -236,96 +236,13 @@ sa_option_bittorrent={"bt-max-peers":3,
                       "bt-remove-unselected-file":1,
                      };
 
-function global_option_process(msg){
-    var name=new String();
-    for(name in g_option){
-        //if(msg[name]===undefined){continue;};
-        switch(g_option[name]){
-        case 1:
-            document.getElementById('go_'+name).checked=(msg[name]=='true')?1:0;
-            break;
-        case 2:
-            document.getElementById('go_'+name).defaultValue=(msg[name]===undefined)?'':msg[name];
-            document.getElementById('go_'+name).value=(msg[name]===undefined)?'':msg[name];
-            break;
-        case 3:
-            document.getElementById('go_'+name).defaultValue=msg[name];
-            document.getElementById('go_'+name).value=msg[name];
-            break;
-        case 4:
-            document.getElementById('go_'+name).defaultValue=msg[name];
-            document.getElementById('go_'+name).value=msg[name];
-            break;
-        case 5:
-            document.getElementById('go_'+name).defaultValue=human_read(msg[name]);
-            document.getElementById('go_'+name).value=human_read(msg[name]);
-            break;
-        case 6:
-            document.getElementById('go_'+name).defaultValue=human_read(msg[name]);
-            document.getElementById('go_'+name).value=human_read(msg[name]);
-            break;
-        case 9:
-            switch(name){
-            case 'bt-prioritize-piece':
-                document.getElementById('go_'+name).defaultValue=(msg[name]===undefined)?'head=0,tail=0':msg[name];
-                document.getElementById('go_'+name).value=(msg[name]===undefined)?'head=0,tail=0':msg[name];
-                break;
-            default:
-                document.getElementById('go_'+name).defaultValue=msg[name];
-                document.getElementById('go_'+name).value=msg[name];
-                break;
-            };
-            break;
-        default:
-            document.getElementById('maininfo').innerHTML+=name+' is unrecognized option.<br/>';
-            document.getElementById('maininfo').innerHTML+=msg[name];
-            break;
-        };
-    };
-    return 0;
-};
-
-function global_option_cache(id){
-    var json_option_cache=new Object();
-    document.getElementById('g_o_c').style.display='block';
-    //document.getElementById('cgo_echo').innerHTML=document.getElementById('g_option_changed').innerHTML;
-    json_option_cache=(document.getElementById('g_option_changed').innerHTML=='')?JSON.parse('{}'):JSON.parse(document.getElementById('g_option_changed').innerHTML);
-    var true_id=id.replace(/^go_/,'');
-    switch(g_option[true_id]){
-    case 1:
-        json_option_cache[true_id]=String(document.getElementById(id).checked);
-        break;
-    case 2:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    case 3:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    case 4:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    case 5:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    case 6:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    case 9:
-        json_option_cache[true_id]=document.getElementById(id).value;
-        break;
-    default:break;
-    };
-    document.getElementById('g_option_changed').innerHTML=JSON.stringify(json_option_cache);
-    return 0;
-};
-
 function change_global_option(){
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='41';
     json.method='aria2.changeGlobalOption';
     json.params=[];
-    json.params[0]=JSON.parse(document.getElementById('g_option_changed').innerHTML);
+    json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
     //document.getElementById('cgo_echo').innerHTML=JSON.stringify(json);
     ws.send(JSON.stringify(json));
     message_process();

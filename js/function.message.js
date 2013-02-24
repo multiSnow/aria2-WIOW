@@ -21,6 +21,7 @@
 //10 adduri
 //11 addtorrent
 //12 addmetalink
+//19 default_option
 //20 pause
 //21 remove
 //22 remove_stopped
@@ -322,7 +323,12 @@ function receive_singleoption(input_data){
 };
 
 function receive_globaloption(input_data){
-    global_option_process(input_data.result);
+    global_show_option(input_data.result);
+    return 0;
+};
+
+function receive_defaultoption(input_data){
+    add_show_option(input_data.result);
     return 0;
 };
 
@@ -353,6 +359,7 @@ var func={'0':receive_connect,
           '10':receive_common,
           '11':receive_common,
           '12':receive_common,
+          '19':receive_defaultoption,
           '20':receive_common,
           '21':receive_common,
           '22':receive_common,
