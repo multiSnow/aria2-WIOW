@@ -359,11 +359,10 @@ option_dict={"dir":[func_show_str,func_cache_str,true,true,false,false,true],
 
 function global_show_option(input_data){
     for(var name in option_dict){
-        if(input_data[name]===undefined){
-            continue;
-        };
-        if(option_dict[name][6]){
-            option_dict[name][0](name,input_data[name],'globalcache')
+        if(input_data[name]!==undefined){
+            if(option_dict[name][6]){
+                option_dict[name][0](name,input_data[name],'globalcache')
+            };
         };
     };
     return 0;
@@ -371,11 +370,10 @@ function global_show_option(input_data){
 
 function add_show_option(input_data){
     for(var name in option_dict){
-        if(input_data[name]===undefined){
-            continue;
-        };
-        if(option_dict[name][2]){
-            option_dict[name][0](name,input_data[name],'addcache')
+        if(input_data[name]!==undefined){
+            if(option_dict[name][2]){
+                option_dict[name][0](name,input_data[name],'addcache')
+            };
         };
     };
     return 0;

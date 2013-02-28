@@ -30,7 +30,6 @@ function sideinfo(){
         json.params[0][i].methodName=methodName[i];
         i+=1;
     };
-    //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -44,7 +43,6 @@ function default_option(){
         json.jsonrpc='2.0';
         json.id='19';
         json.method='aria2.getGlobalOption';
-        //document.getElementById('maininfo').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
     }else{
@@ -60,7 +58,6 @@ function showactive(){
     json.jsonrpc='2.0';
     json.id='30';
     json.method='aria2.tellActive';
-    //document.getElementById('mainactive').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -75,7 +72,6 @@ function showstopped(){
     json.params=[[]];
     json.params[0]=0;
     json.params[1]=Math.pow(2,62);
-    //document.getElementById('mainstopped').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -90,7 +86,6 @@ function showwaiting(){
     json.params=[[]];
     json.params[0]=0;
     json.params[1]=Math.pow(2,62);
-    //document.getElementById('mainwaiting').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -102,7 +97,6 @@ function globaloption(){
     json.jsonrpc='2.0';
     json.id='40';
     json.method='aria2.getGlobalOption';
-    //document.getElementById('maininfo').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -110,7 +104,6 @@ function globaloption(){
 
 function showoption(gid,type,status){
     document.getElementById('showoption').style.display='block';
-    //document.getElementById('showoption_area').innerHTML='';
     var i=0;json=new Object(),methodName=new Array();
     json.jsonrpc='2.0';
     switch(type+status){
@@ -216,7 +209,6 @@ function showoption(gid,type,status){
     default:break;
     };
     delete i;
-    //document.getElementById('showoption_area').innerHTML=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
