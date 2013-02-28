@@ -39,6 +39,7 @@ function sideinfo(){
 function default_option(){
     if(document.getElementById('add_with_option').checked){
         document.getElementById('add_option').style.display='inline';
+        document.getElementById('addcache').innerHTML='{}';
         var json=new Object();
         json.jsonrpc='2.0';
         json.id='19';
@@ -48,6 +49,7 @@ function default_option(){
         message_process();
     }else{
         document.getElementById('add_option').style.display='none';
+        document.getElementById('addcache').innerHTML='';
     };
     return 0;
 };
