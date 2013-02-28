@@ -114,7 +114,43 @@ function func_cache_checksum(element){
 };
 
 function func_show_header(name,value,place){
-    document.getElementById([place,name].join('_')).value=value;
+    var header_list=new Array();
+    var header_raw_list=value.split('\n')
+    for(var header_val in header_raw_list){
+        if(header_raw_list[header_val]!==''){
+            header_list.push(header_raw_list[header_val])
+        };
+    };
+    var header_count=header_list.length;
+    var header_list_element=document.getElementById([place,name,'list'].join('_'));
+    var header_exist=header_list_element.childNodes.length;
+    for(var i=0;i<header_count;i++){
+        if(header_list[1]===''){
+            print('true')
+        }else{
+            print('false')
+        };
+    };
+    document.getElementById([place,name].join('_')).value=header_list.length;
+    if(header_exist>header_count){
+        for(var i=header_count;i<header_exist;i++){
+            header_list_element.removeChild(header_list_element.childNodes[header_count]);
+        };
+    }else{
+        for(var i=header_exist;i<header_count;i++){
+            var new_node=document.createElement('li');
+            var new_input_node=document.createElement('input');
+            new_input_node.id=[place,name,'string'].join('_');
+            new_input_node.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+            new_input_node.setAttribute('type','text');
+            new_input_node.value=header_list[i];
+            new_node.appendChild(new_input_node)
+            header_list_element.appendChild(new_node);
+        };
+    };
+    for(var i=0;i<header_count;i++){
+        header_list_element.childNodes[i].childNodes[0].value=header_list[i];
+    };
     return 0;
 };
 
