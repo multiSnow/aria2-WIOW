@@ -162,7 +162,6 @@
           enable-http-pipelining:<input id="addcache_enable-http-pipelining" onchange="option_dict[this.id.split('_')[1]][1](this)" type="checkbox"/><br/>
           header:<input id="addcache_header" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/>
           <ol id="addcache_header_list"></ol>
-          <!--<li><input id="addcache_header_string" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/></li>-->
           use-head:<input id="addcache_use-head" onchange="option_dict[this.id.split('_')[1]][1](this)" type="checkbox"/><br/>
           user-agent:<input id="addcache_user-agent" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
           <!--FTP-->
@@ -273,11 +272,7 @@
       <div id="mainwaiting" style="display:none">waiting page</div>
       <div id="maininfo" style="display:none">
         <div id="g_o_c">changed option will be shown here.<br/>
-          <!--<textarea id="g_option_changed" rows="16" readonly="readonly"></textarea>-->
-          <div id="g_option_changed"></div>
-
           <div id="globalcache"></div>
-
           <button onclick="clear_option_cache('globalcache')">Clear</button>
           <button onclick="change_global_option()">Change Option</button>
           <div id="cgo_echo"></div>
