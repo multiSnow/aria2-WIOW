@@ -127,3 +127,17 @@ function change_global_option(){
     message_process();
     return 0;
 };
+
+function change_single_option(){
+    var json=new Object();
+    json.jsonrpc='2.0';
+    json.id='42';
+    json.method='aria2.changeOption';
+    json.params=[];
+    json.params[0]=document.getElementById('showoption_status_gid').innerHTML;
+    json.params[1]=JSON.parse(document.getElementById('singlecache').innerHTML);
+    //document.getElementById('cso_echo').innerHTML=JSON.stringify(json);
+    ws.send(JSON.stringify(json));
+    message_process();
+    return 0;
+};

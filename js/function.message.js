@@ -448,7 +448,57 @@ function receive_defaultoption(input_data){
 };
 
 function receive_stoppedstatus(input_data){
-    stopped_status_process(input_data.result);
+    var color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
+    var files,files_index_path,progress_bar,selected,size,selected,download_from,files_uris;
+
+    document.getElementById('showoption_option_basic').style.display='none';
+    document.getElementById('showoption_option_bittorrent').style.display='none';
+    document.getElementById('showoption_option_all').style.display='none';
+    document.getElementById('showoption_status_bittorrent').style.display='none';
+    document.getElementById('s_o_c').style.display='none';
+    document.getElementById('showoption_status_gid').innerHTML=input_data.result.gid;
+    document.getElementById('showoption_status_dir').innerHTML=input_data.result.dir;
+    document.getElementById('showoption_status_status').innerHTML=input_data.result.status;
+    document.getElementById('showoption_status_progress').value=input_data.result.completedLength;
+    document.getElementById('showoption_status_progress').max=input_data.result.totalLength;
+    document.getElementById('showoption_status_completedlength').innerHTML=human_read(input_data.result.completedLength);
+    document.getElementById('showoption_status_totallength').innerHTML=human_read(input_data.result.totalLength);
+    document.getElementById('showoption_status_connections').innerHTML=input_data.result.connections;
+    document.getElementById('showoption_statue_file').innerHTML='';
+    for(var i in input_data.result.files){
+        files=document.createElement('div');
+        files_index_path=document.createElement('div');
+        progress_bar=document.createElement('progress');
+        selected=document.createElement('div');
+        download_from=document.createElement('div');
+        files_uris=document.createElement('blockquote');
+
+        files.className='files';
+        files_index_path.className='files_index_path';
+        files_index_path.appendChild(document.createTextNode(input_data.result.files[i].index+' '+input_data.result.files[i].path.replace(input_data.result.dir+'/','')))
+        completedLength=input_data.result.files[i].completedLength;
+        totalLength=input_data.result.files[i].length;
+        progress_bar.value=completedLength;
+        progress_bar.max=totalLength;
+        size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
+        selected.appendChild(document.createTextNode('Selected: '+(input_data.result.files[i].selected==='true')?'Yes':'No'));
+        files_uris.className='files_uris'
+        for(var j in input_data.result.files[i].uris){
+            var files_uris_single=document.createElement('div');
+            files_uris_single.style.color=(input_data.result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
+            files_uris_single.appendChild(document.createTextNode(input_data.result.files[i].uris[j].uri));
+            files_uris.appendChild(files_uris_single);
+        };
+        download_from.appendChild(files_uris);
+
+        files.appendChild(files_index_path);
+        files.appendChild(progress_bar);
+        files.appendChild(size);
+        files.appendChild(selected);
+        files.appendChild(download_from);
+
+        document.getElementById('showoption_statue_file').appendChild(files);
+    };
     return 0;
 };
 

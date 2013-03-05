@@ -1,300 +1,391 @@
-/*Project aria2-WIOW
- *
- * Copyright (c) 2012, multiSnow <infinity.blick.winkel@gmail.com>
- *
- *Permission to use, copy, modify, and/or distribute this software for
- *any purpose with or without fee is hereby granted, provided that the
- *above copyright notice and this permission notice appear in all
- *copies.
- *
- *THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- *WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- *WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- *AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- *DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- *PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- *PERFORMANCE OF THIS SOFTWARE.
- */
-//integer type
-//1 boolean
-//2 string
-//3 number
-//4 selection
-//5 speed
-//6 size
-//9 special
+//pattern:
+//{'option-name':[function_to_show_the_type_of_value,
+//                function_to_cache_the_type_of_value,
+//                boolean(used_in_add),
+//                boolean(used_in_single),
+//                boolean(used_in_single_basic),
+//                boolean(used_in_single_bt),
+//                boolean(used_in_global)]}
 
-g_option={"dir":2,//Basic
-          "log":2,
-          "max-concurrent-downloads":3,
-          "check-integrity":1,
-          "continue":1,
-          "all-proxy":2,//HTTP(S)/FTP
-          "all-proxy-user":2,
-          "all-proxy-passwd":2,
-          "connect-timeout":3,
-          "dry-run":1,
-          "lowest-speed-limit":5,
-          "max-connection-per-server":3,
-          "max-file-not-found":3,
-          "max-tries":3,
-          "min-split-size":6,
-          "no-netrc":1,
-          "no-proxy":2,
-          "proxy-method":4,
-          "remote-time":1,
-          "reuse-uri":1,
-          "retry-wait":3,
-          "server-stat-of":2,
-          "split":3,
-          "stream-piece-selector":4,
-          "timeout":3,
-          "uri-selector":4,
-          "http-accept-gzip":1,//HTTP(S)
-          "http-auth-challenge":1,
-          "http-no-cache":1,
-          "http-user":2,
-          "http-passwd":2,
-          "http-proxy":2,
-          "http-proxy-user":2,
-          "http-proxy-passwd":2,
-          "https-proxy":2,
-          "https-proxy-user":2,
-          "https-proxy-passwd":2,
-          "referer":2,
-          "enable-http-keep-alive":1,
-          "enable-http-pipelining":1,
-          "header":2,
-          "save-cookies":2,
-          "use-head":1,
-          "user-agent":2,
-          "ftp-user":2,//FTP
-          "ftp-passwd":2,
-          "ftp-pasv":1,
-          "ftp-proxy":2,
-          "ftp-proxy-user":2,
-          "ftp-proxy-passwd":2,
-          "ftp-type":4,
-          "ftp-reuse-connection":1,
-          "bt-enable-lpd":1,//BitTorrent
-          "bt-exclude-tracker":2,
-          "bt-external-ip":2,
-          "bt-hash-check-seed":1,
-          "bt-max-open-files":3,
-          "bt-max-peers":3,
-          "bt-metadata-only":1,
-          "bt-min-crypto-level":4,
-          "bt-prioritize-piece":9,
-          "bt-remove-unselected-file":1,
-          "bt-request-peer-speed-limit":5,
-          "bt-require-crypto":1,
-          "bt-save-metadata":1,
-          "bt-seed-unverified":1,
-          "bt-stop-timeout":3,
-          "bt-tracker":2,
-          "bt-tracker-connect-timeout":3,
-          "bt-tracker-interval":3,
-          "bt-tracker-timeout":3,
-          "enable-peer-exchange":1,
-          "follow-torrent":4,
-          "max-overall-upload-limit":5,
-          "max-upload-limit":5,
-          "seed-ratio":3,
-          "seed-time":3,
-          "follow-metalink":4,//Metalink
-          "metalink-base-uri":2,
-          "metalink-language":2,
-          "metalink-location":2,
-          "metalink-os":2,
-          "metalink-version":2,
-          "metalink-preferred-protocol":4,
-          "metalink-enable-unique-protocol":1,
-          "allow-overwrite":1,//Advanced
-          "allow-piece-length-change":1,
-          "always-resume":1,
-          "async-dns":1,
-          "auto-file-renaming":1,
-          "conditional-get":1,
-          "enable-async-dns6":1,
-          "enable-mmap":1,
-          "file-allocation":4,
-          "hash-check-only":1,
-          "max-download-result":3,
-          "max-resume-failure-tries":3,
-          "log-level":4,
-          "no-file-allocation-limit":6,
-          "piece-length":2,
-          "max-overall-download-limit":5,
-          "max-download-limit":5,
-          "parameterized-uri":1,
-          "realtime-chunk-checksum":1,
-          "remove-control-file":1,
-          "save-session":2,
-          "save-session-interval":3
-         };
-s_option={"dir":2,//Basic
-          "check-integrity":1,
-          "continue":1,
-          "all-proxy":2,//HTTP(S)/FTP
-          "all-proxy-user":2,
-          "all-proxy-passwd":2,
-          "checksum":9,
-          "connect-timeout":3,
-          "lowest-speed-limit":5,
-          "max-connection-per-server":3,
-          "max-file-not-found":3,
-          "max-tries":3,
-          "min-split-size":6,
-          "no-netrc":1,
-          "no-proxy":2,
-          "out":2,
-          "proxy-method":4,
-          "remote-time":1,
-          "reuse-uri":1,
-          "retry-wait":3,
-          "split":3,
-          "stream-piece-selector":4,
-          "timeout":3,
-          "uri-selector":4,
-          "http-accept-gzip":1,//HTTP(S)
-          "http-auth-challenge":1,
-          "http-no-cache":1,
-          "http-user":2,
-          "http-passwd":2,
-          "http-proxy":2,
-          "http-proxy-passwd":2,
-          "http-proxy-user":2,
-          "https-proxy":2,
-          "https-proxy-passwd":2,
-          "https-proxy-user":2,
-          "referer":2,
-          "enable-http-keep-alive":1,
-          "enable-http-pipelining":1,
-          "header":2,
-          "use-head":1,
-          "user-agent":2,
-          "ftp-user":2,//FTP
-          "ftp-passwd":2,
-          "ftp-pasv":1,
-          "ftp-proxy":2,
-          "ftp-proxy-passwd":2,
-          "ftp-proxy-user":2,
-          "ftp-type":4,
-          "ftp-reuse-connection":1,
-          "select-file":9,//BitTorrent/Metalink
-          "bt-enable-lpd":1,//BitTorrent
-          "bt-exclude-tracker":2,
-          "bt-external-ip":2,
-          "bt-hash-check-seed":1,
-          "bt-max-open-files":3,
-          "bt-metadata-only":1,
-          "bt-min-crypto-level":4,
-          "bt-prioritize-piece":9,
-          "bt-require-crypto":1,
-          "bt-save-metadata":1,
-          "bt-seed-unverified":1,
-          "bt-stop-timeout":3,
-          "bt-tracker":2,
-          "bt-tracker-connect-timeout":3,
-          "bt-tracker-interval":3,
-          "bt-tracker-timeout":3,
-          "enable-peer-exchange":1,
-          "follow-torrent":4,
-          "index-out":9,
-          "seed-ratio":3,
-          "seed-time":3,
-          "follow-metalink":4,//Metalink
-          "metalink-language":2,
-          "metalink-location":2,
-          "metalink-os":2,
-          "metalink-version":2,
-          "metalink-preferred-protocol":4,
-          "metalink-enable-unique-protocol":1,
-          "allow-overwrite":1,//Advanced
-          "allow-piece-length-change":1,
-          "always-resume":1,
-          "async-dns":1,
-          "auto-file-renaming":1,
-          "conditional-get":1,
-          "enable-async-dns6":1,
-          "enable-mmap":1,
-          "file-allocation":4,
-          "hash-check-only":1,
-          "max-resume-failure-tries":3,
-          "no-file-allocation-limit":6,
-          "realtime-chunk-checksum":1,
-          "remove-control-file":1,
-         };
+function option_name_process(input_string){
+    return input_string.split('_')
+};
 
-sa_option_basic={"max-download-limit":5,
-                 "max-upload-limit":5,
-                };
-
-sa_option_bittorrent={"bt-max-peers":3,
-                      "bt-request-peer-speed-limit":5,
-                      "bt-remove-unselected-file":1,
-                     };
-
-function change_global_option(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='41';
-    json.method='aria2.changeGlobalOption';
-    json.params=[];
-    json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
-    //document.getElementById('cgo_echo').innerHTML=JSON.stringify(json);
-    ws.send(JSON.stringify(json));
-    message_process();
+function func_show_boolean(name,value,place){
+    document.getElementById([place,name].join('_')).checked=value.valueOf()
     return 0;
 };
 
-function change_single_option(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='42';
-    json.method='aria2.changeOption';
-    json.params=[];
-    json.params[0]=document.getElementById('showoption_status_gid').innerHTML;
-    json.params[1]=JSON.parse(document.getElementById('singlecache').innerHTML);
-    //document.getElementById('cso_echo').innerHTML=JSON.stringify(json);
-    ws.send(JSON.stringify(json));
-    message_process();
+function func_cache_boolean(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=element.checked.toString();
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
     return 0;
 };
 
-function stopped_status_process(msg_result){
-    var i,j,color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
-    document.getElementById('showoption_option_basic').style.display='none';
-    document.getElementById('showoption_option_bittorrent').style.display='none';
-    document.getElementById('showoption_option_all').style.display='none';
-    document.getElementById('showoption_status_bittorrent').style.display='none';
-    document.getElementById('s_o_c').style.display='none';
-    document.getElementById('showoption_status_gid').innerHTML=msg_result.gid;
-    document.getElementById('showoption_status_dir').innerHTML=msg_result.dir;
-    document.getElementById('showoption_status_status').innerHTML=msg_result.status;
-    document.getElementById('showoption_status_progress').value=msg_result.completedLength;
-    document.getElementById('showoption_status_progress').max=msg_result.totalLength;
-    document.getElementById('showoption_status_completedlength').innerHTML=human_read(msg_result.completedLength);
-    document.getElementById('showoption_status_totallength').innerHTML=human_read(msg_result.totalLength);
-    document.getElementById('showoption_status_connections').innerHTML=msg_result.connections;
-    document.getElementById('showoption_statue_file').innerHTML='';
-    for(i=0;i<=Number(msg_result.files.length)-1;i+=1){
-        for(j=0;j<=Number(msg_result.files[i].uris.length)-1;j+=1){
-            color=(msg_result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
-            uris_all+='<div style="color:'+color+'">'+msg_result.files[i].uris[i].uri+'</div><br/>';
+function func_show_str(name,value,place){
+    document.getElementById([place,name].join('_')).value=value;
+    return 0;
+};
+
+function func_cache_str(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_int(name,value,place){
+    document.getElementById([place,name].join('_')).value=value;
+    return 0;
+};
+
+function func_cache_int(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_sel(name,value,place){
+    document.getElementById([place,name].join('_')).value=value;
+    return 0;
+};
+
+function func_cache_sel(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_speed(name,value,place){
+    document.getElementById([place,name].join('_')).value=value
+    return 0;
+};
+
+function func_cache_speed(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_size(name,value,place){
+    document.getElementById([place,name].join('_')).value=value
+    return 0;
+};
+
+function func_cache_size(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_checksum(name,value,place){
+    [type_value,digest_value]=value.split('_');
+    document.getElementById([place,name,'type'].join('_')).value=type_value;
+    document.getElementById([place,name,'digest'].join('_')).value=digest_value;
+    return 0;
+};
+
+function func_cache_checksum(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    var type_element=document.getElementById([method,option,'type'].join('_'));
+    var digest_element=document.getElementById([method,option,'digest'].join('_'));
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(digest_element.value==='')?undefined:[type_element.value,digest_element.value].join('=');
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_header(name,value,place){
+    var header_list=new Array();
+    var header_raw_list=value.split('\n')
+    for(var header_val in header_raw_list){
+        if(header_raw_list[header_val]!==''){
+            header_list.push(header_raw_list[header_val])
         };
-        completedLength=msg_result.files[i].completedLength;
-        totalLength=msg_result.files[i].length;
-        selected=(msg_result.files[i].selected==='true')?'Yes':'No';
-        document.getElementById('showoption_statue_file').innerHTML
-            +='<div class="files"><div class="files_index_path">'
-            +msg_result.files[i].index+' '+msg_result.files[i].path.replace(msg_result.dir+'/','')
-            +'</div><progress value="'+completedLength+'" max="'+totalLength+'"></progress>'
-            +(completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b<br/>'
-            +'<div class="selected">'+selected
-            +'</div><div>Download from: <blockquote class="files_uris">'+uris_all+'</blockquote></div></div>';
     };
-    //document.getElementById('showoption_area').innerHTML=JSON.stringify(msg_result);
+    var header_count=header_list.length;
+    var header_list_element=document.getElementById([place,name,'list'].join('_'));
+    var header_exist=header_list_element.childNodes.length;
+    for(var i=0;i<header_count;i++){
+        if(header_list[1]===''){
+            print('true')
+        }else{
+            print('false')
+        };
+    };
+    document.getElementById([place,name].join('_')).value=header_list.length;
+    if(header_exist>header_count){
+        for(var i=header_count;i<header_exist;i++){
+            header_list_element.removeChild(header_list_element.childNodes[header_count]);
+        };
+    }else{
+        for(var i=header_exist;i<header_count;i++){
+            var new_node=document.createElement('li');
+            var new_input_node=document.createElement('input');
+            new_input_node.id=[place,name,'string'].join('_');
+            new_input_node.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+            new_input_node.setAttribute('type','text');
+            new_input_node.value=header_list[i];
+            new_node.appendChild(new_input_node)
+            header_list_element.appendChild(new_node);
+        };
+    };
+    for(var i=0;i<header_count;i++){
+        header_list_element.childNodes[i].childNodes[0].value=header_list[i];
+    };
+    return 0;
+};
+
+function func_cache_header(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    var header_count=Number(document.getElementById([method,option].join('_')).value);
+    var header_list_element=document.getElementById([method,option,'list'].join('_'));
+    var header_exist=header_list_element.childNodes.length;
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    if(header_count===0){
+        json_option_cache[option]=undefined;
+    }else{
+        if(header_exist>header_count){
+            for(var i=header_count;i<header_exist;i++){
+                header_list_element.removeChild(header_list_element.childNodes[header_count]);
+            };
+        }else{
+            for(var i=header_exist;i<header_count;i++){
+                var new_node=document.createElement('li');
+                var new_input_node=document.createElement('input');
+                new_input_node.id=[method,option,'string'].join('_');
+                new_input_node.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                new_input_node.setAttribute('type','text');
+                new_node.appendChild(new_input_node)
+                header_list_element.appendChild(new_node);
+            };
+        };
+        var header_value=new Array();
+        for(var i=0;i<header_list_element.childNodes.length;i++){
+            if(header_list_element.childNodes[i].childNodes[0].value!=''){
+                header_value.push(header_list_element.childNodes[i].childNodes[0].value);
+            };
+        };
+        json_option_cache[option]=(header_value.length===0)?undefined:header_value;
+    };
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_select_file(name,value,place){
+    document.getElementById([place,name].join('_')).value=value;
+    return 0
+};
+
+function func_cache_select_file(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    json_option_cache[option]=(element.value==='')?undefined:element.value;
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_bt_prioritize_piece(name,value,place){
+    value_list=value.split(',')
+    for(var i=0;i<value_list.length;i++){
+        if(str.match(/^head=/)){
+            document.getElementById([place,name,'head'].join('_')).value=value_list[i].replace(/^head=/,'');
+            break;
+        };
+        if(str.match(/^tail=/)){
+            document.getElementById([place,name,'tail'].join('_')).value=value_list[i].replace(/^tail=/,'');
+            break;
+        };
+    };
+    return 0
+};
+
+function func_cache_bt_prioritize_piece(element){
+    var [method,option]=option_name_process(element.id);
+    var json_option_cache=new Object();
+    var bpp_value=new Array();
+    var bpp_head_element=document.getElementById([method,option,'head'].join('_'));
+    var bpp_tail_element=document.getElementById([method,option,'tail'].join('_'));
+    if(bpp_head_element.value!=''){bpp_value.push(['head',bpp_head_element.value].join('='));};
+    if(bpp_tail_element.value!=''){bpp_value.push(['tail',bpp_tail_element.value].join('='));};
+    json_option_cache[option]=(bpp_value.length===0)?undefined:bpp_value.join(',');
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
+    return 0
+};
+
+function func_show_index_out(name,value,place){
+    document.getElementById([place,name].join('_')).value=value;
+    return 0;
+};
+
+function func_cache_index_out(element){
+    alert('Function to add this option is not complete yet.')
+    return 0
+};
+
+option_dict={"dir":[func_show_str,func_cache_str,true,true,false,false,true],
+             "check-integrity":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "continue":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "all-proxy":[func_show_str,func_cache_str,true,true,false,false,true],
+             "all-proxy-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "all-proxy-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "checksum":[func_show_checksum,func_cache_checksum,true,true,false,false,false],
+             "connect-timeout":[func_show_int,func_cache_int,true,true,false,false,true],
+             "dry-run":[func_show_boolean,func_cache_boolean,true,false,false,false,true],
+             "lowest-speed-limit":[func_show_speed,func_cache_speed,true,true,false,false,true],
+             "max-connection-per-server":[func_show_int,func_cache_int,true,true,false,false,true],
+             "max-file-not-found":[func_show_int,func_cache_int,true,true,false,false,true],
+             "max-tries":[func_show_int,func_cache_int,true,true,false,false,true],
+             "min-split-size":[func_show_size,func_cache_size,true,true,false,false,true],
+             "no-netrc":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "no-proxy":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "out":[func_show_str,func_cache_str,true,true,false,false,false],
+             "proxy-method":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "remote-time":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "reuse-uri":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "retry-wait":[func_show_int,func_cache_int,true,true,false,false,true],
+             "split":[func_show_int,func_cache_int,true,true,false,false,true],
+             "stream-piece-selector":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "timeout":[func_show_int,func_cache_int,true,true,false,false,true],
+             "uri-selector":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "http-accept-gzip":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "http-auth-challenge":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "http-no-cache":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "http-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "http-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "http-proxy":[func_show_str,func_cache_str,true,true,false,false,true],
+             "http-proxy-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "http-proxy-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "https-proxy":[func_show_str,func_cache_str,true,true,false,false,true],
+             "https-proxy-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "https-proxy-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "referer":[func_show_str,func_cache_str,true,true,false,false,true],
+             "enable-http-keep-alive":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "enable-http-pipelining":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "header":[func_show_header,func_cache_header,true,true,false,false,true],
+             "use-head":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "user-agent":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-pasv":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "ftp-proxy":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-proxy-user":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-proxy-passwd":[func_show_str,func_cache_str,true,true,false,false,true],
+             "ftp-type":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "ftp-reuse-connection":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "select-file":[func_show_select_file,func_cache_select_file,true,true,false,false,false],
+             "bt-enable-lpd":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-exclude-tracker":[func_show_str,func_cache_str,true,true,false,false,true],
+             "bt-external-ip":[func_show_str,func_cache_str,true,true,false,false,true],
+             "bt-hash-check-seed":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-max-open-files":[func_show_int,func_cache_int,true,true,false,false,true],
+             "bt-max-peers":[func_show_int,func_cache_int,true,false,false,true,true],
+             "bt-metadata-only":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-min-crypto-level":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "bt-prioritize-piece":[func_show_bt_prioritize_piece,func_cache_bt_prioritize_piece,true,true,false,false,true],
+             "bt-remove-unselected-file":[func_show_boolean,func_cache_boolean,true,false,false,true,true],
+             "bt-request-peer-speed-limit":[func_show_speed,func_cache_speed,true,false,false,true,true],
+             "bt-require-crypto":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-save-metadata":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-seed-unverified":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "bt-stop-timeout":[func_show_int,func_cache_int,true,true,false,false,true],
+             "bt-tracker":[func_show_str,func_cache_str,true,true,false,false,true],
+             "bt-tracker-connect-timeout":[func_show_int,func_cache_int,true,true,false,false,true],
+             "bt-tracker-interval":[func_show_int,func_cache_int,true,true,false,false,true],
+             "bt-tracker-timeout":[func_show_int,func_cache_int,,true,true,false,false,true],
+             "enable-peer-exchange":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "follow-torrent":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "index-out":[func_show_index_out,func_cache_index_out,true,true,false,false,false],
+             "max-upload-limit":[func_show_size,func_cache_size,true,false,true,false,true],
+             "seed-ratio":[func_show_int,func_cache_int,true,true,false,false,true],
+             "seed-time":[func_show_int,func_cache_int,true,true,false,false,true],
+             "follow-metalink":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "metalink-base-uri":[func_show_str,func_cache_str,true,false,false,false,true],
+             "metalink-language":[func_show_str,func_cache_str,true,true,false,false,true],
+             "metalink-location":[func_show_str,func_cache_str,true,true,false,false,true],
+             "metalink-os":[func_show_str,func_cache_str,true,true,false,false,true],
+             "metalink-version":[func_show_str,func_cache_str,true,true,false,false,true],
+             "metalink-preferred-protocol":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "metalink-enable-unique-protocol":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "pause":[func_show_boolean,func_cache_boolean,true,false,false,false,false],
+             "allow-overwrite":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "allow-piece-length-change":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "always-resume":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "async-dns":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "auto-file-renaming":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "conditional-get":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "enable-async-dns6":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "enable-mmap":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "file-allocation":[func_show_sel,func_cache_sel,true,true,false,false,true],
+             "hash-check-only":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "max-resume-failure-tries":[func_show_int,func_cache_int,true,true,false,false,true],
+             "no-file-allocation-limit":[func_show_size,func_cache_size,true,true,false,false,true],
+             "piece-length":[func_show_size,func_cache_size,true,false,false,false,true],
+             "max-download-limit":[func_show_speed,func_cache_speed,true,false,true,false,true],
+             "parameterized-uri":[func_show_boolean,func_cache_boolean,true,false,false,false,true],
+             "realtime-chunk-checksum":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "remove-control-file":[func_show_boolean,func_cache_boolean,true,true,false,false,true],
+             "log":[func_show_str,func_cache_str,false,false,false,false,true],
+             "max-concurrent-downloads":[func_show_int,func_cache_int,false,false,false,false,true],
+             "server-stat-of":[func_show_str,func_cache_str,false,false,false,false,true],
+             "save-cookies":[func_show_str,func_cache_str,false,false,false,false,true],
+             "max-overall-upload-limit":[func_show_speed,func_cache_speed,false,false,false,false,true],
+             "download-result":[func_show_sel,func_cache_sel,false,false,false,false,true],
+             "max-download-result":[func_show_int,func_cache_int,false,false,false,false,true],
+             "log-level":[func_show_sel,func_cache_sel,false,false,false,false,true],
+             "max-overall-download-limit":[func_show_speed,func_cache_speed,false,false,false,false,true],
+             "save-session":[func_show_str,func_cache_str,false,false,false,false,true],
+             "save-session-interval":[func_show_int,func_cache_int,false,false,false,false,true]}
+
+function global_show_option(input_data){
+    for(var name in option_dict){
+        if(input_data[name]!==undefined){
+            if(option_dict[name][6]){
+                option_dict[name][0](name,input_data[name],'globalcache')
+            };
+        };
+    };
+    return 0;
+};
+
+function add_show_option(input_data){
+    for(var name in option_dict){
+        if(input_data[name]!==undefined){
+            if(option_dict[name][2]){
+                option_dict[name][0](name,input_data[name],'addcache')
+            };
+        };
+    };
+    return 0;
+};
+
+function single_show_option(input_data){
+    for(var name in option_dict){
+        if(input_data[name]!==undefined){
+            if(option_dict[name][3]||option_dict[name][4]||option_dict[name][5]){
+                option_dict[name][0](name,input_data[name],'singlecache')
+            };
+        };
+    };
     return 0;
 };
