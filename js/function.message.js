@@ -318,8 +318,123 @@ function receive_waiting(input_data){
 };
 
 function receive_singleoption(input_data){
-    single_option_process(input_data.id,input_data.result);
-    return 0;
+    var status_result=input_data.result[0][0],option_result=input_data.result[1][0],type=input_data.id;
+    var color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all=new String(),name=new String();
+    var files,files_index_path,progress_bar,selected,size,selected;
+
+    single_show_option(option_result)
+
+    document.getElementById('showoption_status_gid').innerHTML=status_result.gid;
+    document.getElementById('showoption_status_dir').innerHTML=status_result.dir;
+    document.getElementById('showoption_status_status').innerHTML=status_result.status;
+    document.getElementById('showoption_status_progress').value=status_result.completedLength;
+    document.getElementById('showoption_status_progress').max=status_result.totalLength;
+    document.getElementById('showoption_status_completedlength').innerHTML=human_read(status_result.completedLength);
+    document.getElementById('showoption_status_totallength').innerHTML=human_read(status_result.totalLength);
+    document.getElementById('showoption_status_connections').innerHTML=status_result.connections;
+    document.getElementById('showoption_statue_file').innerHTML='';
+
+    for(var i in status_result.files){
+        files=document.createElement('div');
+        files_index_path=document.createElement('div');
+        progress_bar=document.createElement('progress');
+        selected=document.createElement('div');
+
+        files.className='files';
+        files_index_path.className='files_index_path';
+        files_index_path.appendChild(document.createTextNode(status_result.files[i].index+' '+status_result.files[i].path.replace(status_result.dir+'/','')))
+        completedLength=status_result.files[i].completedLength;
+        totalLength=status_result.files[i].length;
+        progress_bar.value=completedLength;
+        progress_bar.max=totalLength;
+        size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
+        selected.appendChild(document.createTextNode('Selected: '+(status_result.files[i].selected==='true')?'Yes':'No'));
+        files.appendChild(files_index_path);
+        files.appendChild(progress_bar);
+        files.appendChild(size);
+        files.appendChild(selected);
+
+        if(type==='33'){
+            var download_from,files_uris
+            download_from=document.createElement('div');
+            files_uris=document.createElement('blockquote');
+            files_uris.className='files_uris'
+            for(var j in status_result.files[i].uris){
+                var files_uris_single=document.createElement('div');
+                files_uris_single.style.color=(status_result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
+                files_uris_single.appendChild(document.createTextNode(status_result.files[i].uris[j].uri));
+                files_uris.appendChild(files_uris_single);
+            };
+            download_from.appendChild(files_uris);
+            files.appendChild(download_from);
+        };
+        document.getElementById('showoption_statue_file').appendChild(files);
+    };
+
+    //document.getElementById('s_o_c').style.display='block';
+    document.getElementById('showoption_status_basic').style.display='block';
+    document.getElementById('showoption_statue_file').style.display='block';
+    document.getElementById('showoption_option_basic').style.display='block';
+    document.getElementById('showoption_option_all').style.display='block';
+
+    if(type==='33'||type==='36'){
+        document.getElementById('showoption_status_bittorrent').style.display='none';
+        document.getElementById('showoption_option_bittorrent').style.display='none';
+        return 0;
+    }else{
+        document.getElementById('showoption_status_bittorrent').style.display='block';
+        document.getElementById('showoption_statue_peers').style.display='block';
+        document.getElementById('showoption_option_bittorrent').style.display='block';
+        document.getElementById('showoption_status_announcelist').innerHTML='';
+        document.getElementById('showoption_statue_peers').innerHTML='';
+        document.getElementById('showoption_status_infohash').innerHTML=status_result.infoHash;
+        document.getElementById('showoption_status_numseeders').innerHTML=status_result.numSeeders;
+
+        for(var i in status_result.bittorrent.announceList){
+            for(var j in status_result.bittorrent.announceList[i]){
+                announceurl=document.createElement('div');
+                announceurl.appendChild(document.createTextNode(status_result.bittorrent.announceList[i][j]));
+                document.getElementById('showoption_status_announcelist').appendChild(announceurl);
+            };
+        };
+
+        if(type==='34'){
+            var peer_result=input_data.result[2][0];
+            var peer,peer_id_addr,peer_spd;
+            for(var i in peer_result){
+                peer=document.createElement('div');
+                peer_id_addr=document.createElement('div');
+                peer_spd=document.createElement('div');
+
+                peer.className='peer';
+                peer_id_addr.className='peer_addr';
+                peer_spd.className='peer_spd'
+                peer_id_addr.style.color=(peer_result[i].seeder==='true')?'#40ff40':'#ffff00';
+                peer_id_addr.appendChild(document.createTextNode(unescape(peer_result[i].peerId)));
+                if(peer_result[i].ip.match(':')){
+                    peer_id_addr.appendChild(document.createTextNode(' from ['+peer_result[i].ip+']:'+peer_result[i].port));
+                }else{
+                    peer_id_addr.appendChild(document.createTextNode(' from '+peer_result[i].ip+':'+peer_result[i].port));
+                };
+
+                peer_spd.appendChild(document.createTextNode('D: '+human_read(peer_result[i].downloadSpeed)+'b/s'))
+                peer_spd.appendChild(document.createElement('br'))
+                peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].uploadSpeed)+'b/s'))
+
+                peer.appendChild(peer_id_addr);
+                peer.appendChild(peer_spd);
+
+                if(peer_result[i].amChoking==='true'){
+                    peer.appendChild(document.createElement('div').appendChild(document.createTextNode('amChoking')));
+                };
+                if(peer_result[i].peerChoking==='true'){
+                    peer.appendChild(document.createElement('div').appendChild(document.createTextNode('peerChoking')));
+                };
+                document.getElementById('showoption_statue_peers').appendChild(peer);
+            };
+        return 0;
+        };
+    };
 };
 
 function receive_globaloption(input_data){

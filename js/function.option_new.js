@@ -378,3 +378,14 @@ function add_show_option(input_data){
     };
     return 0;
 };
+
+function single_show_option(input_data){
+    for(var name in option_dict){
+        if(input_data[name]!==undefined){
+            if(option_dict[name][3]||option_dict[name][4]||option_dict[name][5]){
+                option_dict[name][0](name,input_data[name],'singlecache')
+            };
+        };
+    };
+    return 0;
+};
