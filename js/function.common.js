@@ -25,9 +25,9 @@ function warning_dialog(string){
 
 function topage(page){
     var all_page={'start':'mainstart','active':'mainactive','stopped':'mainstopped','waiting':'mainwaiting','info':'maininfo'}
-    for(each in all_page){
-	document.getElementById(all_page[each]).style.display='none';
-	document.getElementById(each).className='sidetag';
+    for(var name in all_page){
+	document.getElementById(all_page[name]).style.display='none';
+	document.getElementById(name).className='sidetag';
     };
     document.getElementById(all_page[page]).style.display='block';
     document.getElementById(page).className='sidetag side_clicked';
@@ -65,44 +65,33 @@ function spendtime(speed,completedsize,totalsize){
 	var time_raw=((Number(totalsize)-Number(completedsize))/Number(speed)).toFixed(0);
     };
     if(time_raw<60){
-	var flag=0;
+        return time_raw+'sec';
     }else if(time_raw<3600){
-	var flag=1;
+        return Math.floor(time_raw/60)+'min'+time_raw%60+'sec';
     }else if(time_raw<86400){
-	var flag=2;
+        return Math.floor(time_raw/3600)+'hour'+Math.floor((time_raw%3600)/60)+'min';
     }else if(time_raw<604300){
-	var flag=3;
+        return Math.floor(time_raw/86400)+'day'+Math.floor((time_raw%86400)/3600)+'hour';
     }else{
-	var flag=4;
-    };
-    switch(flag){
-    case 0:return time_raw+'sec';
-    case 1:return Math.floor(time_raw/60)+'min'+time_raw%60+'sec';
-    case 2:return Math.floor(time_raw/3600)+'hour'+Math.floor((time_raw%3600)/60)+'min';
-    case 3:return Math.floor(time_raw/86400)+'day'+Math.floor((time_raw%86400)/3600)+'hour';
-    case 4:return Math.floor(time_raw/604300)+'week'+Math.floor((time_raw%604300)/86400)+'day';
-    default:return -1;
+        return Math.floor(time_raw/604300)+'week'+Math.floor((time_raw%604300)/86400)+'day';
     };
 };
 
 function human_read(num){
-    switch(type_unit){
-    case 0:var unit=Math.pow(2,10);break;
-    default:var unit=Math.pow(10,3);break;
+    if(type_unit==0){
+        var unit=Math.pow(2,10);
+    }else{
+        var unit=Math.pow(10,3);
     };
-    switch(num.valueOf().length){
-    case 1:
-    case 2:
-    case 3:return num.valueOf();
-    case 4:
-    case 5:
-    case 6:return (num/unit).toFixed(2).valueOf()+'K';
-    case 7:
-    case 8:
-    case 9:return (num/Math.pow(unit,2)).toFixed(2).valueOf()+'M';
-    case 10:
-    case 11:
-    case 12:return (num/Math.pow(unit,3)).toFixed(2).valueOf()+'G';
-    default:return (num/Math.pow(unit,4)).toFixed(2).valueOf()+'T';
+    if(num.valueOf().length<4){
+        return num.valueOf();
+    }else if(num.valueOf().length<7){
+        return (num/unit).toFixed(2).valueOf()+'K';
+    }else if(num.valueOf().length<10){
+        return (num/Math.pow(unit,2)).toFixed(2).valueOf()+'M';
+    }else if(num.valueOf().length<13){
+        return (num/Math.pow(unit,3)).toFixed(2).valueOf()+'G';
+    }else{
+        return (num/Math.pow(unit,4)).toFixed(2).valueOf()+'T';
     };
 };

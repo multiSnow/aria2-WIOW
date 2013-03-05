@@ -92,7 +92,6 @@ function showwaiting(){
 };
 
 function globaloption(){
-    //document.getElementById('maininfo').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='40';
@@ -120,7 +119,6 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>active,http</div>';
         break;
     case 11:
         json.id='34';
@@ -136,7 +134,6 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>active,bittorrent</div>';
         break;
     case 12:
         json.id='34';
@@ -152,14 +149,12 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>active,metalink</div>';
         break;
     case 20:
         json.id='35';
         json.method='aria2.tellStatus';
         json.params=[];
         json.params[0]=String(gid);
-        //document.getElementById('showoption_area').innerHTML='<div>stopped</div>';
         break;
     case 30:
         json.id='36';
@@ -174,7 +169,6 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>waiting,http</div>';
         break;
     case 31:
         json.id='37';
@@ -189,7 +183,6 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>waiting,bittorrent</div>';
         break;
     case 32:
         json.id='37';
@@ -204,11 +197,9 @@ function showoption(gid,type,status){
             json.params[0][i].params[0]=String(gid);
             i+=1;
         };
-        //document.getElementById('showoption_area').innerHTML='<div>waiting,metalink</div>';
         break;
     default:break;
     };
-    delete i;
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -216,9 +207,5 @@ function showoption(gid,type,status){
 
 function hideoption(){
     document.getElementById('showoption').style.display='none';
-    return 0;
-};
-
-function showstatus(gid){
     return 0;
 };

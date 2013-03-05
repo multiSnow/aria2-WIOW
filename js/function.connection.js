@@ -27,7 +27,6 @@ function connect(){
         document.getElementById('sidetags').style.display='block';
         document.getElementById('shutdown_button').style.display='block';
         document.getElementById('main').style.display='block';
-        //document.getElementById('add').style.display='block';
         topage('start');default_option();
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
@@ -44,7 +43,6 @@ function connect(){
             json.params[0][i].methodName=methodName[i];
             i+=1;
         };
-        //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
 	message_process();
 	return 0;

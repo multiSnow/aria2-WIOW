@@ -122,7 +122,6 @@ function change_global_option(){
     json.method='aria2.changeGlobalOption';
     json.params=[];
     json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
-    //document.getElementById('cgo_echo').innerHTML=JSON.stringify(json);
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -136,7 +135,6 @@ function change_single_option(){
     json.params=[];
     json.params[0]=document.getElementById('showoption_status_gid').innerHTML;
     json.params[1]=JSON.parse(document.getElementById('singlecache').innerHTML);
-    //document.getElementById('cso_echo').innerHTML=JSON.stringify(json);
     ws.send(JSON.stringify(json));
     message_process();
     return 0;

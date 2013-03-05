@@ -27,7 +27,6 @@ function adduri(){
     if(document.getElementById('add_with_option').checked==true){
         json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
     };
-    //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
     ws.send(JSON.stringify(json));
     message_process();
     return 0;
@@ -56,7 +55,6 @@ function addtorrent(){
         if(document.getElementById('add_with_option').checked==true){
             json.params[2]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
-        //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
         return 0;
@@ -86,7 +84,6 @@ function addmetalink(){
         if(document.getElementById('add_with_option').checked==true){
             json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
-        //document.getElementById('send').innerHTML+=JSON.stringify(json)+'<br/>';
         ws.send(JSON.stringify(json));
         message_process();
         return 0;

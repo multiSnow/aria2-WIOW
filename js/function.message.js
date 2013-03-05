@@ -66,9 +66,9 @@ function receive_connect(input_data){
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numWaiting+' Waiting'));
     sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('D: '+human_read(input_data.result[1][0].downloadSpeed)+'b'));
+    sideinfo.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(input_data.result[1][0].downloadSpeed))));
     sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('U: '+human_read(input_data.result[1][0].uploadSpeed)+'b'));
+    sideinfo.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(input_data.result[1][0].uploadSpeed))));
     sideinfo.appendChild(document.createElement('br'));
     return 0;
 };
@@ -76,14 +76,14 @@ function receive_connect(input_data){
 function receive_active(input_data){
     var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
     var node,item_title,item_button,pause_icon,remove_icon,option_icon,item_summery,progress_bar;
-    var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++){
+    for(var i in input_data.result){
         node=document.createElement('div');
         node.id='active_'+String(i);
         node.className='item';
         document.getElementById('mainactive').appendChild(node);
     };
-    for(var i=0;i<=num;i++){
+
+    for(var i in input_data.result){
         active_element=document.getElementById('active_'+String(i));
         downloadSpeed=input_data.result[i].downloadSpeed;
         uploadSpeed=input_data.result[i].uploadSpeed;
@@ -93,30 +93,18 @@ function receive_active(input_data){
         connections=input_data.result[i].connections;
         if(input_data.result[i].bittorrent===undefined){
             type_bittorrent=0;
-        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
-            type_bittorrent=2;
-        }else{
-            type_bittorrent=1;
-        };
-        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-        switch(type_bittorrent){
-        case 2:
-            name=input_data.result[i].files[0].path;
-            color='#ffff00';
-            break;
-        case 1:
-            name=input_data.result[i].bittorrent.info.name;
-            color='#40ff40';
-            break;
-        case 0:
             name=input_data.result[i].files[0].path;
             color='#0080ff';
-            break;
-        default:
-            name='error';
-            color='#ff0000';
-            break;
+        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
+            type_bittorrent=2;
+            name=input_data.result[i].files[0].path;
+            color='#ffff00';
+        }else{
+            type_bittorrent=1;
+            name=input_data.result[i].bittorrent.info.name;
+            color='#40ff40';
         };
+        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
@@ -138,9 +126,7 @@ function receive_active(input_data){
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
-        //.replace().replace()
-        //It's stupid, but should be better than str+str+str+...
-        option_icon.setAttribute('onclick',"showoption('gid',type_bittorrent,10)".replace('gid',gid).replace('type_bittorrent',type_bittorrent));
+        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",10)");
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
@@ -154,13 +140,13 @@ function receive_active(input_data){
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('D: '+human_read(downloadSpeed)+'b/s'));
+        item_summery.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(downloadSpeed))));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('U: '+human_read(uploadSpeed)+'b/s'));
+        item_summery.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(uploadSpeed))));
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('download from '+connections+' connection.'));
+        item_summery.appendChild(document.createTextNode('download from num connection.'.replace('num',connections)));
 
         active_element.appendChild(item_title);
         active_element.appendChild(item_button);
@@ -244,30 +230,19 @@ function receive_waiting(input_data){
         connections=input_data.result[i].connections;
         if(input_data.result[i].bittorrent===undefined){
             type_bittorrent=0;
-        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
-            type_bittorrent=2;
-        }else{
-            type_bittorrent=1;
-        };
-        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-        switch(type_bittorrent){
-        case 2:
-            name=input_data.result[i].files[0].path;
-            color='#ffff00';
-            break;
-        case 1:
-            name=input_data.result[i].bittorrent.info.name;
-            color='#40ff40';
-            break;
-        case 0:
             name=input_data.result[i].files[0].path;
             color='#0080ff';
-            break;
-        default:
-            name='error';
-            color='#ff0000';
-            break;
+        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
+            type_bittorrent=2;
+            name=input_data.result[i].files[0].path;
+            color='#ffff00';
+        }else{
+            type_bittorrent=1;
+            name=input_data.result[i].bittorrent.info.name;
+            color='#40ff40';
         };
+        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
+
         item_title=document.createElement('div');
         item_button=document.createElement('div');
         unpause_icon=document.createElement('div');
@@ -288,7 +263,7 @@ function receive_waiting(input_data){
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('gid',type_bittorrent,30)".replace('gid',gid).replace('type_bittorrent',type_bittorrent));
+        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+"+,30)");
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
@@ -302,13 +277,13 @@ function receive_waiting(input_data){
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('D: '+human_read(downloadSpeed)+'b/s'));
+        item_summery.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(downloadSpeed))));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('U: '+human_read(uploadSpeed)+'b/s'));
+        item_summery.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(uploadSpeed))));
         item_summery.appendChild(document.createElement('br'));
         item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
         item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('download from '+connections+' connection.'));
+        item_summery.appendChild(document.createTextNode('download from num connection.'.replace('num',connections)));
 
         document.getElementById('waiting_'+String(i)).appendChild(item_title);
         document.getElementById('waiting_'+String(i)).appendChild(item_button);
@@ -319,7 +294,7 @@ function receive_waiting(input_data){
 
 function receive_singleoption(input_data){
     var status_result=input_data.result[0][0],option_result=input_data.result[1][0],type=input_data.id;
-    var color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all=new String(),name=new String();
+    var completedLength,totalLength;
     var files,files_index_path,progress_bar,selected,size,selected;
 
     single_show_option(option_result)
@@ -371,7 +346,7 @@ function receive_singleoption(input_data){
         document.getElementById('showoption_statue_file').appendChild(files);
     };
 
-    //document.getElementById('s_o_c').style.display='block';
+    document.getElementById('s_o_c').style.display='block';
     document.getElementById('showoption_status_basic').style.display='block';
     document.getElementById('showoption_statue_file').style.display='block';
     document.getElementById('showoption_option_basic').style.display='block';
@@ -417,18 +392,22 @@ function receive_singleoption(input_data){
                     peer_id_addr.appendChild(document.createTextNode(' from '+peer_result[i].ip+':'+peer_result[i].port));
                 };
 
-                peer_spd.appendChild(document.createTextNode('D: '+human_read(peer_result[i].downloadSpeed)+'b/s'))
-                peer_spd.appendChild(document.createElement('br'))
-                peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].uploadSpeed)+'b/s'))
+                peer_spd.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(peer_result[i].downloadSpeed))));
+                peer_spd.appendChild(document.createElement('br'));
+                peer_spd.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(peer_result[i].uploadSpeed))));
 
                 peer.appendChild(peer_id_addr);
                 peer.appendChild(peer_spd);
 
                 if(peer_result[i].amChoking==='true'){
-                    peer.appendChild(document.createElement('div').appendChild(document.createTextNode('amChoking')));
+                    var amChoking=document.createElement('div');
+                    amChoking.appendChild(document.createTextNode('amChoking'));
+                    peer.appendChild(amChoking);
                 };
                 if(peer_result[i].peerChoking==='true'){
-                    peer.appendChild(document.createElement('div').appendChild(document.createTextNode('peerChoking')));
+                    var peerChoking=document.createElement('div');
+                    peerChoking.appendChild(document.createTextNode('peerChoking'));
+                    peer.appendChild(peerChoking);
                 };
                 document.getElementById('showoption_statue_peers').appendChild(peer);
             };
@@ -448,7 +427,7 @@ function receive_defaultoption(input_data){
 };
 
 function receive_stoppedstatus(input_data){
-    var color,amChoking,peerChoking,completedLength,totalLength,selected,uris_all='',name=new String();
+    var completedLength,totalLength;
     var files,files_index_path,progress_bar,selected,size,selected,download_from,files_uris;
 
     document.getElementById('showoption_option_basic').style.display='none';
@@ -465,6 +444,7 @@ function receive_stoppedstatus(input_data){
     document.getElementById('showoption_status_totallength').innerHTML=human_read(input_data.result.totalLength);
     document.getElementById('showoption_status_connections').innerHTML=input_data.result.connections;
     document.getElementById('showoption_statue_file').innerHTML='';
+
     for(var i in input_data.result.files){
         files=document.createElement('div');
         files_index_path=document.createElement('div');
