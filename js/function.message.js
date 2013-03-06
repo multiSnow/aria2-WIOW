@@ -323,7 +323,8 @@ function receive_singleoption(input_data){
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
         size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
-        selected.appendChild(document.createTextNode('Selected: '+(status_result.files[i].selected==='true')?'Yes':'No'));
+        selected.appendChild(document.createTextNode('Selected: '));
+        selected.appendChild(document.createTextNode((status_result.files[i].selected==='true')?'Yes':'No'));
         files.appendChild(files_index_path);
         files.appendChild(progress_bar);
         files.appendChild(size);
@@ -461,7 +462,8 @@ function receive_stoppedstatus(input_data){
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
         size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
-        selected.appendChild(document.createTextNode('Selected: '+(input_data.result.files[i].selected==='true')?'Yes':'No'));
+        selected.appendChild(document.createTextNode('Selected: '));
+        selected.appendChild(document.createTextNode((input_data.result.files[i].selected==='true')?'Yes':'No'));
         files_uris.className='files_uris'
         for(var j in input_data.result.files[i].uris){
             var files_uris_single=document.createElement('div');
