@@ -377,7 +377,9 @@
             <option value="plain">plain</option>
             <option value="arc4">arc4</option>
           </select><br/>
-          bt-prioritize-piece: <input id="globalcache_bt-prioritize-piece" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+          bt-prioritize-piece:
+          head=<input id="globalcache_bt-prioritize-piece_head" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/>
+          tail=<input id="globalcache_bt-prioritize-piece_tail" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
           bt-remove-unselected-file: <input id="globalcache_bt-remove-unselected-file" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           bt-request-peer-speed-limit: <input id="globalcache_bt-request-peer-speed-limit" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           bt-require-crypto: <input id="globalcache_bt-require-crypto" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
