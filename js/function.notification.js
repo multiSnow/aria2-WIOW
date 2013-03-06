@@ -125,6 +125,7 @@ function notification(input_json){
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly=new Object();
+            ugly.type='255';
             ugly.error_id=22;
             ugly.error_status=JSON.stringify(input_json);
             notification(ugly);
@@ -145,6 +146,7 @@ function notification(input_json){
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly=new Object();
+            ugly.type='255';
             ugly.error_id=24;
             ugly.error_status=JSON.stringify(input_json);
             notification(ugly);
@@ -160,6 +162,7 @@ function notification(input_json){
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly=new Object();
+            ugly.type='255';
             ugly.error_id=25;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
@@ -175,6 +178,7 @@ function notification(input_json){
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly=new Object();
+            ugly.type='255';
             ugly.error_id=41;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
@@ -190,6 +194,7 @@ function notification(input_json){
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
             var ugly=new Object();
+            ugly.type='255';
             ugly.error_id=42;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
