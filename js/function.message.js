@@ -263,7 +263,7 @@ function receive_waiting(input_data){
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+"+,30)");
+        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",30)");
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
