@@ -28,10 +28,9 @@ function pause(gid){
     json.jsonrpc='2.0';
     json.id='20';
     json.method='aria2.pause';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=String(gid);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -46,10 +45,9 @@ function remove(gid){
     json.jsonrpc='2.0';
     json.id='21';
     json.method='aria2.remove';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=String(gid);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -58,10 +56,9 @@ function remove_stopped(gid){
     json.jsonrpc='2.0';
     json.id='22';
     json.method='aria2.removeDownloadResult';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=String(gid);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -76,10 +73,9 @@ function unpause(gid){
     json.jsonrpc='2.0';
     json.id='23';
     json.method='aria2.unpause';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=String(gid);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -94,8 +90,7 @@ function shutdown(){
     json.jsonrpc='2.0';
     json.id='24';
     json.method='aria2.shutdown';
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -110,8 +105,7 @@ function purgestopped(){
     json.jsonrpc='2.0';
     json.id='25';
     json.method='aria2.purgeDownloadResult';
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -120,10 +114,9 @@ function change_global_option(){
     json.jsonrpc='2.0';
     json.id='41';
     json.method='aria2.changeGlobalOption';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -132,10 +125,9 @@ function change_single_option(){
     json.jsonrpc='2.0';
     json.id='42';
     json.method='aria2.changeOption';
-    json.params=[];
+    json.params=new Array();
     json.params[0]=document.getElementById('showoption_status_gid').innerHTML;
     json.params[1]=JSON.parse(document.getElementById('singlecache').innerHTML);
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };

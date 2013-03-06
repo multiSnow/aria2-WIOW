@@ -54,7 +54,7 @@
 //3 warning and error
 
 function notification(input_json){
-    var i,urgency,summary,text;
+    var urgency,summary,text;
     document.getElementById('notification').style.display='block';
     switch(input_json.type){
     case 1:
@@ -101,10 +101,8 @@ function notification(input_json){
         urgency=1;
         summary='Add Download Required';
         text='Apply downloading via metalink file and should start in GID';
-        i=0;
-        while(i<=Number(input_json.gid.length)-1){
+        for(var i in input_json.gid){
             text+=' "'+input_json.gid[i]+'"';
-            i+=1
         };
         text+='.';
         break;
@@ -126,7 +124,7 @@ function notification(input_json){
         }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly={};
+            var ugly=new Object();
             ugly.error_id=22;
             ugly.error_status=JSON.stringify(input_json);
             notification(ugly);
@@ -146,7 +144,7 @@ function notification(input_json){
         }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly={};
+            var ugly=new Object();
             ugly.error_id=24;
             ugly.error_status=JSON.stringify(input_json);
             notification(ugly);
@@ -161,7 +159,7 @@ function notification(input_json){
         }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly={};
+            var ugly=new Object();
             ugly.error_id=25;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
@@ -176,7 +174,7 @@ function notification(input_json){
         }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly={};
+            var ugly=new Object();
             ugly.error_id=41;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);
@@ -191,7 +189,7 @@ function notification(input_json){
         }else{
             //!!!UGLY CODE!!!
             //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly={};
+            var ugly=new Object();
             ugly.error_id=42;
             ugly.error_status=JSON.stringify(input_json.data);
             notification(ugly);

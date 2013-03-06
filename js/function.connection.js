@@ -24,6 +24,7 @@ function connect(){
         +':'+document.getElementById('wsport').value+'/jsonrpc';
     ws=new WebSocket(url);
     ws.onopen=function(){
+        message_process();
         document.getElementById('sidetags').style.display='block';
         document.getElementById('shutdown_button').style.display='block';
         document.getElementById('main').style.display='block';
@@ -31,20 +32,17 @@ function connect(){
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
         document.getElementById('connect').style.display='none';
-        var  i=0,json=new Object(),methodName=new Array();
+        var json=new Object(),methodName=new Array();
         json.jsonrpc='2.0';
         json.id='0';
-        json.params=[[]];
+        json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.getVersion';
         methodName[1]='aria2.getGlobalStat';
-        while(i<=1){
-            json.params[0][i]={};
-            json.params[0][i].methodName=methodName[i];
-            i+=1;
+        for(var i in methodName){
+            json.params[0][i]=new Object({'methodName':methodName[i]});
         };
-        ws.send(JSON.stringify(json));
-	message_process();
+        sendmessage(json);
 	return 0;
     };
     return 0;
@@ -62,5 +60,14 @@ function disconnect(){
         document.getElementById('connect').style.display='block';
         document.title='aria2 WIOW';
     };
+    return 0;
+};
+
+function sendmessage(json){
+    if(ws.readyState!==1){
+        alert('Connection lost or not yet open!');
+        return 1;
+    };
+    ws.send(JSON.stringify(json));
     return 0;
 };

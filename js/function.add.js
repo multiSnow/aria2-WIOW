@@ -22,13 +22,12 @@ function adduri(){
     json.jsonrpc='2.0';
     json.id='10';
     json.method='aria2.addUri'
-    json.params=[[]];
+    json.params=new Array(new Array());
     json.params[0][0]=document.getElementById('adduri').value;
     if(document.getElementById('add_with_option').checked==true){
         json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
     };
-    ws.send(JSON.stringify(json));
-    message_process();
+    sendmessage(json);
     return 0;
 };
 
@@ -49,14 +48,13 @@ function addtorrent(){
         json.jsonrpc='2.0';
         json.id='11';
         json.method='aria2.addTorrent';
-        json.params=[];
+        json.params=new Array();
         json.params[0]=file_event.target.result.replace('data:application/x-bittorrent;base64,','');
         json.params[1]=[]; // Here should be used for web-seeding.
         if(document.getElementById('add_with_option').checked==true){
             json.params[2]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
-        ws.send(JSON.stringify(json));
-        message_process();
+        sendmessage(json);
         return 0;
     };
     return 0;
@@ -79,13 +77,12 @@ function addmetalink(){
         json.jsonrpc='2.0';
         json.id='aria2_rpc';
         json.method='aria2.addMetalink';
-        json.params=[];
+        json.params=new Array();
         json.params[0]=file_event.target.result.replace('data:application/metalink+xml;base64,','').replace('data:application/metalink4+xml;base64,','');
         if(document.getElementById('add_with_option').checked==true){
             json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
-        ws.send(JSON.stringify(json));
-        message_process();
+        sendmessage(json);
         return 0;
     };
     return 0;
