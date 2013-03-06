@@ -25,6 +25,7 @@ function connect(){
     ws=new WebSocket(url);
     ws.onopen=function(){
         message_process();
+        close_process();
         document.getElementById('sidetags').style.display='block';
         document.getElementById('shutdown_button').style.display='block';
         document.getElementById('main').style.display='block';
@@ -50,16 +51,6 @@ function connect(){
 
 function disconnect(){
     ws.close();
-    ws.onclose=function(){
-        document.getElementById('sideinfo').innerHTML='Disconnected!';
-        document.getElementById('sidetags').style.display='none';
-        document.getElementById('main').style.display='none';
-        document.getElementById('shutdown_button').style.display='none';
-        document.getElementById('disconnect').style.display='none';
-        document.getElementById('ws_address').style.display='block';
-        document.getElementById('connect').style.display='block';
-        document.title='aria2 WIOW';
-    };
     return 0;
 };
 
@@ -70,4 +61,21 @@ function sendmessage(json){
     };
     ws.send(JSON.stringify(json));
     return 0;
+};
+
+function close_process(){
+    ws.onclose=function(message){
+        document.getElementById('sideinfo').innerHTML='Disconnected!';
+        document.getElementById('sidetags').style.display='none';
+        document.getElementById('main').style.display='none';
+        document.getElementById('shutdown_button').style.display='none';
+        document.getElementById('disconnect').style.display='none';
+        document.getElementById('ws_address').style.display='block';
+        document.getElementById('connect').style.display='block';
+        document.title='aria2 WIOW';
+        if(message.code!==1005){
+            alert(message.code+' '+message.reason+' '+message.wasClean);
+        };
+        return 0;
+    };
 };
