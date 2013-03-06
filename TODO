@@ -1,12 +1,7 @@
-* wss support
 * optimize and clearup #maininfo and #showoption_option.
 * optimize #showoption_statue_peers and #showoption_statue_file when showing a large number of items.
 * make a friendly interface to view and change these options:
-  * bt-prioritize-piece
-  * checksum
-  * select-file
   * index-out
-  * header
 * use canvas to show icons instead of text in some place.
 * an extra place to show debug infomations.
 * take advantage of more RPC Methods.
