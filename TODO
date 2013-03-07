@@ -1,14 +1,11 @@
 * optimize and clearup #maininfo and #showoption_option.
 * optimize #showoption_statue_peers and #showoption_statue_file when showing a large number of items.
-* make a friendly interface to view and change these options:
-  * index-out
 * use canvas to show icons instead of text in some place.
 * an extra place to show debug infomations.
 * take advantage of more RPC Methods.
 * readable #notification.
 * handle errorcode and notification from RPC Server.
 * add torrent with web-seeding.
-* add multiple link, torrent and metalink, with additional options.
 * testapi.html with more infomation.
 * more readable, friendly and beautiful
 * ...
