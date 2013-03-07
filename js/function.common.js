@@ -53,6 +53,21 @@ function clearadd(add){
     return 0;
 };
 
+function toggle_adduri(uris_ck){
+    var parentnode=document.getElementById('chose_add_type');
+    parentnode.removeChild(document.getElementById('adduri'))
+    if(uris_ck.checked===true){
+        var node=document.createElement('textarea');
+        node.rows=1;
+    }else{
+        var node=document.createElement('input');
+        node.type='url';
+    };
+    node.id='adduri';
+    parentnode.appendChild(node);
+    return 0;
+};
+
 function clear_option_cache(option){
     document.getElementById(option).innerHTML='';
     return 0;

@@ -22,8 +22,18 @@ function adduri(){
     json.jsonrpc='2.0';
     json.id='10';
     json.method='aria2.addUri'
-    json.params=new Array(new Array());
-    json.params[0][0]=document.getElementById('adduri').value;
+    var uri_list=new Array();
+    var uri_raw_list=document.getElementById('adduri').value.split('\n');
+    for(var uri_val in uri_raw_list){
+        if(uri_raw_list[uri_val]!==''){
+            if(uri_raw_list[uri_val].match(/(^https?:\/\/|^ftp:\/\/)/i)||uri_raw_list[uri_val].match(/^magnet:/)){
+                uri_list.push(uri_raw_list[uri_val]);
+            }else{
+                alert('Invalid uri: "url", skip it.'.replace('url',uri_raw_list[uri_val]));
+            };
+        };
+    };
+    json.params=new Array(uri_list);
     if(document.getElementById('add_with_option').checked==true){
         json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
     };
