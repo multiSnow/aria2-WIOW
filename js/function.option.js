@@ -324,17 +324,92 @@ function func_clean_bt_prioritize_piece(name,place){
 };
 
 function func_show_index_out(name,value,place){
-    document.getElementById([place,name].join('_')).value=value;
+    var indexout_list=new Array();
+    var indexout_raw_list=value.split('\n')
+    for(var indexout_val in indexout_raw_list){
+        if(indexout_raw_list[indexout_val]!==''){
+            indexout_list.push(indexout_raw_list[indexout_val])
+        };
+    };
+    var indexout_list_element=document.getElementById([place,name,'list'].join('_'));
+    document.getElementById([place,name].join('_')).value=indexout_list.length;
+    for(var i in indexout_list){
+        var index,out;
+        (function(v){
+            index=v[0];
+            out=v[1];
+            return 0;
+        })(indexout_list[i].split('='));
+        var new_node=document.createElement('li');
+        var new_node_index=document.createElement('input');
+        var new_node_out=document.createElement('input');
+        new_node_index.id=[place,name,'index'].join('_');
+        new_node_index.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+        new_node_index.setAttribute('type','number');
+        new_node_index.value=index;
+        new_node_out.id=[place,name,'out'].join('_');
+        new_node_out.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+        new_node_out.setAttribute('type','text');
+        new_node_out.value=out;
+        new_node.appendChild(new_node_index);
+        new_node.appendChild(document.createTextNode('='));
+        new_node.appendChild(new_node_out);
+        indexout_list_element.appendChild(new_node);
+    };
     return 0;
 };
 
 function func_cache_index_out(element){
-    alert('Function to add this option is not complete yet.')
+    var method,option;
+    (function(v){
+        method=v[0];
+        option=v[1];
+        return 0;
+    })(option_name_process(element.id));
+    var json_option_cache=new Object();
+    var indexout_count=Number(document.getElementById([method,option].join('_')).value);
+    var indexout_list_element=document.getElementById([method,option,'list'].join('_'));
+    var indexout_exist=indexout_list_element.childNodes.length;
+    json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
+    if(indexout_count===0){
+        json_option_cache[option]=undefined;
+        indexout_list_element.innerHTML='';
+    }else{
+        if(indexout_exist>indexout_count){
+            for(var i=indexout_count;i<indexout_exist;i++){
+                indexout_list_element.removeChild(indexout_list_element.childNodes[indexout_count]);
+            };
+        }else{
+            for(var i=indexout_exist;i<indexout_count;i++){
+                var new_node=document.createElement('li');
+                var new_node_index=document.createElement('input');
+                var new_node_out=document.createElement('input');
+                new_node_index.id=[method,option,'index'].join('_');
+                new_node_index.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                new_node_index.setAttribute('type','number');
+                new_node_out.id=[method,option,'out'].join('_');
+                new_node_out.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                new_node_out.setAttribute('type','text');
+                new_node.appendChild(new_node_index);
+                new_node.appendChild(document.createTextNode('='));
+                new_node.appendChild(new_node_out);
+                indexout_list_element.appendChild(new_node);
+            };
+        };
+        var indexout_value=new Array();
+        for(var i=0;i<indexout_list_element.childNodes.length;i++){
+            if(indexout_list_element.childNodes[i].childNodes[0].value!=''&&indexout_list_element.childNodes[i].childNodes[2].value!=''){
+                indexout_value.push(indexout_list_element.childNodes[i].childNodes[0].value+'='+indexout_list_element.childNodes[i].childNodes[2].value);
+            };
+        };
+        json_option_cache[option]=(indexout_value.length===0)?undefined:indexout_value;
+    };
+    document.getElementById(method).innerHTML=JSON.stringify(json_option_cache);
     return 0
 };
 
 function func_clean_index_out(name,place){
-    document.getElementById([place,name].join('_')).value='';
+    document.getElementById([place,name,'list'].join('_')).innerHTML='';
     return 0;
 };
 

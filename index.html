@@ -210,9 +210,8 @@
             <option value="false">false</option>
             <option value="mem">mem</option>
           </select><br/>
-          index-out:<input id="addcache_index-out" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number"/>
+          index-out:<input id="addcache_index-out" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/>
           <ol id="addcache_index-out_list"></ol>
-          <!--<li><input id="addcache_index-out_index" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="1"/>=<input id="addcache_index-out_path" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/></li>-->
           max-upload-limit:<input id="addcache_max-upload-limit" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
           seed-ratio:<input id="addcache_seed-ratio" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/><br/>
           seed-time:<input id="addcache_seed-time" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/><br/>
@@ -610,7 +609,8 @@
                 <option value="false">false</option>
                 <option value="mem">mem</option>
               </select><br/>
-              index-out: <input id="singlecache_index-out" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+              index-out: <input id="singlecache_index-out" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+              <ol id="singlecache_index-out_list"></ol>
               seed-ratio: <input id="singlecache_seed-ratio" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               seed-time: <input id="singlecache_seed-time" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               <!--Metalink-->
