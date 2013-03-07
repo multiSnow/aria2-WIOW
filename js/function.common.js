@@ -59,39 +59,45 @@ function clear_option_cache(option){
 };
 
 function spendtime(speed,completedsize,totalsize){
-    if(Number(completedsize)>=Number(totalsize)||Number(speed)<=0){
-	return -1;
+    speed=parseFloat(speed);
+    completedsize=parseFloat(completedsize);
+    totalsize=parseFloat(totalsize);
+    var floor=Math.floor;
+    if(completedsize>=totalsize||speed<=0){
+	return '∞';
     }else{
-	var time_raw=((Number(totalsize)-Number(completedsize))/Number(speed)).toFixed(0);
+	var time_raw=((totalsize-completedsize)/speed).toFixed(0);
     };
     if(time_raw<60){
         return time_raw+'sec';
     }else if(time_raw<3600){
-        return Math.floor(time_raw/60)+'min'+time_raw%60+'sec';
+        return floor(time_raw/60)+'min'+time_raw%60+'sec';
     }else if(time_raw<86400){
-        return Math.floor(time_raw/3600)+'hour'+Math.floor((time_raw%3600)/60)+'min';
+        return floor(time_raw/3600)+'hour'+floor((time_raw%3600)/60)+'min';
     }else if(time_raw<604300){
-        return Math.floor(time_raw/86400)+'day'+Math.floor((time_raw%86400)/3600)+'hour';
+        return floor(time_raw/86400)+'day'+floor((time_raw%86400)/3600)+'hour';
     }else{
-        return Math.floor(time_raw/604300)+'week'+Math.floor((time_raw%604300)/86400)+'day';
+        return floor(time_raw/604300)+'week'+floor((time_raw%604300)/86400)+'day';
     };
 };
 
 function human_read(num){
+    num=parseFloat(num);
+    var pow=Math.pow;
     if(type_unit==0){
-        var unit=Math.pow(2,10);
+        var unit=1024;
     }else{
-        var unit=Math.pow(10,3);
+        var unit=1000;
     };
-    if(num.valueOf().length<4){
-        return num.valueOf();
-    }else if(num.valueOf().length<7){
+    if(num<unit){
+        return num;
+    }else if(num<pow(unit,2)){
         return (num/unit).toFixed(2).valueOf()+'K';
-    }else if(num.valueOf().length<10){
-        return (num/Math.pow(unit,2)).toFixed(2).valueOf()+'M';
-    }else if(num.valueOf().length<13){
-        return (num/Math.pow(unit,3)).toFixed(2).valueOf()+'G';
+    }else if(num<pow(unit,3)){
+        return (num/pow(unit,2)).toFixed(2).valueOf()+'M';
+    }else if(num<pow(unit,4)){
+        return (num/pow(unit,3)).toFixed(2).valueOf()+'G';
     }else{
-        return (num/Math.pow(unit,4)).toFixed(2).valueOf()+'T';
+        return (num/pow(unit,4)).toFixed(2).valueOf()+'T';
     };
 };
