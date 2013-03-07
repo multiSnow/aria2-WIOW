@@ -27,6 +27,13 @@ function testapi(){
     }else{
         return 1;
     };
+    document.getElementById('json_support').style.display='block';
+    if(window.JSON){
+        document.getElementById('json_support').style.color='#00ff00';
+        document.getElementById('json_support').innerHTML='Native JSON is supported.';
+    }else{
+        return 1;
+    };
     document.getElementById('filereader_support').style.display='block';
     if(window.FileReader){
         document.getElementById('filereader_support').style.color='#00ff00';
