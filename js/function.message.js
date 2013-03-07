@@ -297,7 +297,7 @@ function receive_singleoption(input_data){
     var completedLength,totalLength;
     var files,files_index_path,progress_bar,selected,size,selected;
 
-    single_show_option(option_result)
+    single_show_option(option_result);
 
     document.getElementById('showoption_status_gid').innerHTML=status_result.gid;
     document.getElementById('showoption_status_dir').innerHTML=status_result.dir;
@@ -331,7 +331,7 @@ function receive_singleoption(input_data){
         files.appendChild(selected);
 
         if(type==='33'){
-            var download_from,files_uris
+            var download_from,files_uris;
             download_from=document.createElement('div');
             files_uris=document.createElement('blockquote');
             files_uris.className='files_uris'
