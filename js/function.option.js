@@ -192,7 +192,7 @@ function func_clean_checksum(name,place){
 
 function func_show_header(name,value,place){
     var header_list=new Array();
-    var header_raw_list=value.split('\n')
+    var header_raw_list=value.split('\n');
     for(var header_val in header_raw_list){
         if(header_raw_list[header_val]!==''){
             header_list.push(header_raw_list[header_val])
@@ -327,7 +327,7 @@ function func_clean_bt_prioritize_piece(name,place){
 
 function func_show_index_out(name,value,place){
     var indexout_list=new Array();
-    var indexout_raw_list=value.split('\n')
+    var indexout_raw_list=value.split('\n');
     for(var indexout_val in indexout_raw_list){
         if(indexout_raw_list[indexout_val]!==''){
             indexout_list.push(indexout_raw_list[indexout_val])
