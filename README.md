@@ -14,7 +14,7 @@ This project is mostly working now.
 
 Tested browser:
 * Firefox 18.0.2 on linux, amd64 (mostly working);
-* Chromium 22.0.1229.94 on linux, amd64 (mostly working, does not handle authentication, see [issue 123862 of chromium project in GoogleCode](https://code.google.com/p/chromium/issues/detail?id=123862) );
-* Opera Mobile 12.00.ADR-1207201848 on Android 2.3.7, armv6l (mostly ***NOT*** working, although it should. I've no idea about it.);
+* Chromium 25.0.1364.152 on linux, amd64 (mostly working, does not handle authentication, see [issue 123862 of chromium project in GoogleCode](https://code.google.com/p/chromium/issues/detail?id=123862) );
+* Opera Mobile 12.10.ADR-1301071546 on Android 2.3.7, armv6l (mostly working, seems does not handle `wss://` protocol and authentication, more infomation needed);
 
 Please test aria2-WIOW on your browser, and tell me if it is working mostly, partly or totally not. But note that it's possible that your browser will never be supported, because I could not take too much compatibility into consideration.
