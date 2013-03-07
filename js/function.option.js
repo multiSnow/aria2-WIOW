@@ -227,6 +227,7 @@ function func_cache_header(element){
     json_option_cache=(document.getElementById(method).innerHTML==='')?JSON.parse('{}'):JSON.parse(document.getElementById(method).innerHTML);
     if(header_count===0){
         json_option_cache[option]=undefined;
+        header_list_element.innerHTML='';
     }else{
         if(header_exist>header_count){
             for(var i=header_count;i<header_exist;i++){
@@ -256,6 +257,7 @@ function func_cache_header(element){
 };
 
 function func_clean_header(name,place){
+    document.getElementById([place,name].join('_')).innerHTML='0';
     document.getElementById([place,name,'list'].join('_')).innerHTML='';
     return 0;
 };
@@ -409,6 +411,7 @@ function func_cache_index_out(element){
 };
 
 function func_clean_index_out(name,place){
+    document.getElementById([place,name].join('_')).innerHTML='0';
     document.getElementById([place,name,'list'].join('_')).innerHTML='';
     return 0;
 };
