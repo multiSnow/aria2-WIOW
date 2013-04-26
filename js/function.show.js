@@ -81,6 +81,7 @@ function showwaiting(){
 };
 
 function globaloption(){
+    document.getElementById('globalcache').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='40';
@@ -91,6 +92,7 @@ function globaloption(){
 
 function showoption(gid,type,status){
     document.getElementById('showoption').style.display='block';
+    document.getElementById('singlecache').innerHTML='';
     var json=new Object(),methodName=new Array();
     json.jsonrpc='2.0';
     switch(type+status){
