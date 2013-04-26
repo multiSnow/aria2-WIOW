@@ -53,7 +53,7 @@ function receive_connect(input_data){
     var sideinfo,node;
     sideinfo=document.getElementById('sideinfo');
     document.title='aria2 WIOW '+input_data.result[0][0].version;
-    sideinfo.innerHTML='Connected!'
+    sideinfo.innerHTML='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1')
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode('aria2'));
     node=document.createElement('sup');
