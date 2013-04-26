@@ -23,9 +23,45 @@ function connect(){
         +document.getElementById('wshost').value
         +':'+document.getElementById('wsport').value+'/jsonrpc';
     ws=new WebSocket(url);
-    ws.onopen=function(){
-        message_process();
-        close_process();
+    ws.onerror=function(message){
+        alert('Failed to open '+ws.url)
+        return 0;
+    };
+
+    ws.onclose=function(message){
+        document.getElementById('sideinfo').innerHTML='Disconnected!';
+        document.getElementById('sidetags').style.display='none';
+        document.getElementById('main').style.display='none';
+        document.getElementById('shutdown_button').style.display='none';
+        document.getElementById('disconnect').style.display='none';
+        document.getElementById('ws_address').style.display='block';
+        document.getElementById('connect').style.display='block';
+        document.title='aria2 WIOW';
+        if(message.code!==1005){
+            alert(message.code+' '+message.reason+' '+message.wasClean);
+        };
+        return 0;
+    };
+
+    ws.onmessage=function(message){
+        msg_data=JSON.parse(message.data)
+        if(msg_data.id===undefined){
+            if(func[msg_data.method]===undefined){
+                ws_notify(255);
+            }else{
+                returncode=func[msg_data.method](msg_data);
+            };
+        }else{
+            if(func[msg_data.id]===undefined){
+                notification(msg_data);
+            }else{
+                returncode=func[msg_data.id](msg_data);
+            };
+        };
+        return returncode;
+    };
+
+    ws.onopen=function(message){
         document.getElementById('sidetags').style.display='block';
         document.getElementById('shutdown_button').style.display='block';
         document.getElementById('main').style.display='block';
@@ -61,21 +97,4 @@ function sendmessage(json){
     };
     ws.send(JSON.stringify(json));
     return 0;
-};
-
-function close_process(){
-    ws.onclose=function(message){
-        document.getElementById('sideinfo').innerHTML='Disconnected!';
-        document.getElementById('sidetags').style.display='none';
-        document.getElementById('main').style.display='none';
-        document.getElementById('shutdown_button').style.display='none';
-        document.getElementById('disconnect').style.display='none';
-        document.getElementById('ws_address').style.display='block';
-        document.getElementById('connect').style.display='block';
-        document.title='aria2 WIOW';
-        if(message.code!==1005){
-            alert(message.code+' '+message.reason+' '+message.wasClean);
-        };
-        return 0;
-    };
 };

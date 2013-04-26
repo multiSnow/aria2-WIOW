@@ -53,7 +53,7 @@ function receive_connect(input_data){
     var sideinfo,node;
     sideinfo=document.getElementById('sideinfo');
     document.title='aria2 WIOW '+input_data.result[0][0].version;
-    sideinfo.innerHTML='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1')
+    sideinfo.innerHTML='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode('aria2'));
     node=document.createElement('sup');
@@ -530,23 +530,3 @@ var func={'0':receive_connect,
           'aria2.onDownloadComplete':ws_notify,
           'aria2.onDownloadError':ws_notify,
           'aria2.onBtDownloadComplete':ws_notify}
-
-function message_process(){
-    ws.onmessage=function(message){
-        msg_data=JSON.parse(message.data)
-        if(msg_data.id===undefined){
-            if(func[msg_data.method]===undefined){
-                ws_notify(255);
-            }else{
-                returncode=func[msg_data.method](msg_data);
-            };
-        }else{
-            if(func[msg_data.id]===undefined){
-                notification(msg_data);
-            }else{
-                returncode=func[msg_data.id](msg_data);
-            };
-        };
-        return returncode;
-    };
-};
