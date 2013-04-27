@@ -108,9 +108,9 @@ function receive_active(input_data){
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
-        pause_icon=document.createElement('div');
-        remove_icon=document.createElement('div');
-        option_icon=document.createElement('div');
+        pause_icon=document.createElement('canvas');
+        remove_icon=document.createElement('canvas');
+        option_icon=document.createElement('canvas');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
@@ -124,12 +124,16 @@ function receive_active(input_data){
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
-        option_icon.id='option_icon'
+        option_icon.id='option_icon';
         option_icon.appendChild(document.createTextNode('status&option'));
         option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",10)");
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
+
+        pausecanvas(pause_icon);
+        removecanvas(remove_icon);
+        optioncanvas(option_icon);
 
         item_button.appendChild(pause_icon);
         item_button.appendChild(remove_icon);
@@ -173,8 +177,8 @@ function receive_stopped(input_data){
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
-        remove_icon=document.createElement('div');
-        option_icon=document.createElement('div');
+        remove_icon=document.createElement('canvas');
+        option_icon=document.createElement('canvas');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
@@ -184,12 +188,19 @@ function receive_stopped(input_data){
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        remove_icon.height='16';
+        remove_icon.width='16';
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
         option_icon.setAttribute('onclick',"showoption('gid',0,20)".replace('gid',gid));
+        option_icon.height='16';
+        option_icon.width='16';
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
+
+        removecanvas(remove_icon);
+        optioncanvas(option_icon);
 
         item_button.appendChild(remove_icon);
         item_button.appendChild(option_icon);
@@ -245,9 +256,9 @@ function receive_waiting(input_data){
 
         item_title=document.createElement('div');
         item_button=document.createElement('div');
-        unpause_icon=document.createElement('div');
-        remove_icon=document.createElement('div');
-        option_icon=document.createElement('div');
+        unpause_icon=document.createElement('canvas');
+        remove_icon=document.createElement('canvas');
+        option_icon=document.createElement('canvas');
         item_summery=document.createElement('div');
         progress_bar=document.createElement('progress');
 
@@ -258,15 +269,25 @@ function receive_waiting(input_data){
         unpause_icon.id='unpause_icon';
         unpause_icon.appendChild(document.createTextNode('unpause'));
         unpause_icon.setAttribute('onclick',"unpause('gid')".replace('gid',gid));
+        unpause_icon.height='16';
+        unpause_icon.width='16';
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
         remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        remove_icon.height='16';
+        remove_icon.width='16';
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
         option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",30)");
+        option_icon.height='16';
+        option_icon.width='16';
         item_summery.className='item_summery';
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
+
+        unpausecanvas(unpause_icon);
+        removecanvas(remove_icon);
+        optioncanvas(option_icon);
 
         item_button.appendChild(unpause_icon);
         item_button.appendChild(remove_icon);

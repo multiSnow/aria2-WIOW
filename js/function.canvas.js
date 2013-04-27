@@ -16,14 +16,60 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
-function pausecanvas(){
-    var pause_icon=document.getElementById('pause_icon').getContext('2d');
-    pause_icon.fillStyle="#FF0000";
-    pause_icon.fillRect(0,0,7,16);
-    pause_icon.fillRect(9,0,16,16);
+
+function pausecanvas(node){
+    var icon=node.getContext('2d');
+    node.width=16;
+    node.height=16;
+    icon.fillStyle='#ffff00';
+    icon.fillRect(0,0,6.5,16);
+    icon.fillRect(9.5,0,16,16);
+    return 0;
 };
 
-function showcanvas(){
-    pausecanvas()
+function unpausecanvas(node){
+    var icon=node.getContext('2d')
+    node.width=16;
+    node.height=16;
+    icon.fillStyle='#00ff00';
+    icon.beginPath();
+    icon.moveTo(1,1);
+    icon.lineTo(1,15);
+    icon.lineTo(15,8);
+    icon.closePath();
+    icon.fill();
+    return 0;
+};
+
+function removecanvas(node){
+    var icon=node.getContext('2d');
+    node.width=16;
+    node.height=16;
+    icon.fillStyle='#ff0000';
+    icon.setTransform(1,1,-1,1,8,-8);
+    icon.fillRect(0,6,16,4);
+    icon.fillRect(6,0,4,16);
+    return 0;
+};
+
+function optioncanvas(node){
+    var icon=node.getContext('2d');
+    node.width=16;
+    node.height=16;
+    icon.fillStyle='#a0a0a0';
+    icon.fillStyle='#ff0000';
+    icon.fillStyle='#a0a0a0';
+    icon.translate(8,8);
+    icon.beginPath();
+    icon.arc(0,0,6,0,2*Math.PI);
+    icon.fill();
+    for(var i=0;i<12;i++){
+        icon.rotate(Math.PI/6);
+        icon.fillRect(0,-1,8,2);
+    };
+    icon.beginPath();
+    icon.globalCompositeOperation='destination-out';
+    icon.arc(0,0,3,0,2*Math.PI);
+    icon.fill();
     return 0;
 };
