@@ -71,3 +71,19 @@ function optioncanvas(node){
     icon.fill();
     return 0;
 };
+
+function close_option(node){
+    var icon=node.getContext('2d');
+    node.width=20;
+    node.height=20;
+    icon.translate(10,10)
+    icon.fillStyle="#f0f0f0";
+    icon.shadowBlur=4;
+    icon.shadowOffsetX=1;
+    icon.shadowColor="#ff0000";
+    icon.rotate(Math.PI/4);
+    icon.fillRect(-15,-1,30,2);
+    icon.fillRect(-1,-15,2,30);
+    icon.fill();
+    return 0;
+}

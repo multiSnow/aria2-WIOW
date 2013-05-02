@@ -32,6 +32,7 @@
     <script type="text/javascript" src="js/function.show.js"></script>
     <script>
       window.onload=function(){
+          close_option(document.getElementById('close_option'));
 	  document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
 	  document.getElementById('wsport').value='6800';
 	  if(location.protocol==='https:'){
@@ -471,7 +472,7 @@
         </div>
       </div>
       <div id="showoption">
-        <div id="close_option" onclick="hideoption()">Close</div>
+        <canvas id="close_option" onclick="hideoption()">Close</canvas>
         <div id="showoption_status">
           <div id="showoption_status_basic">
             <div><code id="showoption_status_gid">gid</code> in <code id="showoption_status_dir">dir</code></div>
