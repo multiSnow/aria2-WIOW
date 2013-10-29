@@ -27,7 +27,7 @@
 //11 addtorrent
 //12 addmetalink
 //20 pause
-//21 remove
+//21 remove_active
 //22 remove_stopped
 //23 unpause
 //24 shutdown

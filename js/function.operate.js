@@ -34,7 +34,7 @@ function pause(gid){
     return 0;
 };
 
-function remove(gid){
+function remove_active(gid){
     if(confirm('Are you sure to remove it?')==false){
         return 0;
     };

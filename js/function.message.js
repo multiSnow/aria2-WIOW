@@ -23,7 +23,7 @@
 //12 addmetalink
 //19 default_option
 //20 pause
-//21 remove
+//21 remove_active
 //22 remove_stopped
 //23 unpause
 //24 shutdown
@@ -123,7 +123,7 @@ function receive_active(input_data){
         pause_icon.setAttribute('onclick',"pause('gid')".replace('gid',gid));
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
         option_icon.id='option_icon';
         option_icon.appendChild(document.createTextNode('status&option'));
         option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",10)");
@@ -187,7 +187,7 @@ function receive_stopped(input_data){
         item_button.className='item_button';
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
         remove_icon.height='16';
         remove_icon.width='16';
         option_icon.id='option_icon'
@@ -273,7 +273,7 @@ function receive_waiting(input_data){
         unpause_icon.width='16';
         remove_icon.id='remove_icon';
         remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove('gid')".replace('gid',gid));
+        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
         remove_icon.height='16';
         remove_icon.width='16';
         option_icon.id='option_icon'
