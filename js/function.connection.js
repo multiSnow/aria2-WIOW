@@ -69,17 +69,7 @@ function connect(){
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
         document.getElementById('connect').style.display='none';
-        var json=new Object(),methodName=new Array();
-        json.jsonrpc='2.0';
-        json.id='0';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.getVersion';
-        methodName[1]='aria2.getGlobalStat';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-        };
-        sendmessage(json);
+        var autorefrehs_sideinfo=setInterval(function(){sideinfo()},500);
 	return 0;
     };
     return 0;
