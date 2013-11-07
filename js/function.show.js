@@ -179,3 +179,7 @@ function hideoption(){
     document.getElementById('showoption').style.display='none';
     return 0;
 };
+
+function start_autorefresh(){
+    return setInterval(function(){sideinfo()},500);
+};

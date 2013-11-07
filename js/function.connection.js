@@ -37,6 +37,7 @@ function connect(){
         document.getElementById('ws_address').style.display='block';
         document.getElementById('connect').style.display='block';
         document.title='aria2 WIOW';
+        clearInterval(autorefresh);
         if(message.code!==1005){
             alert(message.code+' '+message.reason+' '+message.wasClean);
         };
@@ -69,7 +70,7 @@ function connect(){
         document.getElementById('disconnect').style.display='block';
         document.getElementById('ws_address').style.display='none';
         document.getElementById('connect').style.display='none';
-        var autorefrehs_sideinfo=setInterval(function(){sideinfo()},500);
+        autorefresh=start_autorefresh()
 	return 0;
     };
     return 0;
