@@ -30,6 +30,7 @@ function connect(){
 
     ws.onclose=function(message){
         document.getElementById('sideinfo').innerHTML='Disconnected!';
+        document.getElementById('sidetags').removeAttribute('crtshow');
         document.getElementById('sidetags').style.display='none';
         document.getElementById('main').style.display='none';
         document.getElementById('shutdown_button').style.display='none';
@@ -45,12 +46,18 @@ function connect(){
     };
 
     ws.onmessage=function(message){
-        msg_data=JSON.parse(message.data)
+        var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+        var msg_data=JSON.parse(message.data);
         if(msg_data.id===undefined){
             if(func[msg_data.method]===undefined){
                 ws_notify(255);
             }else{
                 returncode=func[msg_data.method](msg_data);
+                if(document.getElementById('sidetags').hasAttribute('crtshow')){
+                    if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
+                        idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]()
+                    };
+                };
             };
         }else{
             if(func[msg_data.id]===undefined){

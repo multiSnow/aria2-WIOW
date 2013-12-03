@@ -181,5 +181,14 @@ function hideoption(){
 };
 
 function start_autorefresh(){
-    return setInterval(function(){sideinfo()},500);
+    var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+    return setInterval(function(){
+        sideinfo();
+        if(document.getElementById('autorefresh').checked
+           &&document.getElementById('sidetags').hasAttribute('crtshow')){
+            if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
+                idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]()
+            };
+        };
+    },500);
 };

@@ -31,6 +31,7 @@ function topage(page){
     };
     document.getElementById(all_page[page]).style.display='block';
     document.getElementById(page).className='sidetag side_clicked';
+    document.getElementById('sidetags').setAttribute('crtshow',all_page[page]);
     return 0;
 };
 
