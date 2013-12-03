@@ -51,8 +51,10 @@ function receive_common(input_data){
 
 function receive_connect(input_data){
     var sideinfo,node;
+    var dspd=human_read(input_data.result[1][0].downloadSpeed)+'b/s';
+    var uspd=human_read(input_data.result[1][0].uploadSpeed)+'b/s';
     sideinfo=document.getElementById('sideinfo');
-    document.title='aria2 WIOW '+input_data.result[0][0].version;
+    document.title='aria2 WIOW '+input_data.result[0][0].version+' ⬇'+dspd+' ⬆'+uspd;
     sideinfo.innerHTML='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode('aria2'));
@@ -66,9 +68,9 @@ function receive_connect(input_data){
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numWaiting+' Waiting'));
     sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(input_data.result[1][0].downloadSpeed))));
+    sideinfo.appendChild(document.createTextNode('D: '+dspd));
     sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(input_data.result[1][0].uploadSpeed))));
+    sideinfo.appendChild(document.createTextNode('U: '+uspd));
     sideinfo.appendChild(document.createElement('br'));
     return 0;
 };
