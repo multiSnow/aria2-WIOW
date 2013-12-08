@@ -75,45 +75,39 @@ function clear_option_cache(option){
 };
 
 function spendtime(speed,completedsize,totalsize){
-    speed=parseFloat(speed);
-    completedsize=parseFloat(completedsize);
-    totalsize=parseFloat(totalsize);
+    var speed=parseFloat(speed);
+    var completedsize=parseFloat(completedsize);
+    var totalsize=parseFloat(totalsize);
     var floor=Math.floor;
+    var dtlist=[1,'sec',60,'min',3600,'hour',86400,'day',604300,'week']
+    var i=0;
     if(completedsize>=totalsize||speed<=0){
 	return '∞';
     }else{
 	var time_raw=((totalsize-completedsize)/speed).toFixed(0);
     };
-    if(time_raw<60){
-        return time_raw+'sec';
-    }else if(time_raw<3600){
-        return floor(time_raw/60)+'min'+time_raw%60+'sec';
-    }else if(time_raw<86400){
-        return floor(time_raw/3600)+'hour'+floor((time_raw%3600)/60)+'min';
-    }else if(time_raw<604300){
-        return floor(time_raw/86400)+'day'+floor((time_raw%86400)/3600)+'hour';
-    }else{
-        return floor(time_raw/604300)+'week'+floor((time_raw%604300)/86400)+'day';
+    while(i<dtlist.length-2){
+        if(time_raw<dtlist[i+2]){
+            break;
+        }else{
+            i+=2;
+        };
     };
+    return floor(time_raw/dtlist[i])+dtlist[i+1]+((i>1)?floor((time_raw%dtlist[i])/dtlist[i-2])+dtlist[i-1]:'');
 };
 
 function human_read(num){
-    num=parseFloat(num);
+    var num=parseFloat(num);
     var pow=Math.pow;
-    if(type_unit==0){
-        var unit=1024;
-    }else{
-        var unit=1000;
+    var unit=(type_unit==0)?1024:1000;
+    var suffixlist=['','K','M','G','T'];
+    var i=0;
+    while(i<suffixlist.length-1){
+        if(num<pow(unit,i+1)){
+            break;
+        }else{
+            i++;
+        };
     };
-    if(num<unit){
-        return num;
-    }else if(num<pow(unit,2)){
-        return (num/unit).toFixed(2).valueOf()+'K';
-    }else if(num<pow(unit,3)){
-        return (num/pow(unit,2)).toFixed(2).valueOf()+'M';
-    }else if(num<pow(unit,4)){
-        return (num/pow(unit,3)).toFixed(2).valueOf()+'G';
-    }else{
-        return (num/pow(unit,4)).toFixed(2).valueOf()+'T';
-    };
+    return (num/pow(unit,i)).toFixed(2).valueOf()+suffixlist[i];
 };
