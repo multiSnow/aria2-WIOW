@@ -48,25 +48,17 @@ function connect(){
     ws.onmessage=function(message){
         var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
         var msg_data=JSON.parse(message.data);
-        if(msg_data.id===undefined){
-            if(func[msg_data.method]===undefined){
-                ws_notify(255);
-            }else{
-                returncode=func[msg_data.method](msg_data);
-                if(document.getElementById('sidetags').hasAttribute('crtshow')){
-                    if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
-                        idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]()
-                    };
+        if('id' in msg_data){
+            func[msg_data.id](msg_data);
+        }else{
+            if(msg_data.method in func){
+                func[msg_data.method](msg_data);
+                if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
+                    idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]();
                 };
             };
-        }else{
-            if(func[msg_data.id]===undefined){
-                notification(msg_data);
-            }else{
-                returncode=func[msg_data.id](msg_data);
-            };
         };
-        return returncode;
+        return 0;
     };
 
     ws.onopen=function(message){

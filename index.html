@@ -26,6 +26,7 @@
     <script type="text/javascript" src="js/function.common.js"></script>
     <script type="text/javascript" src="js/function.connection.js"></script>
     <script type="text/javascript" src="js/function.message.js"></script>
+    <script type="text/javascript" src="js/function.nodeopr.js"></script>
     <script type="text/javascript" src="js/function.notification.js"></script>
     <script type="text/javascript" src="js/function.operate.js"></script>
     <script type="text/javascript" src="js/function.option.js"></script>
@@ -53,7 +54,7 @@
         </div>
         <button id="connect" type="button" onclick="connect()">connect</button>
         <button id="disconnect" type="button" onclick="disconnect()" style="display:none">disconnect</button>
-        <div id="sideinfo" class="sideinfo" onclick="sideinfo();"></div>
+        <div id="sideinfo" class="sideinfo" onclick="sideinfo();" crtshow="null"></div>
       </div>
       <div id="sidetags" style="display:none">
         <div id="start" class="sidetag" onclick="topage(id);default_option();">Start</div>
@@ -258,9 +259,9 @@
         </div>
 
       </div>
-      <div id="mainactive" style="display:none">active page</div>
-      <div id="mainstopped" style="display:none">stopped page</div>
-      <div id="mainwaiting" style="display:none">waiting page</div>
+      <div id="mainactive" style="display:none"></div>
+      <div id="mainstopped" style="display:none"></div>
+      <div id="mainwaiting" style="display:none"></div>
       <div id="maininfo" style="display:none">
         <div id="g_o_c">changed option will be shown here.<br/>
           <div id="globalcache"></div>

@@ -46,6 +46,9 @@ function receive_common(input_data){
     note.gid=input_data.result;
     note.data=input_data;
     notification(note);
+    if(note.type==='25'){
+        document.getElementById('mainstopped').innerHTML='';
+    };
     return 0;
 };    
 
@@ -76,241 +79,81 @@ function receive_connect(input_data){
 };
 
 function receive_active(input_data){
-    var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    var node,item_title,item_button,pause_icon,remove_icon,option_icon,item_summery,progress_bar;
     for(var i in input_data.result){
-        node=document.createElement('div');
-        node.id='active_'+String(i);
-        node.className='item';
-        document.getElementById('mainactive').appendChild(node);
-    };
-
-    for(var i in input_data.result){
-        active_element=document.getElementById('active_'+String(i));
-        downloadSpeed=input_data.result[i].downloadSpeed;
-        uploadSpeed=input_data.result[i].uploadSpeed;
-        gid=input_data.result[i].gid;
-        completedLength=input_data.result[i].completedLength;
-        totalLength=input_data.result[i].totalLength;
-        connections=input_data.result[i].connections;
+        var dict=new Object();
+        dict['downloadSpeed']=input_data.result[i].downloadSpeed;
+        dict['uploadSpeed']=input_data.result[i].uploadSpeed;
+        dict['completedLength']=input_data.result[i].completedLength;
+        dict['totalLength']=input_data.result[i].totalLength;
+        dict['connections']=input_data.result[i].connections;
         if(input_data.result[i].bittorrent===undefined){
-            type_bittorrent=0;
-            name=input_data.result[i].files[0].path;
-            color='#0080ff';
+            dict['type_bittorrent']=0;
+            dict['name']=input_data.result[i].files[0].path;
+            dict['color']='#0080ff';
         }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
-            type_bittorrent=2;
-            name=input_data.result[i].files[0].path;
-            color='#ffff00';
+            dict['type_bittorrent']=2;
+            dict['name']=input_data.result[i].files[0].path;
+            dict['color']='#ffff00';
         }else{
-            type_bittorrent=1;
-            name=input_data.result[i].bittorrent.info.name;
-            color='#40ff40';
+            dict['type_bittorrent']=1;
+            dict['name']=input_data.result[i].bittorrent.info.name;
+            dict['color']='#40ff40';
         };
-        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-
-        item_title=document.createElement('div');
-        item_button=document.createElement('div');
-        pause_icon=document.createElement('canvas');
-        remove_icon=document.createElement('canvas');
-        option_icon=document.createElement('canvas');
-        item_summery=document.createElement('div');
-        progress_bar=document.createElement('progress');
-
-        item_title.className='item_title';
-        item_title.style.color=color;
-        item_title.appendChild(document.createTextNode(gid+' '+name));
-        item_button.className='item_button';
-        pause_icon.id='pause_icon';
-        pause_icon.appendChild(document.createTextNode('pause'));
-        pause_icon.setAttribute('onclick',"pause('gid')".replace('gid',gid));
-        remove_icon.id='remove_icon';
-        remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
-        option_icon.id='option_icon';
-        option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",10)");
-        item_summery.className='item_summery';
-        progress_bar.value=completedLength;
-        progress_bar.max=totalLength;
-
-        pausecanvas(pause_icon);
-        removecanvas(remove_icon);
-        optioncanvas(option_icon);
-
-        item_button.appendChild(pause_icon);
-        item_button.appendChild(remove_icon);
-        item_button.appendChild(option_icon);
-        item_summery.appendChild(document.createTextNode(infohash));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(progress_bar);
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(downloadSpeed))));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(uploadSpeed))));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('download from num connection.'.replace('num',connections)));
-
-        active_element.appendChild(item_title);
-        active_element.appendChild(item_button);
-        active_element.appendChild(item_summery);
+        dict['infohash']=(dict['type_bittorrent']==1)?input_data.result[i].infoHash:'';
+        dict['i']=i;
+        opr_active(input_data.result[i].gid,dict);
     };
     return 0;
 };
 
 function receive_stopped(input_data){
-    var gid,totalLength,name;
-    var node,item_title,item_button,remove_icon,option_icon,item_summery,progress_bar,purge_button;
-    var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++){
-        node=document.createElement('div');
-        node.id='stopped_'+String(i);
-        node.className='item';
-        document.getElementById('mainstopped').appendChild(node);
+    for(var i in input_data.result){
+        var dict=new Object();
+        dict['completedLength']=input_data.result[i].completedLength;
+        dict['totalLength']=input_data.result[i].totalLength;
+        dict['name']=input_data.result[i].files[0].path;
+        dict['i']=i;
+        opr_stopped(input_data.result[i].gid,dict);
     };
-    for(var i=0;i<=num;i++){
-        gid=input_data.result[i].gid;
-        completedLength=input_data.result[i].completedLength;
-        totalLength=input_data.result[i].totalLength;
-        name=input_data.result[i].files[0].path;
-
-        item_title=document.createElement('div');
-        item_button=document.createElement('div');
-        remove_icon=document.createElement('canvas');
-        option_icon=document.createElement('canvas');
-        item_summery=document.createElement('div');
-        progress_bar=document.createElement('progress');
-
-        item_title.className='item_title';
-        item_title.appendChild(document.createTextNode(gid+' '+name));
-        item_button.className='item_button';
-        remove_icon.id='remove_icon';
-        remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
-        remove_icon.height='16';
-        remove_icon.width='16';
-        option_icon.id='option_icon'
-        option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('gid',0,20)".replace('gid',gid));
-        option_icon.height='16';
-        option_icon.width='16';
-        item_summery.className='item_summery';
-        progress_bar.value=completedLength;
-        progress_bar.max=totalLength;
-
-        removecanvas(remove_icon);
-        optioncanvas(option_icon);
-
-        item_button.appendChild(remove_icon);
-        item_button.appendChild(option_icon);
-        item_summery.appendChild(progress_bar);
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
-
-        document.getElementById('stopped_'+String(i)).appendChild(item_title);
-        document.getElementById('stopped_'+String(i)).appendChild(item_button);
-        document.getElementById('stopped_'+String(i)).appendChild(item_summery);
-    };
-    if(i>=1){
+    var purge_button=document.getElementById('purge_button');
+    if(input_data.result.length>0&&purge_button){
+    }else if(input_data.result.length>0){
         purge_button=document.createElement('button');
-        purge_button.type='button'
+        purge_button.id='purge_button';
+        purge_button.type='button';
         purge_button.onclick=function(){purgestopped();};
         purge_button.appendChild(document.createTextNode('Purge Stopped'));
         document.getElementById('mainstopped').appendChild(purge_button);
+    }else if(purge_button){
+        purge_button.parentNode.removeChild(purge_button);
     };
     return 0;
 };
 
 function receive_waiting(input_data){
-    var downloadSpeed,uploadSpeed,gid,completedLength,totalLength,connections,type_bittorrent=-1,infohash,name,color;
-    var node,item_title,item_button,unpause_icon,remove_icon,option_icon,item_summery,progress_bar;
-    var num=Number(input_data.result.length)-1;
-    for(var i=0;i<=num;i++){
-        node=document.createElement('div');
-        node.id='waiting_'+String(i);
-        node.className='item';
-        document.getElementById('mainwaiting').appendChild(node);
-    };
-    for(var i=0;i<=num;i++){
-        downloadSpeed=input_data.result[i].downloadSpeed;
-        uploadSpeed=input_data.result[i].uploadSpeed;
-        gid=input_data.result[i].gid;
-        completedLength=input_data.result[i].completedLength;
-        totalLength=input_data.result[i].totalLength;
-        connections=input_data.result[i].connections;
+    for(var i in input_data.result){
+        var dict=new Object();
+        dict['downloadSpeed']=input_data.result[i].downloadSpeed;
+        dict['uploadSpeed']=input_data.result[i].uploadSpeed;
+        dict['completedLength']=input_data.result[i].completedLength;
+        dict['totalLength']=input_data.result[i].totalLength;
+        dict['connections']=input_data.result[i].connections;
         if(input_data.result[i].bittorrent===undefined){
-            type_bittorrent=0;
-            name=input_data.result[i].files[0].path;
-            color='#0080ff';
+            dict['type_bittorrent']=0;
+            dict['name']=input_data.result[i].files[0].path;
+            dict['color']='#0080ff';
         }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
-            type_bittorrent=2;
-            name=input_data.result[i].files[0].path;
-            color='#ffff00';
+            dict['type_bittorrent']=2;
+            dict['name']=input_data.result[i].files[0].path;
+            dict['color']='#ffff00';
         }else{
-            type_bittorrent=1;
-            name=input_data.result[i].bittorrent.info.name;
-            color='#40ff40';
+            dict['type_bittorrent']=1;
+            dict['name']=input_data.result[i].bittorrent.info.name;
+            dict['color']='#40ff40';
         };
-        infohash=(type_bittorrent==1)?input_data.result[i].infoHash:'';
-
-        item_title=document.createElement('div');
-        item_button=document.createElement('div');
-        unpause_icon=document.createElement('canvas');
-        remove_icon=document.createElement('canvas');
-        option_icon=document.createElement('canvas');
-        item_summery=document.createElement('div');
-        progress_bar=document.createElement('progress');
-
-        item_title.className='item_title';
-        item_title.style.color=color;
-        item_title.appendChild(document.createTextNode(gid+' '+name));
-        item_button.className='item_button';
-        unpause_icon.id='unpause_icon';
-        unpause_icon.appendChild(document.createTextNode('unpause'));
-        unpause_icon.setAttribute('onclick',"unpause('gid')".replace('gid',gid));
-        unpause_icon.height='16';
-        unpause_icon.width='16';
-        remove_icon.id='remove_icon';
-        remove_icon.appendChild(document.createTextNode('remove'));
-        remove_icon.setAttribute('onclick',"remove_active('gid')".replace('gid',gid));
-        remove_icon.height='16';
-        remove_icon.width='16';
-        option_icon.id='option_icon'
-        option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+type_bittorrent+",30)");
-        option_icon.height='16';
-        option_icon.width='16';
-        item_summery.className='item_summery';
-        progress_bar.value=completedLength;
-        progress_bar.max=totalLength;
-
-        unpausecanvas(unpause_icon);
-        removecanvas(remove_icon);
-        optioncanvas(option_icon);
-
-        item_button.appendChild(unpause_icon);
-        item_button.appendChild(remove_icon);
-        item_button.appendChild(option_icon);
-        item_summery.appendChild(document.createTextNode(infohash));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(progress_bar);
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode((completedLength/totalLength*100).toFixed(2)+'% of '+human_read(totalLength)+'b'));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(downloadSpeed))));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(uploadSpeed))));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('ETA: '+spendtime(downloadSpeed,completedLength,totalLength)));
-        item_summery.appendChild(document.createElement('br'));
-        item_summery.appendChild(document.createTextNode('download from num connection.'.replace('num',connections)));
-
-        document.getElementById('waiting_'+String(i)).appendChild(item_title);
-        document.getElementById('waiting_'+String(i)).appendChild(item_button);
-        document.getElementById('waiting_'+String(i)).appendChild(item_summery);
+        dict['infohash']=(dict['type_bittorrent']==1)?input_data.result[i].infoHash:'';
+        dict['i']=i;
+        opr_waiting(input_data.result[i].gid,dict);
     };
     return 0;
 };
@@ -515,11 +358,12 @@ function ws_notify(input_data){
                    'aria2.onDownloadComplete':4,
                    'aria2.onDownloadError':5,
                    'aria2.onBtDownloadComplete':6}
-    note.type=type_dict[input_data.method];
-    if(note.type==255){
-        note.data=JSON.stringify(input_data);
-    }else{
+    if(input_data.method in type_dict){
         note.gid=input_data.params[0].gid;
+        note.type=type_dict[input_data.method];
+        opr_pop(note.gid);
+    }else{
+        note.data=JSON.stringify(input_data);
     };
     notification(note);
     return 0;

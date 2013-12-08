@@ -49,7 +49,6 @@ function default_option(){
 };
 
 function showactive(){
-    document.getElementById('mainactive').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='30';
@@ -59,7 +58,6 @@ function showactive(){
 };
 
 function showstopped(){
-    document.getElementById('mainstopped').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='31';
@@ -70,7 +68,6 @@ function showstopped(){
 };
 
 function showwaiting(){
-    document.getElementById('mainwaiting').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
     json.id='32';
