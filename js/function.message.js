@@ -53,16 +53,17 @@ function receive_common(input_data){
 };    
 
 function receive_connect(input_data){
-    var sideinfo,node;
     var dspd=human_read(input_data.result[1][0].downloadSpeed)+'b/s';
     var uspd=human_read(input_data.result[1][0].uploadSpeed)+'b/s';
-    sideinfo=document.getElementById('sideinfo');
+    var sideinfo=document.getElementById('sideinfo');
+    var node=document.createElement('sup');
     document.title='aria2 WIOW '+input_data.result[0][0].version+' ⬇'+dspd+' ⬆'+uspd;
-    sideinfo.innerHTML='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
+    sideinfo.textContent='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode('aria2'));
-    node=document.createElement('sup');
-    node.appendChild(document.createTextNode(input_data.result[0][0].version));
+    sideinfo.setAttribute('numstopped',input_data.result[1][0].numStopped);
+    sideinfo.setAttribute('numwaiting',input_data.result[1][0].numWaiting);
+    node.textContent=input_data.result[0][0].version;
     sideinfo.appendChild(node);
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numActive+' Active'));
@@ -116,12 +117,12 @@ function receive_stopped(input_data){
         opr_stopped(input_data.result[i].gid,dict);
     };
     var purge_button=document.getElementById('purge_button');
-    if(input_data.result.length>0&&purge_button){
-    }else if(input_data.result.length>0){
+    if(input_data.result&&input_data.result.length>0&&purge_button){
+    }else if(input_data.result&&input_data.result.length>0){
         purge_button=document.createElement('button');
         purge_button.id='purge_button';
         purge_button.type='button';
-        purge_button.onclick=function(){purgestopped();};
+        purge_button.setAttribute('onclick','purgestopped();');
         purge_button.appendChild(document.createTextNode('Purge Stopped'));
         document.getElementById('mainstopped').appendChild(purge_button);
     }else if(purge_button){

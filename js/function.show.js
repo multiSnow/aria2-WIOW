@@ -62,7 +62,7 @@ function showstopped(){
     json.jsonrpc='2.0';
     json.id='31';
     json.method='aria2.tellStopped';
-    json.params=new Array(0,Math.pow(2,62));
+    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')));
     sendmessage(json);
     return 0;
 };
@@ -72,7 +72,7 @@ function showwaiting(){
     json.jsonrpc='2.0';
     json.id='32';
     json.method='aria2.tellWaiting';
-    json.params=new Array(0,Math.pow(2,62));
+    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')));
     sendmessage(json);
     return 0;
 };
