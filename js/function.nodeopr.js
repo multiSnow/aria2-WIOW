@@ -76,6 +76,7 @@ function opr_active(gid,dict){
         item_summery.className='item_summery';
         infohash_div.id='infohash';
         infohash_div.className='infohash';
+        progress_bar.className='mainprogress';
         progress.id='progress_text';
         dspd.id='dspd';
         uspd.id='uspd';
@@ -147,6 +148,7 @@ function opr_stopped(gid,dict){
         option_icon.appendChild(document.createTextNode('status&option'));
         option_icon.setAttribute('onclick',"showoption('"+gid+"',0,20)");
         item_summery.className='item_summery';
+        progress_bar.className='mainprogress';
         progress.id='progress_text';
 
         removecanvas(remove_icon);
@@ -225,6 +227,7 @@ function opr_waiting(gid,dict){
         item_summery.className='item_summery';
         infohash_div.id='infohash';
         infohash_div.className='infohash';
+        progress_bar.className='mainprogress';
         progress.id='progress_text';
         dspd.id='dspd';
         uspd.id='uspd';

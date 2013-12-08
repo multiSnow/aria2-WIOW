@@ -46,15 +46,6 @@ blockquote
     margin-right:20px;
     padding:0px;
 }
-progress
-{
-    height:18px;
-    top:6px;
-    width:100%;
-    opacity:0.5;
-    position:absolute;
-    z-index:-1;
-}
 
 #main
 {
@@ -295,4 +286,13 @@ progress
     overflow:auto;
     white-space:nowrap;
     width:320px;
+}
+.mainprogress
+{
+    height:18px;
+    top:6px;
+    width:100%;
+    opacity:0.5;
+    position:absolute;
+    z-index:-1;
 }
