@@ -53,6 +53,9 @@ function showactive(){
     json.jsonrpc='2.0';
     json.id='30';
     json.method='aria2.tellActive';
+    json.params=new Array(['gid','status','totalLength','completedLength','uploadLength',
+                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                           'numPieces','connections','errorCode','files','bittorrent']);
     sendmessage(json);
     return 0;
 };
@@ -62,7 +65,10 @@ function showstopped(){
     json.jsonrpc='2.0';
     json.id='31';
     json.method='aria2.tellStopped';
-    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')));
+    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')),
+                          ['gid','status','totalLength','completedLength','uploadLength',
+                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                           'numPieces','connections','errorCode','files','bittorrent']);
     sendmessage(json);
     return 0;
 };
@@ -72,7 +78,10 @@ function showwaiting(){
     json.jsonrpc='2.0';
     json.id='32';
     json.method='aria2.tellWaiting';
-    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')));
+    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')),
+                          ['gid','status','totalLength','completedLength','uploadLength',
+                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                           'numPieces','connections','errorCode','files','bittorrent']);
     sendmessage(json);
     return 0;
 };
