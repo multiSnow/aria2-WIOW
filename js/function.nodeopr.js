@@ -28,11 +28,12 @@ function opr_pop(gid){
 function opr_active(gid,dict){
     var root=document.getElementById('mainactive');
     var node=document.getElementById(gid);
-    var dictmap={'gid_title':gid+dict['name'],
+    var dictmap={'item_gid':gid,
+                 'item_title':dict['name'],
                  'infohash':dict['infohash'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b',
                  'dspd':'D: '+human_read(dict['downloadSpeed'])+'b/s',
-                 'uspd':'D: '+human_read(dict['uploadSpeed'])+'b/s',
+                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'b/s',
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
@@ -41,6 +42,7 @@ function opr_active(gid,dict){
         node.className='item';
         root.insertBefore(node,root.childNodes[dict['i']]);
 
+        var item_gid=document.createElement('div');
         var item_title=document.createElement('div');
         var item_button=document.createElement('div');
         var pause_icon=document.createElement('canvas');
@@ -55,7 +57,10 @@ function opr_active(gid,dict){
         var eta=document.createElement('div');
         var connection=document.createElement('div');
 
-        item_title.id='gid_title';
+        item_gid.id='item_gid';
+        item_gid.className='item_gid';
+        item_gid.style.color=dict['color'];
+        item_title.id='item_title';
         item_title.className='item_title';
         item_title.style.color=dict['color'];
         item_button.className='item_button';
@@ -70,6 +75,7 @@ function opr_active(gid,dict){
         option_icon.setAttribute('onclick',"showoption('"+gid+"',"+dict['type_bittorrent']+",10)");
         item_summery.className='item_summery';
         infohash_div.id='infohash';
+        infohash_div.className='infohash';
         progress.id='progress_text';
         dspd.id='dspd';
         uspd.id='uspd';
@@ -91,6 +97,7 @@ function opr_active(gid,dict){
         item_summery.appendChild(eta);
         item_summery.appendChild(connection);
 
+        node.appendChild(item_gid);
         node.appendChild(item_title);
         node.appendChild(item_button);
         node.appendChild(item_summery);
@@ -110,7 +117,8 @@ function opr_active(gid,dict){
 function opr_stopped(gid,dict){
     var root=document.getElementById('mainstopped');
     var node=document.getElementById(gid);
-    var dictmap={'gid_title':gid+dict['name'],
+    var dictmap={'item_gid':gid,
+                 'item_title':dict['name'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b'}
     if(node===null){
         var node=document.createElement('div');
@@ -118,6 +126,7 @@ function opr_stopped(gid,dict){
         node.className='item';
         root.insertBefore(node,root.childNodes[dict['i']]);
 
+        var item_gid=document.createElement('div');
         var item_title=document.createElement('div');
         var item_button=document.createElement('div');
         var remove_icon=document.createElement('canvas');
@@ -126,7 +135,9 @@ function opr_stopped(gid,dict){
         var progress_bar=document.createElement('progress');
         var progress=document.createElement('div');
 
-        item_title.id='gid_title';
+        item_gid.id='item_gid';
+        item_gid.className='item_gid';
+        item_title.id='item_title';
         item_title.className='item_title';
         item_button.className='item_button';
         remove_icon.id='remove_icon';
@@ -146,6 +157,7 @@ function opr_stopped(gid,dict){
         item_summery.appendChild(progress_bar);
         item_summery.appendChild(progress);
 
+        node.appendChild(item_gid);
         node.appendChild(item_title);
         node.appendChild(item_button);
         node.appendChild(item_summery);
@@ -165,11 +177,12 @@ function opr_stopped(gid,dict){
 function opr_waiting(gid,dict){
     var root=document.getElementById('mainwaiting');
     var node=document.getElementById(gid);
-    var dictmap={'gid_title':gid+dict['name'],
+    var dictmap={'item_gid':gid,
+                 'item_title':dict['name'],
                  'infohash':dict['infohash'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b',
                  'dspd':'D: '+human_read(dict['downloadSpeed'])+'b/s',
-                 'uspd':'D: '+human_read(dict['uploadSpeed'])+'b/s',
+                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'b/s',
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
@@ -178,6 +191,7 @@ function opr_waiting(gid,dict){
         node.className='item';
         root.insertBefore(node,root.childNodes[dict['i']]);
 
+        var item_gid=document.createElement('div');
         var item_title=document.createElement('div');
         var item_button=document.createElement('div');
         var unpause_icon=document.createElement('canvas');
@@ -192,7 +206,10 @@ function opr_waiting(gid,dict){
         var eta=document.createElement('div');
         var connection=document.createElement('div');
 
-        item_title.id='gid_title';
+        item_gid.id='item_gid';
+        item_gid.className='item_gid';
+        item_gid.style.color=dict['color'];
+        item_title.id='item_title';
         item_title.className='item_title';
         item_title.style.color=dict['color'];
         item_button.className='item_button';
@@ -207,6 +224,7 @@ function opr_waiting(gid,dict){
         option_icon.setAttribute('onclick',"showoption('"+gid+"',"+dict['type_bittorrent']+",30)");
         item_summery.className='item_summery';
         infohash_div.id='infohash';
+        infohash_div.className='infohash';
         progress.id='progress_text';
         dspd.id='dspd';
         uspd.id='uspd';
@@ -228,6 +246,7 @@ function opr_waiting(gid,dict){
         item_summery.appendChild(eta);
         item_summery.appendChild(connection);
 
+        node.appendChild(item_gid);
         node.appendChild(item_title);
         node.appendChild(item_button);
         node.appendChild(item_summery);
