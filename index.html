@@ -32,20 +32,13 @@
     <script type="text/javascript" src="js/function.option.js"></script>
     <script type="text/javascript" src="js/function.show.js"></script>
     <script>
-      window.onload=function(){
-          close_option(document.getElementById('close_option'));
-	  document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
-	  document.getElementById('wsport').value='6800';
-	  if(location.protocol==='https:'){
-	      document.getElementById('wss_scheme').checked=true;
-	      document.getElementById('wss_scheme').disabled=true;
-	  };
-      };
+      window.onload=onloadfunction;
+      window.onresize=onloadfunction;
     </script>
     <title>aria2 WIOW</title>
   </head>
   <body>
-    <div class="side">
+    <div id="side">
       <div id="sidestatic">
         <div id="ws_address">
           secret:<input id="wss_scheme" type="checkbox"/><br/>
@@ -62,8 +55,8 @@
         <div id="stopped" class="sidetag" onclick="topage(id);showstopped();">Stopped</div>
         <div id="waiting" class="sidetag" onclick="topage(id);showwaiting();">Waiting</div>
         <div id="info" class="sidetag" onclick="topage(id);globaloption();">Global Option</div>
-        autorefresh:<input id="autorefresh" type="checkbox"/>
       </div>
+      autorefresh:<input id="autorefresh" type="checkbox"/>
     </div>
     <div id="main" style="display:none">
       <div id="mainstart">

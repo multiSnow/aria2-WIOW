@@ -111,3 +111,37 @@ function human_read(num){
     };
     return (num/pow(unit,i)).toFixed(2).valueOf()+suffixlist[i];
 };
+
+function onloadfunction(){
+    var w=window.innerWidth;
+    var h=window.innerHeight;
+    var stl=document.querySelectorAll('.sidetag');
+    var main=document.getElementById('main');
+    var side=document.getElementById('side');
+    var wss_scheme=document.getElementById('wss_scheme');
+    close_option(document.getElementById('close_option'));
+    document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
+    document.getElementById('wsport').value='6800';
+    wss_scheme.checked=(location.protocol==='https:');
+    wss_scheme.disabled=(location.protocol==='https:');
+    if(w>h){
+        main.style.marginLeft='161px';
+        main.style.marginBottom='0';
+        side.style.width='160px';
+        side.style.cssFloat='left';
+        side.style.bottom='auto';
+        for(var i=0;i<stl.length;i++){
+            stl[i].style.display='inherit';
+        };
+    }else{
+        main.style.marginLeft='0';
+        main.style.marginBottom='280px';
+        side.style.width='auto';
+        side.style.cssFloat='none';
+        side.style.bottom='0';
+        for(var i=0;i<stl.length;i++){
+            stl[i].style.display='inline';
+        };
+    };
+    return 0;
+};

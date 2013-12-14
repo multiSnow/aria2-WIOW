@@ -51,6 +51,15 @@ blockquote
 {
     margin-left:161px;
 }
+#side
+{
+    color:#f37a86;
+    width:160px;
+    float:left;
+    left:0;
+    position:fixed;
+    height:auto;
+}
 #showoption
 {
     transition-duration:.5s;
@@ -172,15 +181,6 @@ blockquote
     height:50%;
 }
 
-.side
-{
-    color:#f37a86;
-    width:160px;
-    float:left;
-    left:0;
-    position:fixed;
-    height:auto;
-}
 .sidetag
 {
     background-color:rgba(255,240,240,.8);
