@@ -17,8 +17,6 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 
-type_unit=0;//integer value 1 to "SI", any other value to "IEC"
-
 function warning_dialog(string){
     return 0;
 };
@@ -99,7 +97,7 @@ function spendtime(speed,completedsize,totalsize){
 function human_read(num){
     var num=parseFloat(num);
     var pow=Math.pow;
-    var unit=(type_unit==0)?1024:1000;
+    var unit=(document.getElementById('type_unit_ice').checked==true)?1024:1000;
     var suffixlist=['','K','M','G','T'];
     var i=0;
     while(i<suffixlist.length-1){
