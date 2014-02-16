@@ -17,7 +17,8 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 //id type
-//0 connect & sideinfo
+//0.1 version
+//0.2 globalstat
 //10 adduri
 //11 addtorrent
 //12 addmetalink
@@ -50,32 +51,31 @@ function receive_common(input_data){
         document.getElementById('mainstopped').innerHTML='';
     };
     return 0;
-};    
+};
 
-function receive_connect(input_data){
-    var dspd=human_read(input_data.result[1][0].downloadSpeed)+'b/s';
-    var uspd=human_read(input_data.result[1][0].uploadSpeed)+'b/s';
-    var sideinfo=document.getElementById('sideinfo');
+function receive_version(input_data){
+    var sideinfo=document.getElementById('sideinfo_static');
     var node=document.createElement('sup');
-    document.title='aria2 WIOW '+input_data.result[0][0].version+' ⬇'+dspd+' ⬆'+uspd;
     sideinfo.textContent='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
     sideinfo.appendChild(document.createElement('br'));
     sideinfo.appendChild(document.createTextNode('aria2'));
-    sideinfo.setAttribute('numstopped',input_data.result[1][0].numStopped);
-    sideinfo.setAttribute('numwaiting',input_data.result[1][0].numWaiting);
-    node.textContent=input_data.result[0][0].version;
     sideinfo.appendChild(node);
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numActive+' Active'));
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numStopped+' Stopped'));
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode(input_data.result[1][0].numWaiting+' Waiting'));
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('D: '+dspd));
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('U: '+uspd));
-    sideinfo.appendChild(document.createElement('br'));
+    node.textContent=input_data.result.version;
+    return 0;
+};
+
+function receive_stat(input_data){
+    var sideinfo=document.getElementById('sideinfo');
+    var dspd=human_read(input_data.result.downloadSpeed)+'b/s';
+    var uspd=human_read(input_data.result.uploadSpeed)+'b/s';
+    document.title='⬇'+dspd+' ⬆'+uspd;
+    sideinfo.setAttribute('numstopped',input_data.result.numStopped);
+    sideinfo.setAttribute('numwaiting',input_data.result.numWaiting);
+    document.getElementById('gloactive').innerHTML=input_data.result.numActive;
+    document.getElementById('glostopped').innerHTML=input_data.result.numStopped;
+    document.getElementById('glowaiting').innerHTML=input_data.result.numWaiting;
+    document.getElementById('glodspd').innerHTML=dspd;
+    document.getElementById('glouspd').innerHTML=uspd;
     return 0;
 };
 
@@ -370,7 +370,8 @@ function ws_notify(input_data){
     return 0;
 };
 
-var func={'0':receive_connect,
+var func={'0.1':receive_version,
+          '0.2':receive_stat,
           '10':receive_common,
           '11':receive_common,
           '12':receive_common,

@@ -17,17 +17,22 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 
-function sideinfo(){
-    var json=new Object(),methodName=new Array();
-    json.jsonrpc='2.0';
-    json.id='0';
-    json.params=new Array(new Array());
-    json.method='system.multicall';
-    methodName[0]='aria2.getVersion';
-    methodName[1]='aria2.getGlobalStat';
-    for(var i in methodName){
-        json.params[0][i]=new Object({'methodName':methodName[i]});
+function getversion(){
+    if(!document.getElementById('rpctoken').disabled){
+        var json=new Object();
+        json.jsonrpc='2.0';
+        json.id='0.1';
+        json.method='aria2.getVersion';
+        sendmessage(json);
     };
+    return 0;
+};
+
+function getstat(){
+    var json=new Object();
+    json.jsonrpc='2.0';
+    json.id='0.2';
+    json.method='aria2.getGlobalStat';
     sendmessage(json);
     return 0;
 };
@@ -189,11 +194,11 @@ function hideoption(){
 function start_autorefresh(){
     var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
     return setInterval(function(){
-        sideinfo();
+        getversion();getstat();
         if(document.getElementById('autorefresh').checked
            &&document.getElementById('sidetags').hasAttribute('crtshow')){
             if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
-                idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]()
+                idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]();
             };
         };
     },500);
