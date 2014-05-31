@@ -18,26 +18,34 @@
  */
 
 function adduri(){
-    var uri_list=new Array();
-    var uri_raw_list=document.getElementById('adduri').value.split('\n');
-    for(var uri_val in uri_raw_list){
-        if(uri_raw_list[uri_val]){
-            if(uri_raw_list[uri_val].match(/(^https?:\/\/|^ftp:\/\/)/i)||uri_raw_list[uri_val].match(/^magnet:/)){
-                uri_list.push(uri_raw_list[uri_val]);
-            }else{
-                alert('Invalid uri: "url", skip it.'.replace('url',uri_raw_list[uri_val]));
-            };
+    var ul=new Array();
+    var rl=document.getElementById('adduri').value.split('\n');
+    for(var i=0;i<rl.length;i++){
+        if(rl[i].match(/(^https?:\/\/|^ftp:\/\/)/i)||rl[i].match(/^magnet:/)){
+            ul.push(rl[i]);
+        }else if(rl[i]){
+            alert('skip invalid uri: '+rl[i]);
         };
     };
-    if(!uri_list.length){
+    if(!ul.length){
         alert('no uri is added.');
         return 0;
     };
-    var params=new Array(uri_list);
-    if(document.getElementById('add_with_option').checked==true){
-        params.push(JSON.parse(document.getElementById('addcache').innerHTML));
+    var sendurl=function(ul){
+        var params=new Array(ul);
+        if(document.getElementById('add_with_option').checked){
+            params.push(JSON.parse(document.getElementById('addcache').innerHTML));
+        };
+        return wsreq('adduri','aria2.addUri',params);
     };
-    return wsreq('adduri','aria2.addUri',params);
+    if(document.getElementById('forceseq').checked){
+        for(var i=0;i<ul.length;i++){
+            sendurl(new Array(ul[i]));
+        };
+    }else{
+        sendurl(ul);
+    };
+    return 0;
 };
 
 function addtorrent(){

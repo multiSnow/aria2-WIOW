@@ -76,11 +76,11 @@
           <div id="chose_add_type">
             <div id="add_type_option">
               <input type="radio" name="add_type" value="uri" onclick="switch_add_type(this.value)" checked="checked"/>URI
-              (s<input id="uris_ck" type="checkbox" onclick="toggle_adduri(this);"/>)
+              (force-sequential<input id="forceseq" type="checkbox"/>)
               <input type="radio" name="add_type" value="torrent" onclick="switch_add_type(this.value)"/>Torrent
               <input type="radio" name="add_type" value="metalink" onclick="switch_add_type(this.value)"/>Metalink
             </div>
-            <input id="adduri" type="url"/>
+            <textarea id="adduri" rows="3"></textarea>
             <input id="addtorrent" type="file" style="display:none" multiple/>
             <input id="addmetalink" type="file" style="display:none" multiple/>
           </div>
