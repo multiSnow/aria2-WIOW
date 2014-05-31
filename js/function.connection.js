@@ -88,6 +88,16 @@ function disconnect(){
     return 0;
 };
 
+function signtoken(json){
+    if(document.getElementById('rpctoken').value){
+        if('params' in json){
+            json.params.unshift('token:'+document.getElementById('rpctoken').value);
+        }else{
+            json.params=new Array('token:'+document.getElementById('rpctoken').value);
+        };
+    };
+};
+
 function sendmessage(json){
     if(ws.readyState!==1){
         alert('Connection lost or not yet open!');
@@ -95,10 +105,12 @@ function sendmessage(json){
     };
     //for backword compatibility
     if(document.getElementById('rpctoken').value){
-        if('params' in json){
-            json.params.unshift('token:'+document.getElementById('rpctoken').value);
+        if(json.method=='system.multicall'){
+            for(var i in json.params[0]){
+                signtoken(json.params[0][i])
+            };
         }else{
-            json.params=new Array('token:'+document.getElementById('rpctoken').value);
+            signtoken(json);
         };
     };
     ws.send(JSON.stringify(json));

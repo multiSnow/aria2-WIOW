@@ -110,6 +110,17 @@ function human_read(num){
     return (num/pow(unit,i)).toFixed(2).valueOf()+suffixlist[i];
 };
 
+function getqsv(k){
+    var qsl=location.search.substring(1).split('&');
+    for(var i in qsl){
+        var pl=qsl[i].split('=');
+        if(pl[0]==k){
+            return pl.slice(1,pl.length).join('=');
+        };
+    };
+    return '';
+};
+
 function onloadfunction(){
     var w=window.innerWidth;
     var h=window.innerHeight;
@@ -120,6 +131,7 @@ function onloadfunction(){
     close_option(document.getElementById('close_option'));
     document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
     document.getElementById('wsport').value='6800';
+    document.getElementById('rpctoken').value=getqsv('aria2_token');
     wss_scheme.checked=(location.protocol==='https:');
     wss_scheme.disabled=(location.protocol==='https:');
     if(w>h){
