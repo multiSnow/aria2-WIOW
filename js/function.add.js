@@ -19,7 +19,7 @@
 
 function adduri(){
     var ul=new Array();
-    var rl=document.getElementById('adduri').value.split('\n');
+    var rl=document.getElementById('adduri').value.match(/[^\n\r]+/g);
     for(var i=0;i<rl.length;i++){
         if(rl[i].match(/(^https?:\/\/|^ftp:\/\/)/i)||rl[i].match(/^magnet:/)){
             ul.push(rl[i]);
