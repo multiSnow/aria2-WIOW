@@ -81,8 +81,8 @@
               <input type="radio" name="add_type" value="metalink" onclick="switch_add_type(this.value)"/>Metalink
             </div>
             <input id="adduri" type="url"/>
-            <input id="addtorrent" type="file" style="display:none"/>
-            <input id="addmetalink" type="file" style="display:none"/>
+            <input id="addtorrent" type="file" style="display:none" multiple/>
+            <input id="addmetalink" type="file" style="display:none" multiple/>
           </div>
           <button id="reset_add" type="button" onclick="clearadd('adduri')">Reset</button>
           <button id="start_add" type="button" onclick="add_type_func['adduri']()">Start</button>

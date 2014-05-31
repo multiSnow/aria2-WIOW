@@ -41,37 +41,47 @@ function adduri(){
 };
 
 function addtorrent(){
-    if(document.getElementById('addtorrent').files.length===0){
+    if(!document.getElementById('addtorrent').files.length){
+        alert('no file is selected.');
         return 0;
     };
-    var reader=new FileReader();
-    var file=document.getElementById('addtorrent').files[0];
-    reader.readAsDataURL(file);
-    reader.onload=function(file_event){
-        var params=new Array(file_event.target.result.replace(/^data:application\/.*;base64,/,''),[]);// 2nd element should be used for web-seeding.
-        if(document.getElementById('add_with_option').checked==true){
-            params.push(JSON.parse(document.getElementById('addcache').innerHTML));
+    var sendbt=function(file){
+        var reader=new FileReader();
+        reader.onload=function(file_event){
+            var params=new Array(file_event.target.result.replace(/^data:application\/.*;base64,/,''),[]);// 2nd element should be used for web-seeding.
+            if(document.getElementById('add_with_option').checked==true){
+                params.push(JSON.parse(document.getElementById('addcache').innerHTML));
+            };
+            return wsreq('addtorrent','aria2.addTorrent',params);
         };
-        wsreq('addtorrent','aria2.addTorrent',params);
-        return 0;
+        reader.readAsDataURL(file);
+    };
+    var fl=document.getElementById('addtorrent').files;
+    for(var i=0;i<fl.length;i++){
+        sendbt(fl[i]);
     };
     return 0;
 };
 
 function addmetalink(){
-    var reader=new FileReader();
-    if(document.getElementById('addmetalink').files.length===0){
+    if(!document.getElementById('addmetalink').files.length){
+        alert('no file is selected.');
         return 0;
     };
-    var file=document.getElementById('addmetalink').files[0];
-    reader.readAsDataURL(file);
-    reader.onload=function(file_event){
-        var params=new Array(file_event.target.result.replace(/data:application\/.*;base64,/,''));
-        if(document.getElementById('add_with_option').checked==true){
-            json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
+    var sendml=function(file){
+        var reader=new FileReader();
+        reader.onload=function(file_event){
+            var params=new Array(file_event.target.result.replace(/data:application\/.*;base64,/,''));
+            if(document.getElementById('add_with_option').checked==true){
+                json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
+            };
+            return wsreq('addmetalink','aria2.addMetalink',params);
         };
-        wsreq('addmetalink','aria2.addMetalink',params);
-        return 0;
+        reader.readAsDataURL(file);
+    };
+    var fl=document.getElementById('addmetalink').files;
+    for(var i=0;i<fl.length;i++){
+        sendml(fl[i]);
     };
     return 0;
 };
