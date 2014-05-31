@@ -16,30 +16,6 @@
  *TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  *PERFORMANCE OF THIS SOFTWARE.
  */
-//id type
-//0.1 version
-//0.2 globalstat
-//10 adduri
-//11 addtorrent
-//12 addmetalink
-//19 default_option
-//20 pause
-//21 remove_active
-//22 remove_stopped
-//23 unpause
-//24 shutdown
-//25 purgestopped
-//30 showactive
-//31 showstopped
-//32 showwaiting
-//33 showoption (active http)
-//34 showoption (active bittorrent/metalink)
-//35 showoption (stopped)
-//36 showoption (waiting http)
-//37 showoption (waiting bittorrent/metalink)
-//40 globaloption
-//41 change_global_option
-//42 change_single_option
 
 function receive_common(input_data){
     var note=new Object();
@@ -47,9 +23,11 @@ function receive_common(input_data){
     note.gid=input_data.result;
     note.data=input_data;
     notification(note);
-    if(note.type==='25'){
-        document.getElementById('mainstopped').innerHTML='';
-    };
+    return 0;
+};
+
+function receive_purgestopped(input_data){
+    document.getElementById('mainstopped').innerHTML='';
     return 0;
 };
 
@@ -197,7 +175,7 @@ function receive_singleoption(input_data){
         files.appendChild(size);
         files.appendChild(selected);
 
-        if(type==='33'){
+        if(type==='showoption_ahttp'){
             var download_from,files_uris;
             download_from=document.createElement('div');
             files_uris=document.createElement('blockquote');
@@ -220,7 +198,7 @@ function receive_singleoption(input_data){
     document.getElementById('showoption_option_basic').style.display='block';
     document.getElementById('showoption_option_all').style.display='block';
 
-    if(type==='33'||type==='36'){
+    if(type==='showoption_ahttp'||type==='showoption_whttp'){
         document.getElementById('showoption_status_bittorrent').style.display='none';
         document.getElementById('showoption_option_bittorrent').style.display='none';
         return 0;
@@ -241,7 +219,7 @@ function receive_singleoption(input_data){
             };
         };
 
-        if(type==='34'){
+        if(type==='showoption_abtml'){
             var peer_result=input_data.result[2][0];
             var peer,peer_id_addr,peer_spd;
             for(var i in peer_result){
@@ -370,29 +348,29 @@ function ws_notify(input_data){
     return 0;
 };
 
-var func={'0.1':receive_version,
-          '0.2':receive_stat,
-          '10':receive_common,
-          '11':receive_common,
-          '12':receive_common,
-          '19':receive_defaultoption,
-          '20':receive_common,
-          '21':receive_common,
-          '22':receive_common,
-          '23':receive_common,
-          '24':receive_common,
-          '25':receive_common,
-          '30':receive_active,
-          '31':receive_stopped,
-          '32':receive_waiting,
-          '33':receive_singleoption,
-          '34':receive_singleoption,
-          '35':receive_stoppedstatus,
-          '36':receive_singleoption,
-          '37':receive_singleoption,
-          '40':receive_globaloption,
-          '41':receive_common,
-          '42':receive_common,
+var func={'version':receive_version,
+          'globalstat':receive_stat,
+          'adduri':receive_common,
+          'addtorrent':receive_common,
+          'addmetalink':receive_common,
+          'default_option':receive_defaultoption,
+          'pause':receive_common,
+          'remove_active':receive_common,
+          'remove_stopped':receive_common,
+          'unpause':receive_common,
+          'shutdown':receive_common,
+          'purgestopped':receive_purgestopped,
+          'showactive':receive_active,
+          'showstopped':receive_stopped,
+          'showwaiting':receive_waiting,
+          'showoption_ahttp':receive_singleoption,
+          'showoption_abtml':receive_singleoption,
+          'showoption_stop':receive_stoppedstatus,
+          'showoption_whttp':receive_singleoption,
+          'showoption_wbtml':receive_singleoption,
+          'globaloption':receive_globaloption,
+          'change_global_option':receive_common,
+          'change_single_option':receive_common,
           'aria2.onDownloadStart':ws_notify,
           'aria2.onDownloadPause':ws_notify,
           'aria2.onDownloadStop':ws_notify,

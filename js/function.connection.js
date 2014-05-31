@@ -55,7 +55,11 @@ function connect(){
                 document.getElementById('rpctoken').disabled=false;
             }else{
                 document.getElementById('rpctoken').disabled=true;
-                func[msg_data.id](msg_data);
+                try{
+                    func[msg_data.id](msg_data);
+                }catch(e){
+                    console.log(msg_data.id);
+                };
             };
         }else{
             if(msg_data.method in func){

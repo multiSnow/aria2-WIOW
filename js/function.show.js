@@ -21,7 +21,7 @@ function getversion(){
     if(!document.getElementById('rpctoken').disabled){
         var json=new Object();
         json.jsonrpc='2.0';
-        json.id='0.1';
+        json.id='version';
         json.method='aria2.getVersion';
         sendmessage(json);
     };
@@ -31,7 +31,7 @@ function getversion(){
 function getstat(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='0.2';
+    json.id='globalstat';
     json.method='aria2.getGlobalStat';
     sendmessage(json);
     return 0;
@@ -43,7 +43,7 @@ function default_option(){
         document.getElementById('addcache').innerHTML='{}';
         var json=new Object();
         json.jsonrpc='2.0';
-        json.id='19';
+        json.id='default_option';
         json.method='aria2.getGlobalOption';
         sendmessage(json);
     }else{
@@ -56,7 +56,7 @@ function default_option(){
 function showactive(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='30';
+    json.id='showactive';
     json.method='aria2.tellActive';
     json.params=new Array(['gid','status','totalLength','completedLength','uploadLength',
                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
@@ -68,7 +68,7 @@ function showactive(){
 function showstopped(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='31';
+    json.id='showstopped';
     json.method='aria2.tellStopped';
     json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')),
                           ['gid','status','totalLength','completedLength','uploadLength',
@@ -81,7 +81,7 @@ function showstopped(){
 function showwaiting(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='32';
+    json.id='showwaiting';
     json.method='aria2.tellWaiting';
     json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')),
                           ['gid','status','totalLength','completedLength','uploadLength',
@@ -95,7 +95,7 @@ function globaloption(){
     document.getElementById('globalcache').innerHTML='';
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='40';
+    json.id='globaloption';
     json.method='aria2.getGlobalOption';
     sendmessage(json);
     return 0;
@@ -108,7 +108,7 @@ function showoption(gid,type,status){
     json.jsonrpc='2.0';
     switch(type+status){
     case 10:
-        json.id='33';
+        json.id='showoption_ahttp';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -119,7 +119,7 @@ function showoption(gid,type,status){
         };
         break;
     case 11:
-        json.id='34';
+        json.id='showoption_abtml';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -131,7 +131,7 @@ function showoption(gid,type,status){
         };
         break;
     case 12:
-        json.id='34';
+        json.id='showoption_abtml';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -143,12 +143,12 @@ function showoption(gid,type,status){
         };
         break;
     case 20:
-        json.id='35';
+        json.id='showoption_stop';
         json.method='aria2.tellStatus';
         json.params=new Array(String(gid));
         break;
     case 30:
-        json.id='36';
+        json.id='showoption_whttp';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -159,7 +159,7 @@ function showoption(gid,type,status){
         };
         break;
     case 31:
-        json.id='37';
+        json.id='showoption_wbtml';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';
@@ -170,7 +170,7 @@ function showoption(gid,type,status){
         };
         break;
     case 32:
-        json.id='37';
+        json.id='showoption_wbtml';
         json.params=new Array(new Array());
         json.method='system.multicall';
         methodName[0]='aria2.tellStatus';

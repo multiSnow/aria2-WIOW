@@ -26,7 +26,7 @@ function pause(gid){
     };
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='20';
+    json.id='pause';
     json.method='aria2.pause';
     json.params=new Array();
     json.params[0]=String(gid);
@@ -43,7 +43,7 @@ function remove_active(gid){
     };
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='21';
+    json.id='remove_active';
     json.method='aria2.remove';
     json.params=new Array();
     json.params[0]=String(gid);
@@ -54,7 +54,7 @@ function remove_active(gid){
 function remove_stopped(gid){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='22';
+    json.id='remove_stopped';
     json.method='aria2.removeDownloadResult';
     json.params=new Array();
     json.params[0]=String(gid);
@@ -71,7 +71,7 @@ function unpause(gid){
     };
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='23';
+    json.id='unpause';
     json.method='aria2.unpause';
     json.params=new Array();
     json.params[0]=String(gid);
@@ -88,7 +88,7 @@ function shutdown(){
     };
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='24';
+    json.id='shutdown';
     json.method='aria2.shutdown';
     sendmessage(json);
     return 0;
@@ -103,7 +103,7 @@ function purgestopped(){
     };
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='25';
+    json.id='purgestopped';
     json.method='aria2.purgeDownloadResult';
     sendmessage(json);
     return 0;
@@ -112,7 +112,7 @@ function purgestopped(){
 function change_global_option(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='41';
+    json.id='change_global_option';
     json.method='aria2.changeGlobalOption';
     json.params=new Array();
     json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
@@ -123,7 +123,7 @@ function change_global_option(){
 function change_single_option(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='42';
+    json.id='change_single_option';
     json.method='aria2.changeOption';
     json.params=new Array();
     json.params[0]=document.getElementById('showoption_status_gid').innerHTML;

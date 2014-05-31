@@ -20,7 +20,7 @@
 function adduri(){
     var json=new Object();
     json.jsonrpc='2.0';
-    json.id='10';
+    json.id='adduri';
     json.method='aria2.addUri'
     var uri_list=new Array();
     var uri_raw_list=document.getElementById('adduri').value.split('\n');
@@ -51,7 +51,7 @@ function addtorrent(){
     reader.onload=function(file_event){
         var json=new Object();
         json.jsonrpc='2.0';
-        json.id='11';
+        json.id='addtorrent';
         json.method='aria2.addTorrent';
         json.params=new Array();
         json.params[0]=file_event.target.result.replace(/^data:application\/.*;base64,/,'');
@@ -75,7 +75,7 @@ function addmetalink(){
     reader.onload=function(file_event){
         var json=new Object();
         json.jsonrpc='2.0';
-        json.id='aria2_rpc';
+        json.id='addmetalink';
         json.method='aria2.addMetalink';
         json.params=new Array();
         json.params[0]=file_event.target.result.replace(/data:application\/.*;base64,/,'');
