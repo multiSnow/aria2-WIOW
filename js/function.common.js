@@ -81,18 +81,14 @@ function spendtime(speed,completedsize,totalsize){
 
 function human_read(num){
     var num=parseFloat(num);
-    var pow=Math.pow;
-    var unit=(document.getElementById('type_unit_ice').checked==true)?1024:1000;
+    var bignumlist=(document.getElementById('type_unit_ice').checked==true)?[1,1024,1048576,1073741824,1099511627776]:[1,1000,1000000,1000000000,1000000000000];
     var suffixlist=['','K','M','G','T'];
-    var i=0;
-    while(i<suffixlist.length-1){
-        if(num<pow(unit,i+1)){
-            break;
-        }else{
-            i++;
+    for(var i=0;i<suffixlist.length-1;i++){
+        if(num<bignumlist[i+1]){
+            return (num/bignumlist[i]).toFixed(2).valueOf()+suffixlist[i];
         };
     };
-    return (num/pow(unit,i)).toFixed(2).valueOf()+suffixlist[i];
+    return (num/bignumlist[bignumlist.length-1]).toFixed(2).valueOf()+suffixlist[suffixlist.length-1];
 };
 
 function getqsv(k){
