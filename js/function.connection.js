@@ -89,12 +89,10 @@ function disconnect(){
 };
 
 function signtoken(json){
-    if(document.getElementById('rpctoken').value){
-        if('params' in json){
-            json.params.unshift('token:'+document.getElementById('rpctoken').value);
-        }else{
-            json.params=new Array('token:'+document.getElementById('rpctoken').value);
-        };
+    if('params' in json){
+        json.params.unshift('token:'+document.getElementById('rpctoken').value);
+    }else{
+        json.params=new Array('token:'+document.getElementById('rpctoken').value);
     };
 };
 
