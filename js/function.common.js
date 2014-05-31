@@ -91,7 +91,7 @@ function human_read(num){
     return (num/bignumlist[bignumlist.length-1]).toFixed(2).valueOf()+suffixlist[suffixlist.length-1];
 };
 
-function getqsv(k){
+function getqsv(k,def){
     var qsl=location.search.substring(1).split('&');
     for(var i in qsl){
         var pl=qsl[i].split('=');
@@ -99,7 +99,7 @@ function getqsv(k){
             return pl.slice(1,pl.length).join('=');
         };
     };
-    return '';
+    return (typeof def===typeof undefined)?'':def
 };
 
 function onloadfunction(){
@@ -110,8 +110,8 @@ function onloadfunction(){
     var side=document.getElementById('side');
     var wss_scheme=document.getElementById('wss_scheme');
     close_option(document.getElementById('close_option'));
-    document.getElementById('wshost').value=(location.hostname===''?'127.0.0.1':location.hostname);
-    document.getElementById('wsport').value='6800';
+    document.getElementById('wshost').value=getqsv('aria2_host',(location.hostname===''?'127.0.0.1':location.hostname));
+    document.getElementById('wsport').value=getqsv('aria2_port','6800');
     document.getElementById('rpctoken').value=getqsv('aria2_token');
     wss_scheme.checked=(location.protocol==='https:');
     wss_scheme.disabled=(location.protocol==='https:');
