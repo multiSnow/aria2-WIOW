@@ -118,3 +118,19 @@ function sendmessage(json){
     ws.send(JSON.stringify(json));
     return 0;
 };
+
+function wsreq(id,method,params){
+    if(ws.readyState!==1){
+        alert('Connection lost or not yet open!');
+        return 1;
+    };
+    var json={jsonrpc:'2.0',
+              id:id,
+              method:method,
+              params:(typeof params===typeof undefined)?[]:params};
+    if(document.getElementById('rpctoken').value){
+        json.params.unshift('token:'+document.getElementById('rpctoken').value);
+    };
+    ws.send(JSON.stringify(json));
+    return 0;
+};

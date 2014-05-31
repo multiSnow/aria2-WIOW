@@ -18,116 +18,46 @@
  */
 
 function pause(gid){
-    if(confirm('Are you sure to pause it?')==false){
-        return 0;
+    if(confirm('Are you sure to pause it?')&&confirm('Really?')){
+        return wsreq('pause','aria2.pause',new Array(String(gid)));
     };
-    if(confirm('Really?')==false){
-        return 0;
-    };
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='pause';
-    json.method='aria2.pause';
-    json.params=new Array();
-    json.params[0]=String(gid);
-    sendmessage(json);
-    return 0;
 };
 
 function remove_active(gid){
-    if(confirm('Are you sure to remove it?')==false){
-        return 0;
+    if(confirm('Are you sure to remove it?')&&confirm('Really?')){
+        return wsreq('remove_active','aria2.remove',new Array(String(gid)));
     };
-    if(confirm('Really?')==false){
-        return 0;
-    };
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='remove_active';
-    json.method='aria2.remove';
-    json.params=new Array();
-    json.params[0]=String(gid);
-    sendmessage(json);
-    return 0;
 };
 
 function remove_stopped(gid){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='remove_stopped';
-    json.method='aria2.removeDownloadResult';
-    json.params=new Array();
-    json.params[0]=String(gid);
-    sendmessage(json);
-    return 0;
+    return wsreq('remove_stopped','aria2.removeDownloadResult',new Array(String(gid)));
 };
 
 function unpause(gid){
-    if(confirm('Are you sure to start it?')==false){
-        return 0;
+    if(confirm('Are you sure to start it?')&&confirm('Really?')){
+        return wsreq('unpause','aria2.unpause',new Array(String(gid)));
     };
-    if(confirm('Really?')==false){
-        return 0;
-    };
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='unpause';
-    json.method='aria2.unpause';
-    json.params=new Array();
-    json.params[0]=String(gid);
-    sendmessage(json);
-    return 0;
 };
 
 function shutdown(){
-    if(confirm('Are you sure to shutdown aria2?')==false){
-        return 0;
+    if(confirm('Are you sure to shutdown aria2?')&&confirm('Really?')){
+        return wsreq('shutdown','aria2.shutdown',new Array(String(gid)));
     };
-    if(confirm('Really?')==false){
-        return 0;
-    };
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='shutdown';
-    json.method='aria2.shutdown';
-    sendmessage(json);
-    return 0;
 };
 
 function purgestopped(){
-    if(confirm('Are you sure to remove all stopped download?')==false){
-        return 0;
+    if(confirm('Are you sure to remove all stopped download?')&&confirm('Really?')){
+        return wsreq('purgestopped','aria2.purgeDownloadResult');
     };
-    if(confirm('Really?')==false){
-        return 0;
-    };
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='purgestopped';
-    json.method='aria2.purgeDownloadResult';
-    sendmessage(json);
-    return 0;
 };
 
 function change_global_option(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='change_global_option';
-    json.method='aria2.changeGlobalOption';
-    json.params=new Array();
-    json.params[0]=JSON.parse(document.getElementById('globalcache').innerHTML);
-    sendmessage(json);
-    return 0;
+    return wsreq('change_global_option','aria2.changeGlobalOption',
+                 new Array(JSON.parse(document.getElementById('globalcache').innerHTML)));
 };
 
 function change_single_option(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='change_single_option';
-    json.method='aria2.changeOption';
-    json.params=new Array();
-    json.params[0]=document.getElementById('showoption_status_gid').innerHTML;
-    json.params[1]=JSON.parse(document.getElementById('singlecache').innerHTML);
-    sendmessage(json);
-    return 0;
+    return wsreq('change_single_option','aria2.changeOption',
+                 new Array(document.getElementById('showoption_status_gid').innerHTML,
+                           JSON.parse(document.getElementById('singlecache').innerHTML)));
 };

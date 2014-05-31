@@ -19,86 +19,50 @@
 
 function getversion(){
     if(!document.getElementById('rpctoken').disabled){
-        var json=new Object();
-        json.jsonrpc='2.0';
-        json.id='version';
-        json.method='aria2.getVersion';
-        sendmessage(json);
+        return wsreq('version','aria2.getVersion');
     };
-    return 0;
 };
 
 function getstat(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='globalstat';
-    json.method='aria2.getGlobalStat';
-    sendmessage(json);
-    return 0;
+    return wsreq('globalstat','aria2.getGlobalStat');
 };
 
 function default_option(){
     if(document.getElementById('add_with_option').checked){
         document.getElementById('add_option').style.display='inline';
         document.getElementById('addcache').innerHTML='{}';
-        var json=new Object();
-        json.jsonrpc='2.0';
-        json.id='default_option';
-        json.method='aria2.getGlobalOption';
-        sendmessage(json);
+        return wsreq('default_option','aria2.getGlobalOption');
     }else{
         document.getElementById('add_option').style.display='none';
         document.getElementById('addcache').innerHTML='';
     };
-    return 0;
 };
 
 function showactive(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='showactive';
-    json.method='aria2.tellActive';
-    json.params=new Array(['gid','status','totalLength','completedLength','uploadLength',
-                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                           'numPieces','connections','errorCode','files','bittorrent']);
-    sendmessage(json);
-    return 0;
+    return wsreq('showactive','aria2.tellActive',
+                 new Array(['gid','status','totalLength','completedLength','uploadLength',
+                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                            'numPieces','connections','errorCode','files','bittorrent']));
 };
 
 function showstopped(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='showstopped';
-    json.method='aria2.tellStopped';
-    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')),
-                          ['gid','status','totalLength','completedLength','uploadLength',
-                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                           'numPieces','connections','errorCode','files','bittorrent']);
-    sendmessage(json);
-    return 0;
+    return wsreq('showstopped','aria2.tellStopped',
+                 new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')),
+                           ['gid','status','totalLength','completedLength','uploadLength',
+                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                            'numPieces','connections','errorCode','files','bittorrent']));
 };
 
 function showwaiting(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='showwaiting';
-    json.method='aria2.tellWaiting';
-    json.params=new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')),
-                          ['gid','status','totalLength','completedLength','uploadLength',
-                           'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                           'numPieces','connections','errorCode','files','bittorrent']);
-    sendmessage(json);
-    return 0;
+    return wsreq('showwaiting','aria2.tellWaiting',
+                 new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')),
+                           ['gid','status','totalLength','completedLength','uploadLength',
+                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+                            'numPieces','connections','errorCode','files','bittorrent']))
 };
 
 function globaloption(){
-    document.getElementById('globalcache').innerHTML='';
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='globaloption';
-    json.method='aria2.getGlobalOption';
-    sendmessage(json);
-    return 0;
+    return wsreq('globaloption','aria2.getGlobalOption');
 };
 
 function showoption(gid,type,status){

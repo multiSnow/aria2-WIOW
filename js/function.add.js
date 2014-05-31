@@ -18,14 +18,10 @@
  */
 
 function adduri(){
-    var json=new Object();
-    json.jsonrpc='2.0';
-    json.id='adduri';
-    json.method='aria2.addUri'
     var uri_list=new Array();
     var uri_raw_list=document.getElementById('adduri').value.split('\n');
     for(var uri_val in uri_raw_list){
-        if(uri_raw_list[uri_val]!==''){
+        if(uri_raw_list[uri_val]){
             if(uri_raw_list[uri_val].match(/(^https?:\/\/|^ftp:\/\/)/i)||uri_raw_list[uri_val].match(/^magnet:/)){
                 uri_list.push(uri_raw_list[uri_val]);
             }else{
@@ -33,33 +29,30 @@ function adduri(){
             };
         };
     };
-    json.params=new Array(uri_list);
-    if(document.getElementById('add_with_option').checked==true){
-        json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
+    if(!uri_list.length){
+        alert('no uri is added.');
+        return 0;
     };
-    sendmessage(json);
-    return 0;
+    var params=new Array(uri_list);
+    if(document.getElementById('add_with_option').checked==true){
+        params.push(JSON.parse(document.getElementById('addcache').innerHTML));
+    };
+    return wsreq('adduri','aria2.addUri',params);
 };
 
 function addtorrent(){
-    var reader=new FileReader();
     if(document.getElementById('addtorrent').files.length===0){
         return 0;
     };
-    var file=document.getElementById("addtorrent").files[0];
+    var reader=new FileReader();
+    var file=document.getElementById('addtorrent').files[0];
     reader.readAsDataURL(file);
     reader.onload=function(file_event){
-        var json=new Object();
-        json.jsonrpc='2.0';
-        json.id='addtorrent';
-        json.method='aria2.addTorrent';
-        json.params=new Array();
-        json.params[0]=file_event.target.result.replace(/^data:application\/.*;base64,/,'');
-        json.params[1]=[]; // Here should be used for web-seeding.
+        var params=new Array(file_event.target.result.replace(/^data:application\/.*;base64,/,''),[]);// 2nd element should be used for web-seeding.
         if(document.getElementById('add_with_option').checked==true){
-            json.params[2]=JSON.parse(document.getElementById('addcache').innerHTML);
+            params.push(JSON.parse(document.getElementById('addcache').innerHTML));
         };
-        sendmessage(json);
+        wsreq('addtorrent','aria2.addTorrent',params);
         return 0;
     };
     return 0;
@@ -70,19 +63,14 @@ function addmetalink(){
     if(document.getElementById('addmetalink').files.length===0){
         return 0;
     };
-    var file=document.getElementById("addmetalink").files[0];
+    var file=document.getElementById('addmetalink').files[0];
     reader.readAsDataURL(file);
     reader.onload=function(file_event){
-        var json=new Object();
-        json.jsonrpc='2.0';
-        json.id='addmetalink';
-        json.method='aria2.addMetalink';
-        json.params=new Array();
-        json.params[0]=file_event.target.result.replace(/data:application\/.*;base64,/,'');
+        var params=new Array(file_event.target.result.replace(/data:application\/.*;base64,/,''));
         if(document.getElementById('add_with_option').checked==true){
             json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
         };
-        sendmessage(json);
+        wsreq('addmetalink','aria2.addMetalink',params);
         return 0;
     };
     return 0;
