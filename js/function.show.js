@@ -68,85 +68,16 @@ function globaloption(){
 function showoption(gid,type,status){
     document.getElementById('showoption').style.display='block';
     document.getElementById('singlecache').innerHTML='';
-    var json=new Object(),methodName=new Array();
-    json.jsonrpc='2.0';
-    switch(type+status){
-    case 10:
-        json.id='showoption_ahttp';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
+    var artype=document.getElementById(gid).getAttribute('artype');
+    if(artype=='stop'){
+        return wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
+    }else{
+        wsreq('showoption_'+artype+'_stat','aria2.tellStatus',new Array(String(gid)));
+        wsreq('showoption_'+artype+'_opt','aria2.getOption',new Array(String(gid)));
+        if(artype=='abtml'){
+            wsreq('showoption_'+artype+'_peer','aria2.getPeers',new Array(String(gid)));
         };
-        break;
-    case 11:
-        json.id='showoption_abtml';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        methodName[2]='aria2.getPeers';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
-        };
-        break;
-    case 12:
-        json.id='showoption_abtml';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        methodName[2]='aria2.getPeers';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
-        };
-        break;
-    case 20:
-        json.id='showoption_stop';
-        json.method='aria2.tellStatus';
-        json.params=new Array(String(gid));
-        break;
-    case 30:
-        json.id='showoption_whttp';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
-        };
-        break;
-    case 31:
-        json.id='showoption_wbtml';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
-        };
-        break;
-    case 32:
-        json.id='showoption_wbtml';
-        json.params=new Array(new Array());
-        json.method='system.multicall';
-        methodName[0]='aria2.tellStatus';
-        methodName[1]='aria2.getOption';
-        for(var i in methodName){
-            json.params[0][i]=new Object({'methodName':methodName[i]});
-            json.params[0][i].params=new Array(String(gid));
-        };
-        break;
-    default:break;
     };
-    sendmessage(json);
     return 0;
 };
 
