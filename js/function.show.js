@@ -65,9 +65,7 @@ function globaloption(){
     return wsreq('globaloption','aria2.getGlobalOption');
 };
 
-function showoption(gid,type,status){
-    document.getElementById('showoption').style.display='block';
-    document.getElementById('singlecache').innerHTML='';
+function showoption(gid){
     var artype=document.getElementById(gid).getAttribute('artype');
     if(artype=='stop'){
         return wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
@@ -78,6 +76,8 @@ function showoption(gid,type,status){
             wsreq('showoption_'+artype+'_peer','aria2.getPeers',new Array(String(gid)));
         };
     };
+    document.getElementById('showoption').style.display='block';
+    document.getElementById('singlecache').innerHTML='';
     return 0;
 };
 

@@ -73,7 +73,7 @@ function opr_active(gid,dict){
         remove_icon.setAttribute('onclick',"remove_active('"+gid+"')");
         option_icon.id='option_icon';
         option_icon.textContent='status&option';
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+dict['type_bittorrent']+",10)");
+        option_icon.setAttribute('onclick',"showoption('"+gid+"')");
         item_summery.className='item_summery';
         infohash_div.id='infohash';
         infohash_div.className='infohash';
@@ -148,7 +148,7 @@ function opr_stopped(gid,dict){
         remove_icon.setAttribute('onclick',"remove_active('"+gid+"')");
         option_icon.id='option_icon'
         option_icon.appendChild(document.createTextNode('status&option'));
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',0,20)");
+        option_icon.setAttribute('onclick',"showoption('"+gid+"')");
         item_summery.className='item_summery';
         progress_bar.className='mainprogress';
         progress.id='progress_text';
@@ -226,7 +226,7 @@ function opr_waiting(gid,dict){
         remove_icon.setAttribute('onclick',"remove_active('"+gid+"')");
         option_icon.id='option_icon';
         option_icon.textContent='status&option';
-        option_icon.setAttribute('onclick',"showoption('"+gid+"',"+dict['type_bittorrent']+",30)");
+        option_icon.setAttribute('onclick',"showoption('"+gid+"')");
         item_summery.className='item_summery';
         infohash_div.id='infohash';
         infohash_div.className='infohash';
