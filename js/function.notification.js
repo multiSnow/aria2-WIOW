@@ -42,165 +42,52 @@
 //2 normal notification
 //3 warning and error
 
+var msgdict={'aria2.onDownloadStart':['nor','Download Start'],
+             'aria2.onDownloadPause':['nor','Download Paused'],
+             'aria2.onDownloadStop':['nor','Download Stopped'],
+             'aria2.onDownloadComplete':['chr','Download Complete'],
+             'aria2.onDownloadError':['war','Download Error'],
+             'aria2.onBtDownloadComplete':['chr','BitTorrent Download Complete'],
+             'adduri':['lgt','Add Download via uri'],
+             'addtorrent':['lgt','Add Download via torrent file'],
+             'addmetalink':['lgt','Add Download via metalink file'],
+             'pause':['lgt','Pause Download Required'],
+             'remove_active':['lgt','Remove Download Required'],
+             'remove_stopped':['lgt','Clear Download Result'],
+             'unpause':['lgt','Continue Download Required'],
+             'shutdown':['lgt','Shutdown aria2'],
+             'purgestopped':['lgt','Clear All Download Result'],
+             'change_global_option':['lgt','Global Option Changed'],
+             'change_single_option':['lgt','Option Changed']}
+
 function notification(input_json){
-    var urgency,summary,text;
-    document.getElementById('notification').style.display='block';
-    switch(input_json.type){
-    case 1:
-        urgency=2;
-        summary='Mission Start';
-        text='Mission start as GID "'+input_json.gid+'".';
-        break;
-    case 2:
-        urgency=2;
-        summary='Mission Paused';
-        text='GID "'+input_json.gid+'" has been paused.';
-        break;
-    case 3:
-        urgency=2;
-        summary='Mission Stopped';
-        text='GID "'+input_json.gid+'" has been stopped.';
-        break;
-    case 4:
-        urgency=0;
-        summary='Mission Complete';
-        text='GID "'+input_json.gid+'" has been completed';
-        break;
-    case 5:
-        urgency=3;
-        summary='Mission Error!';
-        text='GID "'+input_json.gid+'" has been stopped due to error.';
-        break;
-    case 6:
-        urgency=0;
-        summary='BitTorrent Download Complete';
-        text='GID "'+input_json.gid+'" downloading has been completed, and will continue to seed.';
-        break;
-    case 'adduri':
-        urgency=1;
-        summary='Add Download Required';
-        text='Apply downloading via link and should start in GID "'+input_json.gid+'".';
-        break;
-    case 'addtorrent':
-        urgency=1;
-        summary='Add Download Required';
-        text='Apply downloading via torrent file and should start in GID "'+input_json.gid+'".';
-        break;
-    case 'addmetalink':
-        urgency=1;
-        summary='Add Download Required';
-        text='Apply downloading via metalink file and should start in GID';
-        for(var i in input_json.gid){
-            text+=' "'+input_json.gid[i]+'"';
-        };
-        text+='.';
-        break;
-    case 'pause':
-        urgency=1;
-        summary='Pause Download Required';
-        text='Apply pause downloading GID "'+input_json.gid+'".';
-        break;
-    case 'remove_active':
-        urgency=1;
-        summary='Remove Download Required';
-        text='Apply remove downloading GID "'+input_json.gid+'".';
-        break;
-    case 'remove_stopped':
-        if(input_json.status==='OK'){
-            urgency=1;
-            summary='Clear Download Result'
-            text='Selected download result has been removed.';
-        }else{
-            //!!!UGLY CODE!!!
-            //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly=new Object();
-            ugly.type='255';
-            ugly.error_id='remove_stopped';
-            ugly.error_status=JSON.stringify(input_json);
-            notification(ugly);
-            return 1;
-        };
-        break;
-    case 'unpause':
-        urgency=1;
-        summary='Continue Download Required';
-        text='Apply continue downloading GID "'+input_json.gid+'".';
-        break;
-    case 'shutdown':
-        if(input_json.gid==='OK'){
-            urgency=1;
-            summary='Shutdown aria2'
-            text='Aria2 will shutdown after any necessary actions finished.';
-        }else{
-            //!!!UGLY CODE!!!
-            //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly=new Object();
-            ugly.type='255';
-            ugly.error_id='shutdown';
-            ugly.error_status=JSON.stringify(input_json);
-            notification(ugly);
-            return 1;
-        };
-        break;
-    case 'purgestopped':
-        if(input_json.gid==='OK'){
-            urgency=1;
-            summary='Clear Any Download Result'
-            text='Any completed/error/removed download result has been removed.';
-        }else{
-            //!!!UGLY CODE!!!
-            //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly=new Object();
-            ugly.type='255';
-            ugly.error_id='purgestopped';
-            ugly.error_status=JSON.stringify(input_json.data);
-            notification(ugly);
-            return 1;
-        };
-        break;
-    case 'change_global_option':
-        if(input_json.gid==='OK'){
-            urgency=1;
-            summary='Option Changed'
-            text='Specified global option has been changed';
-        }else{
-            //!!!UGLY CODE!!!
-            //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly=new Object();
-            ugly.type='255';
-            ugly.error_id='change_global_option';
-            ugly.error_status=JSON.stringify(input_json.data);
-            notification(ugly);
-            return 1;
-        };
-        break;
-    case 'change_single_option':
-        if(input_json.gid==='OK'){
-            urgency=1;
-            summary='Option Changed'
-            text='Specified option of selected download has been changed';
-        }else{
-            //!!!UGLY CODE!!!
-            //Since I'm not sure whether there will be any other result, I can only treat it as an unexpected message.
-            var ugly=new Object();
-            ugly.type='255';
-            ugly.error_id='change_single_option';
-            ugly.error_status=JSON.stringify(input_json.data);
-            notification(ugly);
-            return 1;
-        };
-        break;
-    case '255':
-        urgency=3;
-        summary='aria2 send an unexpected notification.';
-        text=JSON.stringify(input_json);
-        break;
-    default:
-        urgency=3;
-        summary='aria2 returns an unknown result.';
-        text=JSON.stringify(input_json);
-        break;
+    var rnode=document.getElementById('notification');
+    var nnode=document.createElement('div');
+    if('method' in input_json){
+        nnode.className='note_'+msgdict[input_json.method][0];
+        nnode.appendChild(document.createTextNode(new Date().toLocaleString()));
+        nnode.appendChild(document.createElement('br'));
+        nnode.appendChild(document.createTextNode(msgdict[input_json.method][1]));
+        nnode.appendChild(document.createElement('br'));
+        nnode.appendChild(document.createTextNode(input_json.params[0].gid));
+    }else if('id' in input_json){
+        nnode.className='note_'+msgdict[input_json.id][0];
+        nnode.appendChild(document.createTextNode(new Date().toLocaleString()));
+        nnode.appendChild(document.createElement('br'));
+        nnode.appendChild(document.createTextNode(msgdict[input_json.id][1]));
+        nnode.appendChild(document.createElement('br'));
+        nnode.appendChild(document.createTextNode((typeof input_json.result===typeof [])?input_json.result.join():input_json.result));
+    }else{
+        return 1;
     };
-    document.getElementById('notification').innerHTML='<div>'+urgency+'<br/>'+summary+'<br/>'+text+'</div>'+document.getElementById('notification').innerHTML;
+    rnode.insertBefore(nnode,rnode.firstChild)
+    rnode.style.display='block';
     return 0;
+};
+
+function clearnotif(node){
+    node.style.display='none';
+    while(node.lastChild){
+        node.removeChild(node.lastChild)
+    };
 };

@@ -18,12 +18,7 @@
  */
 
 function receive_common(input_data){
-    var note=new Object();
-    note.type=input_data.id;
-    note.gid=input_data.result;
-    note.data=input_data;
-    notification(note);
-    return 0;
+    return notification(input_data);
 };
 
 function receive_purgestopped(input_data){
@@ -329,22 +324,8 @@ function receive_stoppedstatus(input_data){
 };
 
 function ws_notify(input_data){
-    var note=new Object();
-    var type_dict={'aria2.onDownloadStart':1,
-                   'aria2.onDownloadPause':2,
-                   'aria2.onDownloadStop':3,
-                   'aria2.onDownloadComplete':4,
-                   'aria2.onDownloadError':5,
-                   'aria2.onBtDownloadComplete':6}
-    if(input_data.method in type_dict){
-        note.gid=input_data.params[0].gid;
-        note.type=type_dict[input_data.method];
-        opr_pop(note.gid);
-    }else{
-        note.data=JSON.stringify(input_data);
-    };
-    notification(note);
-    return 0;
+    opr_pop(input_data.params[0].gid);
+    return notification(input_data);
 };
 
 var func={'version':receive_version,

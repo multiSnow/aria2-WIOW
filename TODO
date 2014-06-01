@@ -3,7 +3,6 @@
 * use canvas to show icons instead of text in some place.
 * an extra place to show debug infomations.
 * take advantage of more RPC Methods.
-* readable #notification.
 * handle errorcode and notification from RPC Server.
 * add torrent with web-seeding.
 * testapi.html with more infomation.

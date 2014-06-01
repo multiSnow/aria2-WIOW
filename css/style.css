@@ -292,3 +292,19 @@ blockquote
     position:absolute;
     z-index:-1;
 }
+.note_chr
+{
+    color:#40ff40;
+}
+.note_lgt
+{
+    color:#e0e0e0;
+}
+.note_nor
+{
+    color:#ffff40;
+}
+.note_war
+{
+    color:#ff6060;
+}
