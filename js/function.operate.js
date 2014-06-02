@@ -41,7 +41,7 @@ function unpause(gid){
 
 function shutdown(){
     if(confirm('Are you sure to shutdown aria2?')&&confirm('Really?')){
-        return wsreq('shutdown','aria2.shutdown',new Array(String(gid)));
+        return wsreq('shutdown','aria2.shutdown');
     };
 };
 
