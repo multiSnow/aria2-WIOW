@@ -162,6 +162,13 @@ blockquote
     right:20px;
     z-index:1;
 }
+#notification *
+{
+    border-color:rgba(255,240,240,.8);
+    border-radius:6px;
+    border-style:double;
+    border-width:3px;
+}
 #g_o_c
 {
     color:#f37a86;
