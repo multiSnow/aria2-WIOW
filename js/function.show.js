@@ -68,7 +68,7 @@ function globaloption(){
 function showoption(gid){
     var artype=document.getElementById(gid).getAttribute('artype');
     if(artype=='stop'){
-        return wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
+        wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
     }else{
         wsreq('showoption_'+artype+'_stat','aria2.tellStatus',new Array(String(gid)));
         wsreq('showoption_'+artype+'_opt','aria2.getOption',new Array(String(gid)));
