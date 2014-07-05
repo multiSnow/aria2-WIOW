@@ -14,5 +14,6 @@ Tested browser:
 
 - Firefox 18.0.2 on linux, amd64 (mostly working);
 - Chromium 25.0.1364.152 on linux, amd64 (mostly working);
+- Opera Mobile 12.10.ADR-1309251137 on Android 4.2.2 armv6l (mostly working);
 
 Please test aria2-WIOW on your browser, and tell me if it is working mostly, partly or totally not. But note that it's possible that your browser will never be supported, because I could not take too much compatibility into consideration.
