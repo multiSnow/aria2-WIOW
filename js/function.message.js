@@ -39,8 +39,8 @@ function receive_version(input_data){
 
 function receive_stat(input_data){
     var sideinfo=document.getElementById('sideinfo');
-    var dspd=human_read(input_data.result.downloadSpeed)+'b/s';
-    var uspd=human_read(input_data.result.uploadSpeed)+'b/s';
+    var dspd=human_read(input_data.result.downloadSpeed)+'/s';
+    var uspd=human_read(input_data.result.uploadSpeed)+'/s';
     document.title='⬇'+dspd+' ⬆'+uspd;
     sideinfo.setAttribute('numstopped',input_data.result.numStopped);
     sideinfo.setAttribute('numwaiting',input_data.result.numWaiting);
@@ -153,7 +153,7 @@ function receive_singlestat(input_data){
         var selected=document.createElement('div');
         var completedLength=result.files[i].completedLength;
         var totalLength=result.files[i].length;
-        var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
+        var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
@@ -234,9 +234,9 @@ function receive_singlepeer(input_data){
         }else{
             peer_id_addr.appendChild(document.createTextNode(' from '+peer_result[i].ip+':'+peer_result[i].port));
         };
-        peer_spd.appendChild(document.createTextNode('D: spdb/s'.replace('spd',human_read(peer_result[i].downloadSpeed))));
+        peer_spd.appendChild(document.createTextNode('D: '+human_read(peer_result[i].downloadSpeed)+'/s'));
         peer_spd.appendChild(document.createElement('br'));
-        peer_spd.appendChild(document.createTextNode('U: spdb/s'.replace('spd',human_read(peer_result[i].uploadSpeed))));
+        peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].downloadSpeed)+'/s'));
 
         peer.appendChild(peer_id_addr);
         peer.appendChild(peer_spd);
@@ -267,9 +267,6 @@ function receive_defaultoption(input_data){
 };
 
 function receive_stoppedstatus(input_data){
-    var completedLength,totalLength;
-    var files,files_index_path,progress_bar,selected,size,selected,download_from,files_uris;
-
     document.getElementById('showoption_option_basic').style.display='none';
     document.getElementById('showoption_option_bittorrent').style.display='none';
     document.getElementById('showoption_option_all').style.display='none';
@@ -286,21 +283,21 @@ function receive_stoppedstatus(input_data){
     document.getElementById('showoption_statue_file').innerHTML='';
 
     for(var i in input_data.result.files){
-        files=document.createElement('div');
-        files_index_path=document.createElement('div');
-        progress_bar=document.createElement('progress');
-        selected=document.createElement('div');
-        download_from=document.createElement('div');
-        files_uris=document.createElement('blockquote');
+        var files=document.createElement('div');
+        var files_index_path=document.createElement('div');
+        var progress_bar=document.createElement('progress');
+        var selected=document.createElement('div');
+        var download_from=document.createElement('div');
+        var files_uris=document.createElement('blockquote');
+        var completedLength=input_data.result.files[i].completedLength;
+        var totalLength=input_data.result.files[i].length;
+        var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
         files_index_path.appendChild(document.createTextNode(input_data.result.files[i].index+' '+input_data.result.files[i].path.replace(input_data.result.dir+'/','')))
-        completedLength=input_data.result.files[i].completedLength;
-        totalLength=input_data.result.files[i].length;
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
-        size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'b in '+human_read(totalLength)+'b)');
         selected.style.color=(input_data.result.files[i].selected==='true')?'#40ff40':'#808080';
         selected.appendChild(document.createTextNode((input_data.result.files[i].selected==='true')?'selected':'unselected'));
         files_uris.className='files_uris'

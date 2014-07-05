@@ -31,9 +31,9 @@ function opr_active(gid,dict){
     var dictmap={'item_gid':gid,
                  'item_title':dict['name'],
                  'infohash':dict['infohash'],
-                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b',
-                 'dspd':'D: '+human_read(dict['downloadSpeed'])+'b/s',
-                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'b/s',
+                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength']),
+                 'dspd':'D: '+human_read(dict['downloadSpeed'])+'/s',
+                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'/s',
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
@@ -121,7 +121,7 @@ function opr_stopped(gid,dict){
     var node=document.getElementById(gid);
     var dictmap={'item_gid':gid,
                  'item_title':dict['name'],
-                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b'}
+                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])}
     if(node===null){
         var node=document.createElement('div');
         node.id=gid;
@@ -184,9 +184,9 @@ function opr_waiting(gid,dict){
     var dictmap={'item_gid':gid,
                  'item_title':dict['name'],
                  'infohash':dict['infohash'],
-                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])+'b',
-                 'dspd':'D: '+human_read(dict['downloadSpeed'])+'b/s',
-                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'b/s',
+                 'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength']),
+                 'dspd':'D: '+human_read(dict['downloadSpeed'])+'/s',
+                 'uspd':'U: '+human_read(dict['uploadSpeed'])+'/s',
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
