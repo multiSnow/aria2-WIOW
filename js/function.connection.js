@@ -29,18 +29,25 @@ function connect(){
     };
 
     ws.onclose=function(message){
+        clearInterval(autorefresh);
+        var nsidetags=document.getElementById('sidetags');
+        var nmain=document.getElementById('main')
+        var idl=['mainactive','mainstopped','mainwaiting'];
+        for(var n in idl){
+            document.getElementById(idl[n]).innerHTML='';
+        };
+        document.getElementById(nsidetags.getAttribute('crtshow')).style.display='none';
+        nsidetags.removeAttribute('crtshow');
+        nsidetags.style.display='none';
+        nmain.style.display='none';
         document.getElementById('sideinfo_static').innerHTML='Disconnected!';
         document.getElementById('sideinfo_dynamic').style.display='none';
-        document.getElementById('sidetags').removeAttribute('crtshow');
-        document.getElementById('sidetags').style.display='none';
-        document.getElementById('main').style.display='none';
         document.getElementById('shutdown_button').style.display='none';
         document.getElementById('disconnect').style.display='none';
         document.getElementById('ws_address').style.display='block';
         document.getElementById('connect').style.display='block';
         document.title='aria2 WIOW';
         document.getElementById('rpctoken').disabled=false;
-        clearInterval(autorefresh);
         if(message.code!==1005){
             alert(message.code+' '+message.reason+' '+message.wasClean);
         };
