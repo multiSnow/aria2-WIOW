@@ -178,6 +178,7 @@
           <!--BitTorrent/Metalink-->
           select-file:<input id="addcache_select-file" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
           <!--BitTorrent-->
+          bt-detach-seed-only:<input id="addcache_bt-detach-seed-only" onchange="option_dict[this.id.split('_')[1]][1](this)" type="checkbox"/><br/>
           bt-enable-lpd:<input id="addcache_bt-enable-lpd" onchange="option_dict[this.id.split('_')[1]][1](this)" type="checkbox"/><br/>
           bt-exclude-tracker:<input id="addcache_bt-exclude-tracker" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
           bt-external-ip:<input id="addcache_bt-external-ip" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
@@ -363,6 +364,7 @@
         <hr/>
         <div id="b_o" class="go_">
           <!--BitTorrent-->
+          bt-detach-seed-only: <input id="globalcache_bt-detach-seed-only" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           bt-enable-lpd: <input id="globalcache_bt-enable-lpd" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           bt-exclude-tracker: <input id="globalcache_bt-exclude-tracker" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           bt-external-ip: <input id="globalcache_bt-external-ip" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
@@ -449,6 +451,13 @@
           </select><br/>
           max-download-result: <input id="globalcache_max-download-result" type="number" min="1" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           max-resume-failure-tries: <input id="globalcache_max-resume-failure-tries" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+          min-tls-version: 
+          <select id="globalcache_min-tls-version" onchange="option_dict[this.id.split('_')[1]][1](this)">
+            <option value="sslv3">SSLv3</option>
+            <option value="tlsv1">TLSv1</option>
+            <option value="tlsv11">TLSv1.1</option>
+            <option value="tlsv12">TLSv1.2</option>
+          </select><br/>
           log-level: 
           <select id="globalcache_log-level" onchange="option_dict[this.id.split('_')[1]][1](this)">
             <option value="debug">debug</option>
@@ -580,6 +589,7 @@
               <!--BitTorrent/Metalink-->
               select-file: <input id="singlecache_select-file" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               <!--BitTorrent-->
+              bt-detach-seed-only: <input id="singlecache_bt-detach-seed-only" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               bt-enable-lpd: <input id="singlecache_bt-enable-lpd" type="checkbox" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               bt-exclude-tracker: <input id="singlecache_bt-exclude-tracker" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               bt-external-ip: <input id="singlecache_bt-external-ip" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
