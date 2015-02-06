@@ -214,7 +214,7 @@
           index-out:<input id="addcache_index-out" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/>
           <ol id="addcache_index-out_list"></ol>
           max-upload-limit:<input id="addcache_max-upload-limit" onchange="option_dict[this.id.split('_')[1]][1](this)" type="text"/><br/>
-          seed-ratio:<input id="addcache_seed-ratio" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/><br/>
+          seed-ratio:<input id="addcache_seed-ratio" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0" step="0.1"/><br/>
           seed-time:<input id="addcache_seed-time" onchange="option_dict[this.id.split('_')[1]][1](this)" type="number" min="0"/><br/>
           <!--Metalink-->
           follow-metalink:
@@ -399,7 +399,7 @@
           </select><br/>
           max-overall-upload-limit: <input id="globalcache_max-overall-upload-limit" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           max-upload-limit: <input id="globalcache_max-upload-limit" type="text" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
-          seed-ratio: <input id="globalcache_seed-ratio" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+          seed-ratio: <input id="globalcache_seed-ratio" type="number" min="0" step="0.1" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
           seed-time: <input id="globalcache_seed-time" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
         </div>
         <hr/>
@@ -621,7 +621,7 @@
               </select><br/>
               index-out: <input id="singlecache_index-out" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               <ol id="singlecache_index-out_list"></ol>
-              seed-ratio: <input id="singlecache_seed-ratio" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+              seed-ratio: <input id="singlecache_seed-ratio" type="number" min="0" step="0.1" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               seed-time: <input id="singlecache_seed-time" type="number" min="0" onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               <!--Metalink-->
               follow-metalink: 
