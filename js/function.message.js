@@ -236,7 +236,7 @@ function receive_singlepeer(input_data){
         };
         peer_spd.appendChild(document.createTextNode('D: '+human_read(peer_result[i].downloadSpeed)+'/s'));
         peer_spd.appendChild(document.createElement('br'));
-        peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].downloadSpeed)+'/s'));
+        peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].uploadSpeed)+'/s'));
 
         peer.appendChild(peer_id_addr);
         peer.appendChild(peer_spd);
