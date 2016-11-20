@@ -53,13 +53,29 @@ blockquote
     margin-right:20px;
     padding:0px;
 }
+input:not([type="file"])
+{
+    min-width:24px;
+    max-width:120px;
+}
 
 #main
 {
     order:1;
-    flex:100 0 auto;
+    flex-grow:100;
     align-self:stretch;
+    overflow-y:auto;
 }
+#main>div
+{
+    flex-direction:column;
+}
+#maininfo
+{
+    flex-direction:row!important;
+    flex-wrap:wrap;
+}
+
 #side
 {
     color:#f37a86;
@@ -297,9 +313,11 @@ blockquote
 }
 .go_
 {
+    border-color:rgba(255,255,255,.3);
+    border-radius:5px;
+    border-style:dotted;
+    border-width:2px;
     overflow:auto;
-    white-space:nowrap;
-    width:320px;
 }
 .mainprogress
 {

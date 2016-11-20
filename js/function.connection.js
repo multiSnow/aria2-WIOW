@@ -37,6 +37,7 @@ function connect(){
         };
         document.getElementById(nsidetags.getAttribute('crtshow')).style.display='none';
         nsidetags.removeAttribute('crtshow');
+        nsidetags.removeAttribute('tagshow');
         nsidetags.style.display='none';
         nmain.style.display='none';
         document.getElementById('sideinfo_static').innerHTML='Disconnected!';

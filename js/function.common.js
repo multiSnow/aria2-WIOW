@@ -22,14 +22,25 @@ function warning_dialog(string){
 };
 
 function topage(page){
-    var all_page={'start':'mainstart','active':'mainactive','stopped':'mainstopped','waiting':'mainwaiting','info':'maininfo'}
-    for(var name in all_page){
-	document.getElementById(all_page[name]).style.display='none';
-	document.getElementById(name).className='sidetag';
+    var all_page={'start':'mainstart','active':'mainactive',
+                  'stopped':'mainstopped','waiting':'mainwaiting',
+                  'info':'maininfo'}
+    var sidetagsnode=document.getElementById('sidetags')
+    var name=sidetagsnode.getAttribute('tagshow');
+    if(name){
+        var tagnode=document.getElementById(name);
+        if(tagnode.classList.contains('side_clicked')){
+            var pagenode=document.getElementById(all_page[name])
+            pagenode.style.display='none';
+        tagnode.classList.remove('side_clicked');
+        }else{
+            console.log('internal error:',name);
+        };
     };
-    document.getElementById(all_page[page]).style.display='block';
-    document.getElementById(page).className='sidetag side_clicked';
-    document.getElementById('sidetags').setAttribute('crtshow',all_page[page]);
+    document.getElementById(all_page[page]).style.display='flex';
+    document.getElementById(page).classList.add('side_clicked');
+    sidetagsnode.setAttribute('crtshow',all_page[page]);
+    sidetagsnode.setAttribute('tagshow',page);
     return 0;
 };
 
@@ -65,9 +76,9 @@ function spendtime(speed,completedsize,totalsize){
     var dtlist=[1,'sec',60,'min',3600,'hour',86400,'day',604300,'week']
     var i=0;
     if(completedsize>=totalsize||speed<=0){
-	return '∞';
+        return '∞';
     }else{
-	var time_raw=((totalsize-completedsize)/speed).toFixed(0);
+        var time_raw=((totalsize-completedsize)/speed).toFixed(0);
     };
     while(i<dtlist.length-2){
         if(time_raw<dtlist[i+2]){
@@ -101,6 +112,10 @@ function getqsv(k,def){
         };
     };
     return (typeof def===typeof undefined)?'':def
+};
+
+function autoinputsize(node){
+    node.size=Math.max(node.value.length/2,1);
 };
 
 function onloadfunction(){
