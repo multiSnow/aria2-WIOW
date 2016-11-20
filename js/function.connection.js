@@ -36,6 +36,7 @@ function connect(){
             document.getElementById(idl[n]).innerHTML='';
         };
         document.getElementById(nsidetags.getAttribute('crtshow')).style.display='none';
+        document.getElementById(nsidetags.getAttribute('tagshow')).classList.remove('side_clicked');
         nsidetags.removeAttribute('crtshow');
         nsidetags.removeAttribute('tagshow');
         nsidetags.style.display='none';
