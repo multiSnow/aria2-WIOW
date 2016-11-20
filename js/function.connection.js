@@ -23,7 +23,6 @@ function connect(){
         +':'+document.getElementById('wsport').value+'/jsonrpc';
     ws=new WebSocket(url);
     ws.onerror=function(message){
-        document.getElementById('rpctoken').style.display='inline';
         alert('Failed to open '+ws.url)
         return 0;
     };
@@ -47,7 +46,6 @@ function connect(){
         document.getElementById('ws_address').style.display='block';
         document.getElementById('connect').style.display='block';
         document.title='aria2 WIOW';
-        document.getElementById('rpctoken').style.display='inline';
         if(message.code!==1005){
             alert(message.code+' '+message.reason+' '+message.wasClean);
         };
@@ -58,10 +56,7 @@ function connect(){
         var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
         var msg_data=JSON.parse(message.data);
         if('id' in msg_data){
-            if('error' in msg_data){
-                document.getElementById('rpctoken').style.display='inline';
-            }else{
-                document.getElementById('rpctoken').style.display='none';
+            if(!('error' in msg_data)){
                 try{
                     func[msg_data.id](msg_data);
                 }catch(e){

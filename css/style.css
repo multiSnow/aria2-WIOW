@@ -17,11 +17,22 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 
+html,body
+{
+    height:100%;
+    max-height:100%;
+    min-height:100%;
+    margin:0;
+    padding:0;
+}
+
 body
 {
     background-color:#101010;
     color:#f0f0f0;
     font-family:sans;
+    display:flex;
+    align-items:stretch;
 }
 sub,sup
 {
@@ -45,16 +56,15 @@ blockquote
 
 #main
 {
-    margin-left:161px;
+    order:1;
+    flex:100 0 auto;
+    align-self:stretch;
 }
 #side
 {
     color:#f37a86;
-    width:160px;
-    float:left;
-    left:0;
-    position:fixed;
-    height:auto;
+    display:flex;
+    bottom:0px;
 }
 #showoption
 {
@@ -216,6 +226,7 @@ blockquote
     color:#f0f0f0!important;
     background-color:rgba(0,0,0,0)!important;
     text-shadow:0px 0px 5px #f37a86!important;
+    display:none;
 }
 .sideinfo
 {

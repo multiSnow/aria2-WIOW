@@ -110,6 +110,7 @@ function onloadfunction(){
     var main=document.getElementById('main');
     var side=document.getElementById('side');
     var wss_scheme=document.getElementById('wss_scheme');
+    var body=document.body;
     close_option(document.getElementById('close_option'));
     document.getElementById('wshost').value=getqsv('aria2_host',(location.hostname===''?'127.0.0.1':location.hostname));
     document.getElementById('wsport').value=getqsv('aria2_port','6800');
@@ -117,23 +118,17 @@ function onloadfunction(){
     wss_scheme.checked=(location.protocol==='https:');
     wss_scheme.disabled=(location.protocol==='https:');
     if(w>h){
-        main.style.marginLeft='161px';
-        main.style.marginBottom='0';
-        side.style.width='160px';
-        side.style.cssFloat='left';
-        side.style.bottom='auto';
-        for(var i=0;i<stl.length;i++){
-            stl[i].style.display='inherit';
-        };
+        body.style.flexDirection='row';
+        body.style.alignContent='flex-start';
+        body.style.justifyContent='flex-start';
+        side.style.flexDirection='column';
+        side.style.order=0;
     }else{
-        main.style.marginLeft='0';
-        main.style.marginBottom='280px';
-        side.style.width='auto';
-        side.style.cssFloat='none';
-        side.style.bottom='0';
-        for(var i=0;i<stl.length;i++){
-            stl[i].style.display='inline';
-        };
+        body.style.flexDirection='column';
+        body.style.alignContent='flex-end';
+        body.style.justifyContent='flex-end';
+        side.style.flexDirection='row';
+        side.style.order=2;
     };
     return 0;
 };

@@ -45,9 +45,15 @@
           secret:<input id="wss_scheme" type="checkbox"/><br/>
           host:<input id="wshost" type="text"/><br/>
           port:<input id="wsport" type="number" min="1" max="65535"/><br/>
+          token:<input id="rpctoken" type="text" placeholder="token"/>
         </div>
         <button id="connect" type="button" onclick="connect()">connect</button>
         <button id="disconnect" type="button" onclick="disconnect()" style="display:none">disconnect</button>
+        <div>
+          autorefresh:<input id="autorefresh" type="checkbox"/><br/>
+          1k=<input type="radio" name="type_unit" checked="true" id="type_unit_ice"/>1024
+          <input type="radio" name="type_unit"/>1000<br/>
+        </div>
         <div id="sideinfo" class="sideinfo" numstopped="0" numwaiting="0">
           <div id="sideinfo_static"></div>
           <div id="sideinfo_dynamic" style="display:none">
@@ -66,10 +72,6 @@
         <div id="waiting" class="sidetag" onclick="topage(id);showwaiting();">Waiting</div>
         <div id="info" class="sidetag" onclick="topage(id);globaloption();">Options</div>
       </div>
-      <input id="rpctoken" type="text" placeholder="token"/>
-      autorefresh:<input id="autorefresh" type="checkbox"/><br/>
-      1k=<input type="radio" name="type_unit" checked="true" id="type_unit_ice"/>1024
-      <input type="radio" name="type_unit"/>1000<br/>
     </div>
     <div id="main" style="display:none">
       <div id="mainstart">
