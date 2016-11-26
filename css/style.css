@@ -70,7 +70,7 @@ input:not([type="file"])
 {
     flex-direction:column;
 }
-#maininfo
+#maininfo,#add_option
 {
     flex-direction:row!important;
     flex-wrap:wrap;
@@ -311,7 +311,7 @@ input:not([type="file"])
     font-size:12px;
     margin-left:16px;
 }
-.go_
+.go_,#add_option>div
 {
     border-color:rgba(255,255,255,.3);
     border-radius:5px;

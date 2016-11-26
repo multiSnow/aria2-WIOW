@@ -29,7 +29,7 @@ function getstat(){
 
 function default_option(){
     if(document.getElementById('add_with_option').checked){
-        document.getElementById('add_option').style.display='inline';
+        document.getElementById('add_option').style.display='flex';
         document.getElementById('addcache').innerHTML='{}';
         return wsreq('default_option','aria2.getGlobalOption');
     }else{
