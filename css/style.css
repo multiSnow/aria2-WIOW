@@ -70,10 +70,14 @@ input:not([type="file"])
 {
     flex-direction:column;
 }
-#maininfo,#add_option
+#maininfo,#add_option,#showoption_option
 {
     flex-direction:row!important;
     flex-wrap:wrap;
+}
+#showoption_option
+{
+    display:flex;
 }
 
 #side
@@ -311,7 +315,7 @@ input:not([type="file"])
     font-size:12px;
     margin-left:16px;
 }
-.go_,#add_option>div
+.go_,#add_option>div,#showoption_option>div
 {
     border-color:rgba(255,255,255,.3);
     border-radius:5px;

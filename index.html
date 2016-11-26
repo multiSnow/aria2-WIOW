@@ -366,6 +366,8 @@
             seed-time:<input id="addcache_seed-time" type="number"
                              min="0"
                              onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+          </div>
+          <div>
             <!--Metalink-->
             follow-metalink:
             <select id="addcache_follow-metalink"
@@ -846,7 +848,6 @@
                                        onchange="option_dict[this.id.split('_')[1]][1](this)"
                                        oninput="autoinputsize(this)"/><br/>
             </div>
-            <hr/>
             <div id="showoption_option_bittorrent">
               bt-max-peers: <input id="singlecache_bt-max-peers" type="number"
                                    min="0"
@@ -857,7 +858,6 @@
               bt-remove-unselected-file: <input id="singlecache_bt-remove-unselected-file" type="checkbox"
                                                 onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
             </div>
-            <hr/>
             <div id="showoption_option_all">
               <!--Basic-->
               dir: <input id="singlecache_dir" type="text"
@@ -867,6 +867,8 @@
                                       onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
               continue: <input id="singlecache_continue" type="checkbox"
                                onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+            </div>
+            <div>
               <!--HTTP(S)/FTP-->
               all-proxy: <input id="singlecache_all-proxy" type="text"
                                 onchange="option_dict[this.id.split('_')[1]][1](this)"
@@ -947,6 +949,8 @@
                 <option value="feedback">feedback</option>
                 <option value="adaptive">adaptive</option>
               </select><br/>
+            </div>
+            <div>
               <!--HTTP(S)-->
               http-accept-gzip: <input id="singlecache_http-accept-gzip" type="checkbox"
                                        onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
@@ -990,6 +994,8 @@
               user-agent: <input id="singlecache_user-agent" type="text"
                                  onchange="option_dict[this.id.split('_')[1]][1](this)"
                                  oninput="autoinputsize(this)"/><br/>
+            </div>
+            <div>
               <!--FTP-->
               ftp-user: <input id="singlecache_ftp-user" type="text"
                                onchange="option_dict[this.id.split('_')[1]][1](this)"
@@ -1014,6 +1020,8 @@
               </select><br/>
               ftp-reuse-connection: <input id="singlecache_ftp-reuse-connection" type="checkbox"
                                            onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+            </div>
+            <div>
               <!--BitTorrent/Metalink-->
               select-file: <input id="singlecache_select-file" type="text"
                                   onchange="option_dict[this.id.split('_')[1]][1](this)"
@@ -1089,6 +1097,8 @@
               seed-time: <input id="singlecache_seed-time" type="number"
                                 min="0"
                                 onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+            </div>
+            <div>
               <!--Metalink-->
               follow-metalink: 
               <select id="singlecache_follow-metalink"
@@ -1119,6 +1129,8 @@
               </select><br/>
               metalink-enable-unique-protocol: <input id="singlecache_metalink-enable-unique-protocol" type="checkbox"
                                                       onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
+            </div>
+            <div>
               <!--Advanced-->
               allow-overwrite: <input id="singlecache_allow-overwrite" type="checkbox"
                                       onchange="option_dict[this.id.split('_')[1]][1](this)"/><br/>
