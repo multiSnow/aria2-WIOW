@@ -28,12 +28,19 @@ function receive_purgestopped(input_data){
 
 function receive_version(input_data){
     var sideinfo=document.getElementById('sideinfo_static');
-    var node=document.createElement('sup');
-    sideinfo.textContent='Connected to '+ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
-    sideinfo.appendChild(document.createElement('br'));
-    sideinfo.appendChild(document.createTextNode('aria2'));
-    sideinfo.appendChild(node);
-    node.textContent=input_data.result.version;
+    var node1=document.createElement('div');
+    var node2=document.createElement('div');
+    var node3=document.createElement('div');
+    var node4=document.createElement('sup');
+    sideinfo.innerHTML='';
+    node1.textContent='Connected';
+    node2.textContent=ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
+    node3.textContent='aria2';
+    node3.appendChild(node4);
+    node4.textContent=input_data.result.version;
+    sideinfo.appendChild(node1);
+    sideinfo.appendChild(node2);
+    sideinfo.appendChild(node3);
     return 0;
 };
 

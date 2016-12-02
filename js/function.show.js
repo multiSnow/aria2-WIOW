@@ -89,7 +89,7 @@ function hideoption(){
 function start_autorefresh(){
     var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
     return setInterval(function(){
-        getversion();getstat();
+        getstat();
         if(document.getElementById('autorefresh').checked
            &&document.getElementById('sidetags').hasAttribute('crtshow')){
             if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
