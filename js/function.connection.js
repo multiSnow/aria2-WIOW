@@ -18,9 +18,18 @@
  */
 
 function connect(){
-    var url=(document.getElementById('wss_scheme').checked===true?'wss://':'ws://')
-        +document.getElementById('wshost').value
-        +':'+document.getElementById('wsport').value+'/jsonrpc';
+    var nsidetags=document.getElementById('sidetags');
+    var nwsaddr=document.getElementById('ws_address');
+    var nwshost=document.getElementById('wshost');
+    var nwsport=document.getElementById('wsport');
+    var nrpctoken=document.getElementById('rpctoken');
+
+    var nsideinfodyn=document.getElementById('sideinfo_dynamic');
+    var nmain=document.getElementById('main');
+
+    var wss_scheme=document.getElementById('wss_scheme').checked===true?'wss://':'ws://';
+    var url=[wss_scheme,nwshost.value,':',nwsport.value,'/jsonrpc'].join('');
+
     ws=new WebSocket(url);
     ws.onerror=function(message){
         alert('Failed to open '+ws.url)
@@ -29,12 +38,19 @@ function connect(){
 
     ws.onclose=function(message){
         clearInterval(autorefresh);
-        var nsidetags=document.getElementById('sidetags');
-        var nmain=document.getElementById('main')
         var idl=['mainactive','mainstopped','mainwaiting'];
         for(var n in idl){
             document.getElementById(idl[n]).innerHTML='';
         };
+        nwshost.value=nwsaddr.getAttribute('data-wshost');
+        nwsport.value=nwsaddr.getAttribute('data-wsport');
+        nrpctoken.value=nwsaddr.getAttribute('data-rpctoken');
+        nwsaddr.removeAttribute('data-wshost');
+        nwsaddr.removeAttribute('data-wsport');
+        nwsaddr.removeAttribute('data-rpctoken');
+        nwshost.disabled=false;
+        nwsport.disabled=false;
+        nrpctoken.disabled=false;
         document.getElementById(nsidetags.getAttribute('crtshow')).style.display='none';
         document.getElementById(nsidetags.getAttribute('tagshow')).classList.remove('side_clicked');
         nsidetags.removeAttribute('crtshow');
@@ -42,10 +58,10 @@ function connect(){
         nsidetags.style.display='none';
         nmain.style.display='none';
         document.getElementById('sideinfo_static').innerHTML='Disconnected!';
-        document.getElementById('sideinfo_dynamic').style.display='none';
+        nsideinfodyn.style.display='none';
         document.getElementById('shutdown_button').style.display='none';
         document.getElementById('disconnect').style.display='none';
-        document.getElementById('ws_address').style.display='block';
+        nwsaddr.style.display='block';
         document.getElementById('connect').style.display='block';
         document.title='aria2 WIOW';
         if(message.code!==1005){
@@ -68,8 +84,8 @@ function connect(){
         }else{
             if(msg_data.method in func){
                 func[msg_data.method](msg_data);
-                if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
-                    idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]();
+                if(nsidetags.getAttribute('crtshow') in idfunc_dict){
+                    idfunc_dict[nsidetags.getAttribute('crtshow')]();
                 };
             };
         };
@@ -77,13 +93,20 @@ function connect(){
     };
 
     ws.onopen=function(message){
-        document.getElementById('sideinfo_dynamic').style.display='inline';
-        document.getElementById('sidetags').style.display='block';
+        nwshost.disabled=true;
+        nwsport.disabled=true;
+        nrpctoken.disabled=true;
+        nwsaddr.setAttribute('data-wshost',nwshost.value);
+        nwsaddr.setAttribute('data-wsport',nwsport.value);
+        nwsaddr.setAttribute('data-rpctoken',nrpctoken.value);
+        location.hash='',
+        nsideinfodyn.style.display='inline';
+        nsidetags.style.display='block';
         document.getElementById('shutdown_button').style.display='block';
-        document.getElementById('main').style.display='block';
+        nmain.style.display='block';
         getversion();topage('start');default_option();
         document.getElementById('disconnect').style.display='block';
-        document.getElementById('ws_address').style.display='none';
+        nwsaddr.style.display='none';
         document.getElementById('connect').style.display='none';
         autorefresh=start_autorefresh()
 	return 0;
@@ -105,8 +128,9 @@ function wsreq(id,method,params){
               id:id,
               method:method,
               params:(typeof params===typeof undefined)?[]:params};
-    if(document.getElementById('rpctoken').value){
-        json.params.unshift('token:'+document.getElementById('rpctoken').value);
+    var rpctoken=document.getElementById('ws_address').getAttribute('data-rpctoken');
+    if(rpctoken){
+        json.params.unshift('token:'+rpctoken);
     };
     ws.send(JSON.stringify(json));
     return 0;

@@ -33,7 +33,8 @@
     <script type="text/javascript" src="js/function.option.js"></script>
     <script type="text/javascript" src="js/function.show.js"></script>
     <script>
-      window.onload=onloadfunction;
+      window.onload=(function(){onloadfunction();setaria2params();});
+      window.onhashchange=setaria2params;
       window.onresize=onloadfunction;
     </script>
     <title>aria2 WIOW</title>

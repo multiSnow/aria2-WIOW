@@ -103,19 +103,23 @@ function human_read(num){
     return (num/bignumlist[bignumlist.length-1]).toFixed(2).valueOf()+suffixlist[suffixlist.length-1];
 };
 
-function getqsv(k,def){
-    var qsl=location.search.substring(1).split('&');
-    for(var i in qsl){
-        var pl=qsl[i].split('=');
-        if(pl[0]==k){
-            return pl.slice(1,pl.length).join('=');
-        };
-    };
-    return (typeof def===typeof undefined)?'':def
-};
-
 function autoinputsize(node){
     node.size=Math.max(node.value.length/2,1);
+};
+
+function setaria2params(){
+    var hostname=location.hostname;
+    var hashlist=location.hash.substring(1).split('&');
+    var hashdata={};
+    for(var i in hashlist){
+        var pl=hashlist[i].split('=');
+        var k=pl.shift();
+        var v=pl.join('=');
+        hashdata[k]=v;
+    };
+    document.getElementById('wshost').value=hashdata['aria2_host']||(hostname===''?'127.0.0.1':hostname);
+    document.getElementById('wsport').value=hashdata['aria2_port']||'6800';
+    document.getElementById('rpctoken').value=hashdata['aria2_token']||'';
 };
 
 function onloadfunction(){
@@ -127,9 +131,6 @@ function onloadfunction(){
     var wss_scheme=document.getElementById('wss_scheme');
     var body=document.body;
     close_option(document.getElementById('close_option'));
-    document.getElementById('wshost').value=getqsv('aria2_host',(location.hostname===''?'127.0.0.1':location.hostname));
-    document.getElementById('wsport').value=getqsv('aria2_port','6800');
-    document.getElementById('rpctoken').value=getqsv('aria2_token');
     wss_scheme.checked=(location.protocol==='https:');
     wss_scheme.disabled=(location.protocol==='https:');
     if(w>h){

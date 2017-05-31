@@ -18,9 +18,7 @@
  */
 
 function getversion(){
-    if(!document.getElementById('rpctoken').disabled){
-        return wsreq('version','aria2.getVersion');
-    };
+    return wsreq('version','aria2.getVersion');
 };
 
 function getstat(){
