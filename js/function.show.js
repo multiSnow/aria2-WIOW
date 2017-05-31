@@ -45,7 +45,7 @@ function showactive(){
 
 function showstopped(){
     return wsreq('showstopped','aria2.tellStopped',
-                 new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numstopped')),
+                 new Array(0,parseInt(getattr(document.getElementById('sideinfo'),'data-numstopped')),
                            ['gid','status','totalLength','completedLength','uploadLength',
                             'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
                             'numPieces','connections','errorCode','files','bittorrent']));
@@ -53,7 +53,7 @@ function showstopped(){
 
 function showwaiting(){
     return wsreq('showwaiting','aria2.tellWaiting',
-                 new Array(0,parseInt(document.getElementById('sideinfo').getAttribute('numwaiting')),
+                 new Array(0,parseInt(getattr(document.getElementById('sideinfo'),'data-numwaiting')),
                            ['gid','status','totalLength','completedLength','uploadLength',
                             'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
                             'numPieces','connections','errorCode','files','bittorrent']))
@@ -64,7 +64,7 @@ function globaloption(){
 };
 
 function showoption(gid){
-    var artype=document.getElementById(gid).getAttribute('artype');
+    var artype=getattr(document.getElementById(gid),'data-artype');
     if(artype=='stop'){
         wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
     }else{
@@ -87,11 +87,11 @@ function hideoption(){
 function start_autorefresh(){
     var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
     return setInterval(function(){
+        var showtagname=getattr(document.getElementById('sidetags'),'data-crtshow');
         getstat();
-        if(document.getElementById('autorefresh').checked
-           &&document.getElementById('sidetags').hasAttribute('crtshow')){
-            if(document.getElementById('sidetags').getAttribute('crtshow') in idfunc_dict){
-                idfunc_dict[document.getElementById('sidetags').getAttribute('crtshow')]();
+        if(document.getElementById('autorefresh').checked){
+            if(showtagname in idfunc_dict){
+                idfunc_dict[showtagname]();
             };
         };
     },500);

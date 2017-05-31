@@ -156,9 +156,9 @@ function func_show_header(name,value,place){
         var new_node=document.createElement('li');
         var new_input_node=document.createElement('input');
         new_input_node.id=[place,name,'string'].join('_');
-        new_input_node.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-        new_input_node.setAttribute('oninput',"autoinputsize(this)");
-        new_input_node.setAttribute('type','text');
+        setattr(new_input_node,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+        setattr(new_input_node,'oninput',"autoinputsize(this)");
+        setattr(new_input_node,'type','text');
         new_input_node.value=header_list[i];
         new_node.appendChild(new_input_node)
         header_list_element.appendChild(new_node);
@@ -185,9 +185,9 @@ function func_cache_header(element){
                 var new_node=document.createElement('li');
                 var new_input_node=document.createElement('input');
                 new_input_node.id=[method,option,'string'].join('_');
-                new_input_node.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-                new_input_node.setAttribute('oninput',"autoinputsize(this)");
-                new_input_node.setAttribute('type','text');
+                setattr(new_input_node,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                setattr(new_input_node,'oninput',"autoinputsize(this)");
+                setattr(new_input_node,'type','text');
                 new_node.appendChild(new_input_node)
                 header_list_element.appendChild(new_node);
             };
@@ -270,13 +270,13 @@ function func_show_index_out(name,value,place){
             new_node_out.value=v[1];
         })(indexout_list[i].split('='));
         new_node_index.id=[place,name,'index'].join('_');
-        new_node_index.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-        new_node_index.setAttribute('oninput',"autoinputsize(this)");
-        new_node_index.setAttribute('type','number');
+        setattr(new_node_index,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+        setattr(new_node_index,'oninput',"autoinputsize(this)");
+        setattr(new_node_index,'type','number');
         new_node_out.id=[place,name,'out'].join('_');
-        new_node_out.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-        new_node_out.setAttribute('oninput',"autoinputsize(this)");
-        new_node_out.setAttribute('type','text');
+        setattr(new_node_out,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+        setattr(new_node_out,'oninput',"autoinputsize(this)");
+        setattr(new_node_out,'type','text');
         new_node.appendChild(new_node_index);
         new_node.appendChild(document.createTextNode('='));
         new_node.appendChild(new_node_out);
@@ -305,13 +305,13 @@ function func_cache_index_out(element){
                 var new_node_index=document.createElement('input');
                 var new_node_out=document.createElement('input');
                 new_node_index.id=[method,option,'index'].join('_');
-                new_node_index.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-                new_node_index.setAttribute('oninput',"autoinputsize(this)");
-                new_node_index.setAttribute('type','number');
+                setattr(new_node_index,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                setattr(new_node_index,'oninput',"autoinputsize(this)");
+                setattr(new_node_index,'type','number');
                 new_node_out.id=[method,option,'out'].join('_');
-                new_node_out.setAttribute('onchange',"option_dict[this.id.split('_')[1]][1](this)");
-                new_node_out.setAttribute('oninput',"autoinputsize(this)");
-                new_node_out.setAttribute('type','text');
+                setattr(new_node_out,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
+                setattr(new_node_out,'oninput',"autoinputsize(this)");
+                setattr(new_node_out,'type','text');
                 new_node.appendChild(new_node_index);
                 new_node.appendChild(document.createTextNode('='));
                 new_node.appendChild(new_node_out);

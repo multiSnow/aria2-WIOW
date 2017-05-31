@@ -17,6 +17,20 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 
+function setattr(node,attr,value){
+    return node.setAttribute(attr,value);
+};
+
+function getattr(node,attr){
+    return node.getAttribute(attr);
+};
+
+function popattr(node,attr){
+    var value=getattr(node,attr);
+    node.removeAttribute(attr);
+    return value;
+};
+
 function warning_dialog(string){
     return 0;
 };
@@ -26,7 +40,7 @@ function topage(page){
                   'stopped':'mainstopped','waiting':'mainwaiting',
                   'info':'maininfo'}
     var sidetagsnode=document.getElementById('sidetags')
-    var name=sidetagsnode.getAttribute('tagshow');
+    var name=getattr(sidetagsnode,'data-tagshow');
     if(name){
         var tagnode=document.getElementById(name);
         if(tagnode.classList.contains('side_clicked')){
@@ -39,8 +53,8 @@ function topage(page){
     };
     document.getElementById(all_page[page]).style.display='flex';
     document.getElementById(page).classList.add('side_clicked');
-    sidetagsnode.setAttribute('crtshow',all_page[page]);
-    sidetagsnode.setAttribute('tagshow',page);
+    setattr(sidetagsnode,'data-crtshow',all_page[page]);
+    setattr(sidetagsnode,'data-tagshow',page);
     return 0;
 };
 
@@ -52,8 +66,8 @@ function switch_add_type(input_value){
         document.getElementById(all_type[type]).style.display='none';
         document.getElementById(all_type[type]).value='';
     };
-    document.getElementById('reset_add').setAttribute('onclick',"clearadd('new_type')".replace('new_type',all_type[input_value]));
-    document.getElementById('start_add').setAttribute('onclick',"add_type_func['new_type']()".replace('new_type',all_type[input_value]));
+    setattr(document.getElementById('reset_add'),'onclick',"clearadd('new_type')".replace('new_type',all_type[input_value]));
+    setattr(document.getElementById('start_add'),'onclick',"add_type_func['new_type']()".replace('new_type',all_type[input_value]));
     document.getElementById(all_type[input_value]).style.display='block';
     return 0;
 }

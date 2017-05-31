@@ -49,8 +49,8 @@ function receive_stat(input_data){
     var dspd=human_read(input_data.result.downloadSpeed)+'/s';
     var uspd=human_read(input_data.result.uploadSpeed)+'/s';
     document.title='⬇'+dspd+' ⬆'+uspd;
-    sideinfo.setAttribute('numstopped',input_data.result.numStopped);
-    sideinfo.setAttribute('numwaiting',input_data.result.numWaiting);
+    setattr(sideinfo,'data-numstopped',input_data.result.numStopped);
+    setattr(sideinfo,'data-numwaiting',input_data.result.numWaiting);
     document.getElementById('gloactive').innerHTML=input_data.result.numActive;
     document.getElementById('glostopped').innerHTML=input_data.result.numStopped;
     document.getElementById('glowaiting').innerHTML=input_data.result.numWaiting;
@@ -102,7 +102,7 @@ function receive_stopped(input_data){
         purge_button=document.createElement('button');
         purge_button.id='purge_button';
         purge_button.type='button';
-        purge_button.setAttribute('onclick','purgestopped();');
+        setattr(purge_button,'onclick','purgestopped();');
         purge_button.appendChild(document.createTextNode('Purge Stopped'));
         document.getElementById('mainstopped').appendChild(purge_button);
     }else if(purge_button){

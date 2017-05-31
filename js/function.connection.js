@@ -42,19 +42,14 @@ function connect(){
         for(var n in idl){
             document.getElementById(idl[n]).innerHTML='';
         };
-        nwshost.value=nwsaddr.getAttribute('data-wshost');
-        nwsport.value=nwsaddr.getAttribute('data-wsport');
-        nrpctoken.value=nwsaddr.getAttribute('data-rpctoken');
-        nwsaddr.removeAttribute('data-wshost');
-        nwsaddr.removeAttribute('data-wsport');
-        nwsaddr.removeAttribute('data-rpctoken');
+        nwshost.value=popattr(nwsaddr,'data-wshost');
+        nwsport.value=popattr(nwsaddr,'data-wsport');
+        nrpctoken.value=popattr(nwsaddr,'data-rpctoken');
         nwshost.disabled=false;
         nwsport.disabled=false;
         nrpctoken.disabled=false;
-        document.getElementById(nsidetags.getAttribute('crtshow')).style.display='none';
-        document.getElementById(nsidetags.getAttribute('tagshow')).classList.remove('side_clicked');
-        nsidetags.removeAttribute('crtshow');
-        nsidetags.removeAttribute('tagshow');
+        document.getElementById(popattr(nsidetags,'data-crtshow')).style.display='none';
+        document.getElementById(popattr(nsidetags,'data-tagshow')).classList.remove('side_clicked');
         nsidetags.style.display='none';
         nmain.style.display='none';
         document.getElementById('sideinfo_static').innerHTML='Disconnected!';
@@ -72,6 +67,7 @@ function connect(){
 
     ws.onmessage=function(message){
         var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+        var showtagname=getattr(nsidetags,'data-crtshow');
         var msg_data=JSON.parse(message.data);
         if('id' in msg_data){
             if(!('error' in msg_data)){
@@ -84,8 +80,8 @@ function connect(){
         }else{
             if(msg_data.method in func){
                 func[msg_data.method](msg_data);
-                if(nsidetags.getAttribute('crtshow') in idfunc_dict){
-                    idfunc_dict[nsidetags.getAttribute('crtshow')]();
+                if(showtagname in idfunc_dict){
+                    idfunc_dict[showtagname]();
                 };
             };
         };
@@ -96,9 +92,9 @@ function connect(){
         nwshost.disabled=true;
         nwsport.disabled=true;
         nrpctoken.disabled=true;
-        nwsaddr.setAttribute('data-wshost',nwshost.value);
-        nwsaddr.setAttribute('data-wsport',nwsport.value);
-        nwsaddr.setAttribute('data-rpctoken',nrpctoken.value);
+        setattr(nwsaddr,'data-wshost',nwshost.value);
+        setattr(nwsaddr,'data-wsport',nwsport.value);
+        setattr(nwsaddr,'data-rpctoken',nrpctoken.value);
         location.hash='',
         nsideinfodyn.style.display='inline';
         nsidetags.style.display='block';
@@ -128,7 +124,7 @@ function wsreq(id,method,params){
               id:id,
               method:method,
               params:(typeof params===typeof undefined)?[]:params};
-    var rpctoken=document.getElementById('ws_address').getAttribute('data-rpctoken');
+    var rpctoken=getattr(document.getElementById('ws_address'),'data-rpctoken');
     if(rpctoken){
         json.params.unshift('token:'+rpctoken);
     };
