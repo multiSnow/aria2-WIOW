@@ -125,11 +125,8 @@ function setaria2params(){
     var hostname=location.hostname;
     var hashlist=location.hash.substring(1).split('&');
     var hashdata={};
-    for(let i in hashlist){
-        var pl=hashlist[i].split('=');
-        var k=pl.shift();
-        var v=pl.join('=');
-        hashdata[k]=v;
+    for(let [match,key,value] of hashlist.map(n=>n.match(/^([^=]*)=?(.*)$/))){
+        hashdata[key]=value;
     };
     document.getElementById('wshost').value=hashdata['aria2_host']||(hostname===''?'127.0.0.1':hostname);
     document.getElementById('wsport').value=hashdata['aria2_port']||'6800';

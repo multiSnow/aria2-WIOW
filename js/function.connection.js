@@ -39,8 +39,8 @@ function connect(){
     ws.onclose=function(message){
         clearInterval(autorefresh);
         var idl=['mainactive','mainstopped','mainwaiting'];
-        for(let n in idl){
-            document.getElementById(idl[n]).innerHTML='';
+        for(let n of idl){
+            document.getElementById(n).innerHTML='';
         };
         nwshost.value=popattr(nwsaddr,'data-wshost');
         nwsport.value=popattr(nwsaddr,'data-wsport');

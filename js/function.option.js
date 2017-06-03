@@ -145,21 +145,21 @@ function func_clean_checksum(name,place){
 function func_show_header(name,value,place){
     var header_list=new Array();
     var header_raw_list=value.split('\n');
-    for(let header_val in header_raw_list){
-        if(header_raw_list[header_val]!==''){
-            header_list.push(header_raw_list[header_val])
+    for(let header of header_raw_list){
+        if(header){
+            header_list.push(header)
         };
     };
     var header_list_element=document.getElementById([place,name,'list'].join('_'));
     document.getElementById([place,name].join('_')).value=header_list.length;
-    for(let i in header_list){
+    for(let header of header_list){
         var new_node=document.createElement('li');
         var new_input_node=document.createElement('input');
         new_input_node.id=[place,name,'string'].join('_');
         setattr(new_input_node,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
         setattr(new_input_node,'oninput',"autoinputsize(this)");
         setattr(new_input_node,'type','text');
-        new_input_node.value=header_list[i];
+        new_input_node.value=header;
         new_node.appendChild(new_input_node)
         header_list_element.appendChild(new_node);
     };
@@ -254,21 +254,21 @@ function func_clean_bt_prioritize_piece(name,place){
 function func_show_index_out(name,value,place){
     var indexout_list=new Array();
     var indexout_raw_list=value.split('\n');
-    for(let indexout_val in indexout_raw_list){
-        if(indexout_raw_list[indexout_val]!==''){
-            indexout_list.push(indexout_raw_list[indexout_val])
+    for(let indexout of indexout_raw_list){
+        if(indexout){
+            indexout_list.push(indexout)
         };
     };
     var indexout_list_element=document.getElementById([place,name,'list'].join('_'));
     document.getElementById([place,name].join('_')).value=indexout_list.length;
-    for(let i in indexout_list){
+    for(let indexout of indexout_list){
         var new_node=document.createElement('li');
         var new_node_index=document.createElement('input');
         var new_node_out=document.createElement('input');
         (function(v){
             new_node_index.value=v[0];
             new_node_out.value=v[1];
-        })(indexout_list[i].split('='));
+        })(indexout.split('='));
         new_node_index.id=[place,name,'index'].join('_');
         setattr(new_node_index,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
         setattr(new_node_index,'oninput',"autoinputsize(this)");

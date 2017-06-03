@@ -60,42 +60,41 @@ function receive_stat(input_data){
 };
 
 function receive_active(input_data){
-    for(let i in input_data.result){
+    input_data.result.forEach(function(result,i){
         var dict=new Object();
-        dict['downloadSpeed']=input_data.result[i].downloadSpeed;
-        dict['uploadSpeed']=input_data.result[i].uploadSpeed;
-        dict['completedLength']=input_data.result[i].completedLength;
-        dict['totalLength']=input_data.result[i].totalLength;
-        dict['connections']=input_data.result[i].connections;
-        if(input_data.result[i].bittorrent===undefined){
+        dict['downloadSpeed']=result.downloadSpeed;
+        dict['uploadSpeed']=result.uploadSpeed;
+        dict['completedLength']=result.completedLength;
+        dict['totalLength']=result.totalLength;
+        dict['connections']=result.connections;
+        if(result.bittorrent===undefined){
             dict['type_bittorrent']=0;
-            dict['name']=input_data.result[i].files[0].path;
+            dict['name']=result.files[0].path;
             dict['color']='#0080ff';
-        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
+        }else if(result.bittorrent.info===undefined||result.bittorrent.info.name===undefined){
             dict['type_bittorrent']=2;
-            dict['name']=input_data.result[i].files[0].path;
+            dict['name']=result.files[0].path;
             dict['color']='#ffff00';
         }else{
             dict['type_bittorrent']=1;
-            dict['name']=input_data.result[i].bittorrent.info.name;
+            dict['name']=result.bittorrent.info.name;
             dict['color']='#40ff40';
         };
-        dict['infohash']=(dict['type_bittorrent']==1)?input_data.result[i].infoHash:'';
+        dict['infohash']=(dict['type_bittorrent']==1)?result.infoHash:'';
         dict['i']=i;
-        opr_active(input_data.result[i].gid,dict);
-    };
-    return 0;
+        opr_active(result.gid,dict);
+    });
 };
 
 function receive_stopped(input_data){
-    for(let i in input_data.result){
+    input_data.result.forEach(function(result,i){
         var dict=new Object();
-        dict['completedLength']=input_data.result[i].completedLength;
-        dict['totalLength']=input_data.result[i].totalLength;
-        dict['name']=input_data.result[i].files[0].path;
+        dict['completedLength']=result.completedLength;
+        dict['totalLength']=result.totalLength;
+        dict['name']=result.files[0].path;
         dict['i']=i;
-        opr_stopped(input_data.result[i].gid,dict);
-    };
+        opr_stopped(result.gid,dict);
+    });
     var purge_button=document.getElementById('purge_button');
     if(input_data.result&&input_data.result.length>0&&purge_button){
     }else if(input_data.result&&input_data.result.length>0){
@@ -112,30 +111,30 @@ function receive_stopped(input_data){
 };
 
 function receive_waiting(input_data){
-    for(let i in input_data.result){
+    input_data.result.forEach(function(result,i){
         var dict=new Object();
-        dict['downloadSpeed']=input_data.result[i].downloadSpeed;
-        dict['uploadSpeed']=input_data.result[i].uploadSpeed;
-        dict['completedLength']=input_data.result[i].completedLength;
-        dict['totalLength']=input_data.result[i].totalLength;
-        dict['connections']=input_data.result[i].connections;
-        if(input_data.result[i].bittorrent===undefined){
+        dict['downloadSpeed']=result.downloadSpeed;
+        dict['uploadSpeed']=result.uploadSpeed;
+        dict['completedLength']=result.completedLength;
+        dict['totalLength']=result.totalLength;
+        dict['connections']=result.connections;
+        if(result.bittorrent===undefined){
             dict['type_bittorrent']=0;
-            dict['name']=input_data.result[i].files[0].path;
+            dict['name']=result.files[0].path;
             dict['color']='#0080ff';
-        }else if(input_data.result[i].bittorrent.info===undefined||input_data.result[i].bittorrent.info.name===undefined){
+        }else if(result.bittorrent.info===undefined||result.bittorrent.info.name===undefined){
             dict['type_bittorrent']=2;
-            dict['name']=input_data.result[i].files[0].path;
+            dict['name']=result.files[0].path;
             dict['color']='#ffff00';
         }else{
             dict['type_bittorrent']=1;
-            dict['name']=input_data.result[i].bittorrent.info.name;
+            dict['name']=result.bittorrent.info.name;
             dict['color']='#40ff40';
         };
-        dict['infohash']=(dict['type_bittorrent']==1)?input_data.result[i].infoHash:'';
+        dict['infohash']=(dict['type_bittorrent']==1)?result.infoHash:'';
         dict['i']=i;
-        opr_waiting(input_data.result[i].gid,dict);
-    };
+        opr_waiting(result.gid,dict);
+    });
     return 0;
 };
 
@@ -153,23 +152,23 @@ function receive_singlestat(input_data){
     document.getElementById('showoption_status_basic').style.display='block';
     document.getElementById('showoption_statue_file').style.display='block';
 
-    for(let i in result.files){
+    for(let file of result.files){
         var files=document.createElement('div');
         var files_index_path=document.createElement('div');
         var progress_bar=document.createElement('progress');
         var selected=document.createElement('div');
-        var completedLength=result.files[i].completedLength;
-        var totalLength=result.files[i].length;
+        var completedLength=file.completedLength;
+        var totalLength=file.length;
         var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
-        files_index_path.appendChild(document.createTextNode(result.files[i].index+' '+result.files[i].path.replace(result.dir+'/','')))
+        files_index_path.appendChild(document.createTextNode(file.index+' '+file.path.replace(result.dir+'/','')))
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
-        selected.style.color=(result.files[i].selected==='true')?'#40ff40':'#808080';
+        selected.style.color=(file.selected==='true')?'#40ff40':'#808080';
 
-        selected.appendChild(document.createTextNode((result.files[i].selected==='true')?'selected':'unselected'));
+        selected.appendChild(document.createTextNode((file.selected==='true')?'selected':'unselected'));
         files.appendChild(files_index_path);
         files.appendChild(progress_bar);
         files.appendChild(size);
@@ -179,10 +178,10 @@ function receive_singlestat(input_data){
             var download_from=document.createElement('div');
             var files_uris=document.createElement('blockquote');
             files_uris.className='files_uris'
-            for(let j in result.files[i].uris){
+            for(let uri of file.uris){
                 var files_uris_single=document.createElement('div');
-                files_uris_single.style.color=(result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
-                files_uris_single.appendChild(document.createTextNode(result.files[i].uris[j].uri));
+                files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
+                files_uris_single.appendChild(document.createTextNode(uri.uri));
                 files_uris.appendChild(files_uris_single);
             };
             download_from.appendChild(files_uris);
@@ -200,10 +199,10 @@ function receive_singlestat(input_data){
         document.getElementById('showoption_statue_peers').innerHTML='';
         document.getElementById('showoption_status_infohash').innerHTML=result.infoHash;
         document.getElementById('showoption_status_numseeders').innerHTML=result.numSeeders;
-        for(let i in result.bittorrent.announceList){
-            for(let j in result.bittorrent.announceList[i]){
+        for(let anon of result.bittorrent.announceList){
+            for(let url of anon){
                 var announceurl=document.createElement('div');
-                announceurl.appendChild(document.createTextNode(result.bittorrent.announceList[i][j]));
+                announceurl.appendChild(document.createTextNode(url));
                 document.getElementById('showoption_status_announcelist').appendChild(announceurl);
             };
         };
@@ -225,8 +224,7 @@ function receive_singleopt(input_data){
 };
 
 function receive_singlepeer(input_data){
-    var peer_result=input_data.result;
-    for(let i in peer_result){
+    for(let result of input_data.result){
         var peer=document.createElement('div');
         var peer_id_addr=document.createElement('div');
         var peer_spd=document.createElement('div');
@@ -234,26 +232,26 @@ function receive_singlepeer(input_data){
         peer.className='peer';
         peer_id_addr.className='peer_addr';
         peer_spd.className='peer_spd'
-        peer_id_addr.style.color=(peer_result[i].seeder==='true')?'#40ff40':'#ffff00';
-        peer_id_addr.appendChild(document.createTextNode(unescape(peer_result[i].peerId)));
-        if(peer_result[i].ip.match(':')){
-            peer_id_addr.appendChild(document.createTextNode(' from ['+peer_result[i].ip+']:'+peer_result[i].port));
+        peer_id_addr.style.color=(result.seeder==='true')?'#40ff40':'#ffff00';
+        peer_id_addr.appendChild(document.createTextNode(unescape(result.peerId)));
+        if(result.ip.match(':')){
+            peer_id_addr.appendChild(document.createTextNode(' from ['+result.ip+']:'+result.port));
         }else{
-            peer_id_addr.appendChild(document.createTextNode(' from '+peer_result[i].ip+':'+peer_result[i].port));
+            peer_id_addr.appendChild(document.createTextNode(' from '+result.ip+':'+result.port));
         };
-        peer_spd.appendChild(document.createTextNode('D: '+human_read(peer_result[i].downloadSpeed)+'/s'));
+        peer_spd.appendChild(document.createTextNode('D: '+human_read(result.downloadSpeed)+'/s'));
         peer_spd.appendChild(document.createElement('br'));
-        peer_spd.appendChild(document.createTextNode('U: '+human_read(peer_result[i].uploadSpeed)+'/s'));
+        peer_spd.appendChild(document.createTextNode('U: '+human_read(result.uploadSpeed)+'/s'));
 
         peer.appendChild(peer_id_addr);
         peer.appendChild(peer_spd);
 
-        if(peer_result[i].amChoking==='true'){
+        if(result.amChoking==='true'){
             var amChoking=document.createElement('div');
             amChoking.appendChild(document.createTextNode('amChoking'));
             peer.appendChild(amChoking);
         };
-        if(peer_result[i].peerChoking==='true'){
+        if(result.peerChoking==='true'){
             var peerChoking=document.createElement('div');
             peerChoking.appendChild(document.createTextNode('peerChoking'));
             peer.appendChild(peerChoking);
@@ -289,29 +287,29 @@ function receive_stoppedstatus(input_data){
     document.getElementById('showoption_status_connections').innerHTML=input_data.result.connections;
     document.getElementById('showoption_statue_file').innerHTML='';
 
-    for(let i in input_data.result.files){
+    for(let file of input_data.result.files){
         var files=document.createElement('div');
         var files_index_path=document.createElement('div');
         var progress_bar=document.createElement('progress');
         var selected=document.createElement('div');
         var download_from=document.createElement('div');
         var files_uris=document.createElement('blockquote');
-        var completedLength=input_data.result.files[i].completedLength;
-        var totalLength=input_data.result.files[i].length;
+        var completedLength=file.completedLength;
+        var totalLength=file.length;
         var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
-        files_index_path.appendChild(document.createTextNode(input_data.result.files[i].index+' '+input_data.result.files[i].path.replace(input_data.result.dir+'/','')))
+        files_index_path.appendChild(document.createTextNode(file.index+' '+file.path.replace(input_data.result.dir+'/','')))
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
-        selected.style.color=(input_data.result.files[i].selected==='true')?'#40ff40':'#808080';
-        selected.appendChild(document.createTextNode((input_data.result.files[i].selected==='true')?'selected':'unselected'));
+        selected.style.color=(file.selected==='true')?'#40ff40':'#808080';
+        selected.appendChild(document.createTextNode((file.selected==='true')?'selected':'unselected'));
         files_uris.className='files_uris'
-        for(let j in input_data.result.files[i].uris){
+        for(let uri of file.uris){
             var files_uris_single=document.createElement('div');
-            files_uris_single.style.color=(input_data.result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
-            files_uris_single.appendChild(document.createTextNode(input_data.result.files[i].uris[j].uri));
+            files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
+            files_uris_single.appendChild(document.createTextNode(uri.uri));
             files_uris.appendChild(files_uris_single);
         };
         download_from.appendChild(files_uris);
