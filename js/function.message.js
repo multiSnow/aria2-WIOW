@@ -228,17 +228,14 @@ function receive_singlepeer(input_data){
         var peer=document.createElement('div');
         var peer_id_addr=document.createElement('div');
         var peer_spd=document.createElement('div');
+        var peer_addr=(result.ip.match(':')?' from [_]:':' from _:').replace('_',result.ip)+result.port;
 
         peer.className='peer';
         peer_id_addr.className='peer_addr';
         peer_spd.className='peer_spd'
         peer_id_addr.style.color=(result.seeder==='true')?'#40ff40':'#ffff00';
         peer_id_addr.appendChild(document.createTextNode(unescape(result.peerId)));
-        if(result.ip.match(':')){
-            peer_id_addr.appendChild(document.createTextNode(' from ['+result.ip+']:'+result.port));
-        }else{
-            peer_id_addr.appendChild(document.createTextNode(' from '+result.ip+':'+result.port));
-        };
+        peer_id_addr.appendChild(document.createTextNode(peer_addr));
         peer_spd.appendChild(document.createTextNode('D: '+human_read(result.downloadSpeed)+'/s'));
         peer_spd.appendChild(document.createElement('br'));
         peer_spd.appendChild(document.createTextNode('U: '+human_read(result.uploadSpeed)+'/s'));
