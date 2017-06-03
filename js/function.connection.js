@@ -39,7 +39,7 @@ function connect(){
     ws.onclose=function(message){
         clearInterval(autorefresh);
         var idl=['mainactive','mainstopped','mainwaiting'];
-        for(var n in idl){
+        for(let n in idl){
             document.getElementById(idl[n]).innerHTML='';
         };
         nwshost.value=popattr(nwsaddr,'data-wshost');

@@ -60,7 +60,7 @@ function optioncanvas(node){
     icon.translate(12,12);
     icon.arc(0,0,10,0,2*Math.PI);
     icon.fill();
-    for(var i=0;i<12;i++){
+    for(let i=0;i<12;i++){
         icon.rotate(Math.PI/6);
         icon.fillRect(0,-1.5,12,3);
     };

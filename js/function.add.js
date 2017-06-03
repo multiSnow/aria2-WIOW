@@ -20,7 +20,7 @@
 function adduri(){
     var ul=new Array();
     var rl=document.getElementById('adduri').value.match(/[^\n\r]+/g);
-    for(var i=0;i<rl.length;i++){
+    for(let i=0;i<rl.length;i++){
         if(rl[i].match(/(^https?:\/\/|^ftp:\/\/)/i)||rl[i].match(/^magnet:/)){
             ul.push(rl[i]);
         }else if(rl[i]){
@@ -39,7 +39,7 @@ function adduri(){
         return wsreq('adduri','aria2.addUri',params);
     };
     if(document.getElementById('forceseq').checked){
-        for(var i=0;i<ul.length;i++){
+        for(let i=0;i<ul.length;i++){
             sendurl(new Array(ul[i]));
         };
     }else{
@@ -65,7 +65,7 @@ function addtorrent(){
         reader.readAsDataURL(file);
     };
     var fl=document.getElementById('addtorrent').files;
-    for(var i=0;i<fl.length;i++){
+    for(let i=0;i<fl.length;i++){
         sendbt(fl[i]);
     };
     return 0;
@@ -88,7 +88,7 @@ function addmetalink(){
         reader.readAsDataURL(file);
     };
     var fl=document.getElementById('addmetalink').files;
-    for(var i=0;i<fl.length;i++){
+    for(let i=0;i<fl.length;i++){
         sendml(fl[i]);
     };
     return 0;

@@ -105,7 +105,7 @@ function opr_active(gid,dict){
         node.appendChild(item_summery);
     };
     var cldlist=node.getElementsByTagName('div');
-    for(var i=0;i<cldlist.length;i++){
+    for(let i=0;i<cldlist.length;i++){
         if(cldlist[i].id in dictmap){
             cldlist[i].textContent=dictmap[cldlist[i].id];
         };
@@ -167,7 +167,7 @@ function opr_stopped(gid,dict){
         node.appendChild(item_summery);
     };
     var cldlist=node.getElementsByTagName('div');
-    for(var i=0;i<cldlist.length;i++){
+    for(let i=0;i<cldlist.length;i++){
         if(cldlist[i].id in dictmap){
             cldlist[i].textContent=dictmap[cldlist[i].id];
         };
@@ -258,7 +258,7 @@ function opr_waiting(gid,dict){
         node.appendChild(item_summery);
     };
     var cldlist=node.getElementsByTagName('div');
-    for(var i=0;i<cldlist.length;i++){
+    for(let i=0;i<cldlist.length;i++){
         if(cldlist[i].id in dictmap){
             cldlist[i].textContent=dictmap[cldlist[i].id];
         };

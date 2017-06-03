@@ -60,7 +60,7 @@ function receive_stat(input_data){
 };
 
 function receive_active(input_data){
-    for(var i in input_data.result){
+    for(let i in input_data.result){
         var dict=new Object();
         dict['downloadSpeed']=input_data.result[i].downloadSpeed;
         dict['uploadSpeed']=input_data.result[i].uploadSpeed;
@@ -88,7 +88,7 @@ function receive_active(input_data){
 };
 
 function receive_stopped(input_data){
-    for(var i in input_data.result){
+    for(let i in input_data.result){
         var dict=new Object();
         dict['completedLength']=input_data.result[i].completedLength;
         dict['totalLength']=input_data.result[i].totalLength;
@@ -112,7 +112,7 @@ function receive_stopped(input_data){
 };
 
 function receive_waiting(input_data){
-    for(var i in input_data.result){
+    for(let i in input_data.result){
         var dict=new Object();
         dict['downloadSpeed']=input_data.result[i].downloadSpeed;
         dict['uploadSpeed']=input_data.result[i].uploadSpeed;
@@ -153,7 +153,7 @@ function receive_singlestat(input_data){
     document.getElementById('showoption_status_basic').style.display='block';
     document.getElementById('showoption_statue_file').style.display='block';
 
-    for(var i in result.files){
+    for(let i in result.files){
         var files=document.createElement('div');
         var files_index_path=document.createElement('div');
         var progress_bar=document.createElement('progress');
@@ -179,7 +179,7 @@ function receive_singlestat(input_data){
             var download_from=document.createElement('div');
             var files_uris=document.createElement('blockquote');
             files_uris.className='files_uris'
-            for(var j in result.files[i].uris){
+            for(let j in result.files[i].uris){
                 var files_uris_single=document.createElement('div');
                 files_uris_single.style.color=(result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
                 files_uris_single.appendChild(document.createTextNode(result.files[i].uris[j].uri));
@@ -200,8 +200,8 @@ function receive_singlestat(input_data){
         document.getElementById('showoption_statue_peers').innerHTML='';
         document.getElementById('showoption_status_infohash').innerHTML=result.infoHash;
         document.getElementById('showoption_status_numseeders').innerHTML=result.numSeeders;
-        for(var i in result.bittorrent.announceList){
-            for(var j in result.bittorrent.announceList[i]){
+        for(let i in result.bittorrent.announceList){
+            for(let j in result.bittorrent.announceList[i]){
                 var announceurl=document.createElement('div');
                 announceurl.appendChild(document.createTextNode(result.bittorrent.announceList[i][j]));
                 document.getElementById('showoption_status_announcelist').appendChild(announceurl);
@@ -226,7 +226,7 @@ function receive_singleopt(input_data){
 
 function receive_singlepeer(input_data){
     var peer_result=input_data.result;
-    for(var i in peer_result){
+    for(let i in peer_result){
         var peer=document.createElement('div');
         var peer_id_addr=document.createElement('div');
         var peer_spd=document.createElement('div');
@@ -289,7 +289,7 @@ function receive_stoppedstatus(input_data){
     document.getElementById('showoption_status_connections').innerHTML=input_data.result.connections;
     document.getElementById('showoption_statue_file').innerHTML='';
 
-    for(var i in input_data.result.files){
+    for(let i in input_data.result.files){
         var files=document.createElement('div');
         var files_index_path=document.createElement('div');
         var progress_bar=document.createElement('progress');
@@ -308,7 +308,7 @@ function receive_stoppedstatus(input_data){
         selected.style.color=(input_data.result.files[i].selected==='true')?'#40ff40':'#808080';
         selected.appendChild(document.createTextNode((input_data.result.files[i].selected==='true')?'selected':'unselected'));
         files_uris.className='files_uris'
-        for(var j in input_data.result.files[i].uris){
+        for(let j in input_data.result.files[i].uris){
             var files_uris_single=document.createElement('div');
             files_uris_single.style.color=(input_data.result.files[i].uris[i].status==='used')?'#40ff40':'#ffff00';
             files_uris_single.appendChild(document.createTextNode(input_data.result.files[i].uris[j].uri));

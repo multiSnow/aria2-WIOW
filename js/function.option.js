@@ -145,14 +145,14 @@ function func_clean_checksum(name,place){
 function func_show_header(name,value,place){
     var header_list=new Array();
     var header_raw_list=value.split('\n');
-    for(var header_val in header_raw_list){
+    for(let header_val in header_raw_list){
         if(header_raw_list[header_val]!==''){
             header_list.push(header_raw_list[header_val])
         };
     };
     var header_list_element=document.getElementById([place,name,'list'].join('_'));
     document.getElementById([place,name].join('_')).value=header_list.length;
-    for(var i in header_list){
+    for(let i in header_list){
         var new_node=document.createElement('li');
         var new_input_node=document.createElement('input');
         new_input_node.id=[place,name,'string'].join('_');
@@ -177,11 +177,11 @@ function func_cache_header(element){
         return cache_update(method,option,undefined);
     }else{
         if(header_exist>header_count){
-            for(var i=header_count;i<header_exist;i++){
+            for(let i=header_count;i<header_exist;i++){
                 header_list_element.removeChild(header_list_element.childNodes[header_count]);
             };
         }else{
-            for(var i=header_exist;i<header_count;i++){
+            for(let i=header_exist;i<header_count;i++){
                 var new_node=document.createElement('li');
                 var new_input_node=document.createElement('input');
                 new_input_node.id=[method,option,'string'].join('_');
@@ -193,7 +193,7 @@ function func_cache_header(element){
             };
         };
         var header_value=new Array();
-        for(var i=0;i<header_list_element.childNodes.length;i++){
+        for(let i=0;i<header_list_element.childNodes.length;i++){
             if(header_list_element.childNodes[i].childNodes[0].value!=''){
                 header_value.push(header_list_element.childNodes[i].childNodes[0].value);
             };
@@ -224,7 +224,7 @@ function func_clean_select_file(name,place){
 
 function func_show_bt_prioritize_piece(name,value,place){
     var value_list=value.split(',')
-    for(var i=0;i<value_list.length;i++){
+    for(let i=0;i<value_list.length;i++){
         if(str.match(/^head=/)){
             document.getElementById([place,name,'head'].join('_')).value=value_list[i].replace(/^head=/,'');
         }else if(str.match(/^tail=/)){
@@ -254,14 +254,14 @@ function func_clean_bt_prioritize_piece(name,place){
 function func_show_index_out(name,value,place){
     var indexout_list=new Array();
     var indexout_raw_list=value.split('\n');
-    for(var indexout_val in indexout_raw_list){
+    for(let indexout_val in indexout_raw_list){
         if(indexout_raw_list[indexout_val]!==''){
             indexout_list.push(indexout_raw_list[indexout_val])
         };
     };
     var indexout_list_element=document.getElementById([place,name,'list'].join('_'));
     document.getElementById([place,name].join('_')).value=indexout_list.length;
-    for(var i in indexout_list){
+    for(let i in indexout_list){
         var new_node=document.createElement('li');
         var new_node_index=document.createElement('input');
         var new_node_out=document.createElement('input');
@@ -296,11 +296,11 @@ function func_cache_index_out(element){
         return cache_update(method,option,undefined);
     }else{
         if(indexout_exist>indexout_count){
-            for(var i=indexout_count;i<indexout_exist;i++){
+            for(let i=indexout_count;i<indexout_exist;i++){
                 indexout_list_element.removeChild(indexout_list_element.childNodes[indexout_count]);
             };
         }else{
-            for(var i=indexout_exist;i<indexout_count;i++){
+            for(let i=indexout_exist;i<indexout_count;i++){
                 var new_node=document.createElement('li');
                 var new_node_index=document.createElement('input');
                 var new_node_out=document.createElement('input');
@@ -319,7 +319,7 @@ function func_cache_index_out(element){
             };
         };
         var indexout_value=new Array();
-        for(var i=0;i<indexout_list_element.childNodes.length;i++){
+        for(let i=0;i<indexout_list_element.childNodes.length;i++){
             if(indexout_list_element.childNodes[i].childNodes[0].value!=''&&indexout_list_element.childNodes[i].childNodes[2].value!=''){
                 indexout_value.push(indexout_list_element.childNodes[i].childNodes[0].value+'='+indexout_list_element.childNodes[i].childNodes[2].value);
             };
@@ -1372,7 +1372,7 @@ option_dict={"dir":
               true]}
 
 function global_show_option(input_data){
-    for(var name in option_dict){
+    for(let name in option_dict){
         if(option_dict[name][7]){
             option_dict[name][2](name,'globalcache');
             if(input_data[name]!==undefined){
@@ -1384,7 +1384,7 @@ function global_show_option(input_data){
 };
 
 function add_show_option(input_data){
-    for(var name in option_dict){
+    for(let name in option_dict){
         if(option_dict[name][3]){
             option_dict[name][2](name,'addcache');
             if(input_data[name]!==undefined){
@@ -1396,7 +1396,7 @@ function add_show_option(input_data){
 };
 
 function single_show_option(input_data){
-    for(var name in option_dict){
+    for(let name in option_dict){
         if(option_dict[name][4]||option_dict[name][5]||option_dict[name][6]){
             option_dict[name][2](name,'singlecache');
             if(input_data[name]!==undefined){

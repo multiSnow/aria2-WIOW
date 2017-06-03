@@ -62,7 +62,7 @@ function switch_add_type(input_value){
     var all_type={'uri':'adduri',
                   'torrent':'addtorrent',
                   'metalink':'addmetalink'}
-    for(var type in all_type){
+    for(let type in all_type){
         document.getElementById(all_type[type]).style.display='none';
         document.getElementById(all_type[type]).value='';
     };
@@ -109,7 +109,7 @@ function human_read(num){
     var num=parseFloat(num);
     var bignumlist=type?[1,1024,1048576,1073741824,1099511627776,1125899906842624,1152921504606846976,1180591620717411303424,1208925819614629174706176]:[1,1000,1000000,1000000000,1000000000000,1000000000000000,1000000000000000000,1000000000000000000000,1000000000000000000000000];
     var suffixlist=type?['B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB']:['B','KB','MB','GB','TB','PB','EB','ZB','YB'];
-    for(var i=0;i<suffixlist.length-1;i++){
+    for(let i=0;i<suffixlist.length-1;i++){
         if(num<bignumlist[i+1]){
             return (num/bignumlist[i]).toFixed(2).valueOf()+suffixlist[i];
         };
@@ -125,7 +125,7 @@ function setaria2params(){
     var hostname=location.hostname;
     var hashlist=location.hash.substring(1).split('&');
     var hashdata={};
-    for(var i in hashlist){
+    for(let i in hashlist){
         var pl=hashlist[i].split('=');
         var k=pl.shift();
         var v=pl.join('=');
