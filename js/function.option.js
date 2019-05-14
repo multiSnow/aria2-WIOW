@@ -274,8 +274,7 @@ function func_show_index_out(name,value,place){
         setattr(new_node_index,'oninput',"autoinputsize(this)");
         setattr(new_node_index,'type','number');
         new_node_out.id=[place,name,'out'].join('_');
-        setattr(new_node_out,'onchange',"option_dict[this.id.split('_')[1]][1](this)");
-        setattr(new_node_out,'oninput',"autoinputsize(this)");
+        setattr(new_node_out,'oninput',"option_dict[this.id.split('_')[1]][1](this);autoinputsize(this)");
         setattr(new_node_out,'type','text');
         new_node.appendChild(new_node_index);
         new_node.appendChild(document.createTextNode('='));
