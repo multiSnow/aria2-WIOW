@@ -105,7 +105,7 @@ function spendtime(speed,completedsize,totalsize){
 };
 
 function human_read(num){
-    var type=document.getElementById('type_unit_ice').checked;
+    var type=document.getElementById('type_unit').value=='ice';
     var num=parseFloat(num);
     var bignumlist=type?[1,1024,1048576,1073741824,1099511627776,1125899906842624,1152921504606846976,1180591620717411303424,1208925819614629174706176]:[1,1000,1000000,1000000000,1000000000000,1000000000000000,1000000000000000000,1000000000000000000000,1000000000000000000000000];
     var suffixlist=type?['B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB']:['B','KB','MB','GB','TB','PB','EB','ZB','YB'];

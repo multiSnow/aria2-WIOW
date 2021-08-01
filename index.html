@@ -56,8 +56,10 @@
                 onclick="disconnect()">disconnect</button>
         <div>
           autorefresh:<input id="autorefresh" type="checkbox"/><br/>
-          1k=<input type="radio" name="type_unit" checked="true" id="type_unit_ice"/>1024
-          <input type="radio" name="type_unit"/>1000<br/>
+          1k=<select id="type_unit">
+            <option value="ice" selected>1024</option>
+            <option value="si">1000</option>
+          </select><br/>
         </div>
         <div id="sideinfo" class="sideinfo" data-numstopped="0" data-numwaiting="0">
           <div id="sideinfo_static"></div>
