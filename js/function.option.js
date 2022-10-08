@@ -172,14 +172,14 @@ function func_cache_header(element){
     (function(v){method=v[0];option=v[1];})(element.id.split('_'));
     let header_count=Number(document.getElementById([method,option].join('_')).value);
     let header_list_element=document.getElementById([method,option,'list'].join('_'));
-    let header_exist=header_list_element.childNodes.length;
+    let header_exist=header_list_element.children.length;
     if(header_count===0){
         header_list_element.innerHTML='';
         return cache_update(method,option,undefined);
     }else{
         if(header_exist>header_count){
             for(let i=header_count;i<header_exist;i++){
-                header_list_element.removeChild(header_list_element.childNodes[header_count]);
+                header_list_element.removeChild(header_list_element.children[header_count]);
             };
         }else{
             for(let i=header_exist;i<header_count;i++){
@@ -194,9 +194,9 @@ function func_cache_header(element){
             };
         };
         let header_value=new Array();
-        for(let child of header_list_element.childNodes){
-            if(child.childNodes[0].value!=''){
-                header_value.push(child.childNodes[0].value);
+        for(let child of header_list_element.children){
+            if(child.children[0].value!=''){
+                header_value.push(child.children[0].value);
             };
         };
         return cache_update(method,option,(header_value.length===0)?undefined:header_value);
@@ -290,14 +290,14 @@ function func_cache_index_out(element){
     (function(v){method=v[0];option=v[1];})(element.id.split('_'));
     let indexout_count=Number(document.getElementById([method,option].join('_')).value);
     let indexout_list_element=document.getElementById([method,option,'list'].join('_'));
-    let indexout_exist=indexout_list_element.childNodes.length;
+    let indexout_exist=indexout_list_element.children.length;
     if(indexout_count===0){
         indexout_list_element.innerHTML='';
         return cache_update(method,option,undefined);
     }else{
         if(indexout_exist>indexout_count){
             for(let i=indexout_count;i<indexout_exist;i++){
-                indexout_list_element.removeChild(indexout_list_element.childNodes[indexout_count]);
+                indexout_list_element.removeChild(indexout_list_element.children[indexout_count]);
             };
         }else{
             for(let i=indexout_exist;i<indexout_count;i++){
@@ -319,9 +319,9 @@ function func_cache_index_out(element){
             };
         };
         let indexout_value=new Array();
-        for(let child of indexout_list_element.childNodes){
-            if(child.childNodes[0].value!=''&&child.childNodes[2].value!=''){
-                indexout_value.push(child.childNodes[0].value+'='+child.childNodes[2].value);
+        for(let child of indexout_list_element.children){
+            if(child.children[0].value!=''&&child.children[2].value!=''){
+                indexout_value.push(child.children[0].value+'='+child.children[2].value);
             };
         };
         return cache_update(method,option,(indexout_value.length===0)?undefined:indexout_value)

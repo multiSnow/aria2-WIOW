@@ -41,7 +41,7 @@ function opr_active(gid,dict){
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype',(dict['type_bittorrent'])?'abtml':'ahttp');
-        root.insertBefore(node,root.childNodes[dict['i']]);
+        root.insertBefore(node,root.children[dict['i']]);
 
         let item_gid=document.createElement('div');
         let item_title=document.createElement('div');
@@ -126,7 +126,7 @@ function opr_stopped(gid,dict){
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype','stop');
-        root.insertBefore(node,root.childNodes[dict['i']]);
+        root.insertBefore(node,root.children[dict['i']]);
 
         let item_gid=document.createElement('div');
         let item_title=document.createElement('div');
@@ -192,7 +192,7 @@ function opr_waiting(gid,dict){
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype',(dict['type_bittorrent'])?'wbtml':'whttp');
-        root.insertBefore(node,root.childNodes[dict['i']]);
+        root.insertBefore(node,root.children[dict['i']]);
 
         let item_gid=document.createElement('div');
         let item_title=document.createElement('div');
