@@ -254,7 +254,12 @@ function receive_singlepeer(input_data){
             peerChoking.appendChild(document.createTextNode('peerChoking'));
             peer.appendChild(peerChoking);
         };
-        document.getElementById('showoption_statue_peers').appendChild(peer);
+        let peers_node=document.getElementById('showoption_statue_peers');
+        if(result.seeder==='true'){
+            peers_node.insertBefore(peer,peers_node.firstElementChild);
+        }else{
+            peers_node.appendChild(peer);
+        };
     };
     return 0;
 };
