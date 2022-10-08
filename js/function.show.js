@@ -1,6 +1,6 @@
 /*Project aria2-WIOW
  *
- * Copyright (c) 2014, multiSnow <infinity.blick.winkel@gmail.com>
+ * Copyright (c) 2014 - 2022, multiSnow <https://github.com/multiSnow>
  *
  *Permission to use, copy, modify, and/or distribute this software for
  *any purpose with or without fee is hereby granted, provided that the
