@@ -18,17 +18,17 @@
  */
 
 function connect(){
-    var nsidetags=document.getElementById('sidetags');
-    var nwsaddr=document.getElementById('ws_address');
-    var nwshost=document.getElementById('wshost');
-    var nwsport=document.getElementById('wsport');
-    var nrpctoken=document.getElementById('rpctoken');
+    let nsidetags=document.getElementById('sidetags');
+    let nwsaddr=document.getElementById('ws_address');
+    let nwshost=document.getElementById('wshost');
+    let nwsport=document.getElementById('wsport');
+    let nrpctoken=document.getElementById('rpctoken');
 
-    var nsideinfodyn=document.getElementById('sideinfo_dynamic');
-    var nmain=document.getElementById('main');
+    let nsideinfodyn=document.getElementById('sideinfo_dynamic');
+    let nmain=document.getElementById('main');
 
-    var wss_scheme=document.getElementById('wss_scheme').checked===true?'wss://':'ws://';
-    var url=[wss_scheme,nwshost.value,':',nwsport.value,'/jsonrpc'].join('');
+    let wss_scheme=document.getElementById('wss_scheme').checked===true?'wss://':'ws://';
+    let url=[wss_scheme,nwshost.value,':',nwsport.value,'/jsonrpc'].join('');
 
     ws=new WebSocket(url);
     ws.onerror=function(message){
@@ -38,7 +38,7 @@ function connect(){
 
     ws.onclose=function(message){
         clearInterval(autorefresh);
-        var idl=['mainactive','mainstopped','mainwaiting'];
+        let idl=['mainactive','mainstopped','mainwaiting'];
         for(let n of idl){
             document.getElementById(n).innerHTML='';
         };
@@ -66,15 +66,15 @@ function connect(){
     };
 
     ws.onmessage=function(message){
-        var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
-        var showtagname=getattr(nsidetags,'data-crtshow');
-        var msg_data=JSON.parse(message.data);
+        let idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+        let showtagname=getattr(nsidetags,'data-crtshow');
+        let msg_data=JSON.parse(message.data);
         if('id' in msg_data){
             if(!('error' in msg_data)){
                 try{
                     func[msg_data.id](msg_data);
                 }catch(e){
-                    console.log(msg_data.id);
+                    console.log(msg_data.id,e);
                 };
             };
         }else{
@@ -120,11 +120,11 @@ function wsreq(id,method,params){
         alert('Connection lost or not yet open!');
         return 1;
     };
-    var json={jsonrpc:'2.0',
+    let json={jsonrpc:'2.0',
               id:id,
               method:method,
               params:(typeof params===typeof undefined)?[]:params};
-    var rpctoken=getattr(document.getElementById('ws_address'),'data-rpctoken');
+    let rpctoken=getattr(document.getElementById('ws_address'),'data-rpctoken');
     if(rpctoken){
         json.params.unshift('token:'+rpctoken);
     };

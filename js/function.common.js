@@ -26,7 +26,7 @@ function getattr(node,attr){
 };
 
 function popattr(node,attr){
-    var value=getattr(node,attr);
+    let value=getattr(node,attr);
     node.removeAttribute(attr);
     return value;
 };
@@ -36,15 +36,15 @@ function warning_dialog(string){
 };
 
 function topage(page){
-    var all_page={'start':'mainstart','active':'mainactive',
+    let all_page={'start':'mainstart','active':'mainactive',
                   'stopped':'mainstopped','waiting':'mainwaiting',
                   'info':'maininfo'}
-    var sidetagsnode=document.getElementById('sidetags')
-    var name=getattr(sidetagsnode,'data-tagshow');
+    let sidetagsnode=document.getElementById('sidetags')
+    let name=getattr(sidetagsnode,'data-tagshow');
     if(name){
-        var tagnode=document.getElementById(name);
+        let tagnode=document.getElementById(name);
         if(tagnode.classList.contains('side_clicked')){
-            var pagenode=document.getElementById(all_page[name])
+            let pagenode=document.getElementById(all_page[name])
             pagenode.style.display='none';
         tagnode.classList.remove('side_clicked');
         }else{
@@ -59,7 +59,7 @@ function topage(page){
 };
 
 function switch_add_type(input_value){
-    var all_type={'uri':'adduri',
+    let all_type={'uri':'adduri',
                   'torrent':'addtorrent',
                   'metalink':'addmetalink'}
     for(let type in all_type){
@@ -83,16 +83,17 @@ function clear_option_cache(option){
 };
 
 function spendtime(speed,completedsize,totalsize){
-    var speed=parseFloat(speed);
-    var completedsize=parseFloat(completedsize);
-    var totalsize=parseFloat(totalsize);
-    var floor=Math.floor;
-    var dtlist=[1,'sec',60,'min',3600,'hour',86400,'day',604300,'week']
-    var i=0;
+    let floor=Math.floor;
+    let dtlist=[1,'sec',60,'min',3600,'hour',86400,'day',604300,'week']
+    let i=0;
+    let time_raw=0;
+    speed=parseFloat(speed);
+    completedsize=parseFloat(completedsize);
+    totalsize=parseFloat(totalsize);
     if(completedsize>=totalsize||speed<=0){
         return '∞';
     }else{
-        var time_raw=((totalsize-completedsize)/speed).toFixed(0);
+        time_raw=((totalsize-completedsize)/speed).toFixed(0);
     };
     while(i<dtlist.length-2){
         if(time_raw<dtlist[i+2]){
@@ -105,10 +106,10 @@ function spendtime(speed,completedsize,totalsize){
 };
 
 function human_read(num){
-    var type=document.getElementById('type_unit').value=='ice';
-    var num=parseFloat(num);
-    var bignumlist=type?[1,1024,1048576,1073741824,1099511627776,1125899906842624,1152921504606846976,1180591620717411303424,1208925819614629174706176]:[1,1000,1000000,1000000000,1000000000000,1000000000000000,1000000000000000000,1000000000000000000000,1000000000000000000000000];
-    var suffixlist=type?['B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB']:['B','KB','MB','GB','TB','PB','EB','ZB','YB'];
+    let type=document.getElementById('type_unit').value=='ice';
+    let bignumlist=type?[1,1024,1048576,1073741824,1099511627776,1125899906842624,1152921504606846976,1180591620717411303424,1208925819614629174706176]:[1,1000,1000000,1000000000,1000000000000,1000000000000000,1000000000000000000,1000000000000000000000,1000000000000000000000000];
+    let suffixlist=type?['B','KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB']:['B','KB','MB','GB','TB','PB','EB','ZB','YB'];
+    num=parseFloat(num);
     for(let i=0;i<suffixlist.length-1;i++){
         if(num<bignumlist[i+1]){
             return (num/bignumlist[i]).toFixed(2).valueOf()+suffixlist[i];
@@ -122,9 +123,9 @@ function autoinputsize(node){
 };
 
 function setaria2params(){
-    var hostname=location.hostname;
-    var hashlist=location.hash.substring(1).split('&');
-    var hashdata={};
+    let hostname=location.hostname;
+    let hashlist=location.hash.substring(1).split('&');
+    let hashdata={};
     for(let [match,key,value] of hashlist.map(n=>n.match(/^([^=]*)=?(.*)$/))){
         hashdata[key]=value;
     };
@@ -134,13 +135,13 @@ function setaria2params(){
 };
 
 function onloadfunction(){
-    var w=window.innerWidth;
-    var h=window.innerHeight;
-    var stl=document.querySelectorAll('.sidetag');
-    var main=document.getElementById('main');
-    var side=document.getElementById('side');
-    var wss_scheme=document.getElementById('wss_scheme');
-    var body=document.body;
+    let w=window.innerWidth;
+    let h=window.innerHeight;
+    let stl=document.querySelectorAll('.sidetag');
+    let main=document.getElementById('main');
+    let side=document.getElementById('side');
+    let wss_scheme=document.getElementById('wss_scheme');
+    let body=document.body;
     close_option(document.getElementById('close_option'));
     wss_scheme.checked=(location.protocol==='https:');
     wss_scheme.disabled=(location.protocol==='https:');

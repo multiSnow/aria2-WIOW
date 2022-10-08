@@ -61,8 +61,8 @@ var msgdict={'aria2.onDownloadStart':['nor','Download Start'],
              'change_single_option':['lgt','Option Changed']}
 
 function notification(input_json){
-    var rnode=document.getElementById('notification');
-    var nnode=document.createElement('div');
+    let rnode=document.getElementById('notification');
+    let nnode=document.createElement('div');
     if('method' in input_json){
         nnode.className='note_'+msgdict[input_json.method][0];
         nnode.appendChild(document.createTextNode(new Date().toLocaleString()));

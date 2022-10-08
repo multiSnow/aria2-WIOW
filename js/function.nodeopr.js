@@ -18,7 +18,7 @@
  */
 
 function opr_pop(gid){
-    var node=document.getElementById(gid);
+    let node=document.getElementById(gid);
     if(node){
         node.parentNode.removeChild(node);
     };
@@ -26,9 +26,9 @@ function opr_pop(gid){
 };
 
 function opr_active(gid,dict){
-    var root=document.getElementById('mainactive');
-    var node=document.getElementById(gid);
-    var dictmap={'item_gid':gid,
+    let root=document.getElementById('mainactive');
+    let node=document.getElementById(gid);
+    let dictmap={'item_gid':gid,
                  'item_title':dict['name'],
                  'infohash':dict['infohash'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength']),
@@ -37,26 +37,26 @@ function opr_active(gid,dict){
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
-        var node=document.createElement('div');
+        node=document.createElement('div');
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype',(dict['type_bittorrent'])?'abtml':'ahttp');
         root.insertBefore(node,root.childNodes[dict['i']]);
 
-        var item_gid=document.createElement('div');
-        var item_title=document.createElement('div');
-        var item_button=document.createElement('div');
-        var pause_icon=document.createElement('canvas');
-        var remove_icon=document.createElement('canvas');
-        var option_icon=document.createElement('canvas');
-        var item_summery=document.createElement('div');
-        var infohash_div=document.createElement('div');
-        var progress_bar=document.createElement('progress');
-        var progress=document.createElement('div');
-        var dspd=document.createElement('div');
-        var uspd=document.createElement('div');
-        var eta=document.createElement('div');
-        var connection=document.createElement('div');
+        let item_gid=document.createElement('div');
+        let item_title=document.createElement('div');
+        let item_button=document.createElement('div');
+        let pause_icon=document.createElement('canvas');
+        let remove_icon=document.createElement('canvas');
+        let option_icon=document.createElement('canvas');
+        let item_summery=document.createElement('div');
+        let infohash_div=document.createElement('div');
+        let progress_bar=document.createElement('progress');
+        let progress=document.createElement('div');
+        let dspd=document.createElement('div');
+        let uspd=document.createElement('div');
+        let eta=document.createElement('div');
+        let connection=document.createElement('div');
 
         item_gid.id='item_gid';
         item_gid.className='item_gid';
@@ -104,39 +104,38 @@ function opr_active(gid,dict){
         node.appendChild(item_button);
         node.appendChild(item_summery);
     };
-    var cldlist=node.getElementsByTagName('div');
-    for(let i=0;i<cldlist.length;i++){
-        if(cldlist[i].id in dictmap){
-            cldlist[i].textContent=dictmap[cldlist[i].id];
+    for(let n of node.getElementsByTagName('div')){
+        if(n.id in dictmap){
+            n.textContent=dictmap[n.id];
         };
     };
-    var progress_bar=node.getElementsByTagName('progress')[0];
+    let progress_bar=node.getElementsByTagName('progress')[0];
     progress_bar.value=dict['completedLength'];
     progress_bar.max=dict['totalLength'];
     return 0;
 };
 
 function opr_stopped(gid,dict){
-    var root=document.getElementById('mainstopped');
-    var node=document.getElementById(gid);
-    var dictmap={'item_gid':gid,
+    let root=document.getElementById('mainstopped');
+    let node=document.getElementById(gid);
+    let dictmap={'item_gid':gid,
                  'item_title':dict['name'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength'])}
     if(node===null){
-        var node=document.createElement('div');
+        node=document.createElement('div');
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype','stop');
         root.insertBefore(node,root.childNodes[dict['i']]);
 
-        var item_gid=document.createElement('div');
-        var item_title=document.createElement('div');
-        var item_button=document.createElement('div');
-        var remove_icon=document.createElement('canvas');
-        var option_icon=document.createElement('canvas');
-        var item_summery=document.createElement('div');
-        var progress_bar=document.createElement('progress');
-        var progress=document.createElement('div');
+        let item_gid=document.createElement('div');
+        let item_title=document.createElement('div');
+        let item_button=document.createElement('div');
+        let remove_icon=document.createElement('canvas');
+        let option_icon=document.createElement('canvas');
+        let item_summery=document.createElement('div');
+        let progress_bar=document.createElement('progress');
+        let progress=document.createElement('div');
 
         item_gid.id='item_gid';
         item_gid.className='item_gid';
@@ -166,22 +165,21 @@ function opr_stopped(gid,dict){
         node.appendChild(item_button);
         node.appendChild(item_summery);
     };
-    var cldlist=node.getElementsByTagName('div');
-    for(let i=0;i<cldlist.length;i++){
-        if(cldlist[i].id in dictmap){
-            cldlist[i].textContent=dictmap[cldlist[i].id];
+    for(let n of node.getElementsByTagName('div')){
+        if(n.id in dictmap){
+            n.textContent=dictmap[n.id];
         };
     };
-    var progress_bar=node.getElementsByTagName('progress')[0];
+    let progress_bar=node.getElementsByTagName('progress')[0];
     progress_bar.value=dict['completedLength'];
     progress_bar.max=dict['totalLength'];
     return 0;
 };
 
 function opr_waiting(gid,dict){
-    var root=document.getElementById('mainwaiting');
-    var node=document.getElementById(gid);
-    var dictmap={'item_gid':gid,
+    let root=document.getElementById('mainwaiting');
+    let node=document.getElementById(gid);
+    let dictmap={'item_gid':gid,
                  'item_title':dict['name'],
                  'infohash':dict['infohash'],
                  'progress_text':(dict['completedLength']/dict['totalLength']*100).toFixed(2)+'% of '+human_read(dict['totalLength']),
@@ -190,26 +188,26 @@ function opr_waiting(gid,dict){
                  'eta':'ETA: '+spendtime(dict['downloadSpeed'],dict['completedLength'],dict['totalLength']),
                  'connection':'download from '+dict['connections']+' connection.'};
     if(node===null){
-        var node=document.createElement('div');
+        node=document.createElement('div');
         node.id=gid;
         node.className='item';
         setattr(node,'data-artype',(dict['type_bittorrent'])?'wbtml':'whttp');
         root.insertBefore(node,root.childNodes[dict['i']]);
 
-        var item_gid=document.createElement('div');
-        var item_title=document.createElement('div');
-        var item_button=document.createElement('div');
-        var unpause_icon=document.createElement('canvas');
-        var remove_icon=document.createElement('canvas');
-        var option_icon=document.createElement('canvas');
-        var item_summery=document.createElement('div');
-        var infohash_div=document.createElement('div');
-        var progress_bar=document.createElement('progress');
-        var progress=document.createElement('div');
-        var dspd=document.createElement('div');
-        var uspd=document.createElement('div');
-        var eta=document.createElement('div');
-        var connection=document.createElement('div');
+        let item_gid=document.createElement('div');
+        let item_title=document.createElement('div');
+        let item_button=document.createElement('div');
+        let unpause_icon=document.createElement('canvas');
+        let remove_icon=document.createElement('canvas');
+        let option_icon=document.createElement('canvas');
+        let item_summery=document.createElement('div');
+        let infohash_div=document.createElement('div');
+        let progress_bar=document.createElement('progress');
+        let progress=document.createElement('div');
+        let dspd=document.createElement('div');
+        let uspd=document.createElement('div');
+        let eta=document.createElement('div');
+        let connection=document.createElement('div');
 
         item_gid.id='item_gid';
         item_gid.className='item_gid';
@@ -257,13 +255,12 @@ function opr_waiting(gid,dict){
         node.appendChild(item_button);
         node.appendChild(item_summery);
     };
-    var cldlist=node.getElementsByTagName('div');
-    for(let i=0;i<cldlist.length;i++){
-        if(cldlist[i].id in dictmap){
-            cldlist[i].textContent=dictmap[cldlist[i].id];
+    for(let n of node.getElementsByTagName('div')){
+        if(n.id in dictmap){
+            n.textContent=dictmap[n.id];
         };
     };
-    var progress_bar=node.getElementsByTagName('progress')[0];
+    let progress_bar=node.getElementsByTagName('progress')[0];
     progress_bar.value=dict['completedLength'];
     progress_bar.max=dict['totalLength'];
     return 0;

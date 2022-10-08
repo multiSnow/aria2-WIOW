@@ -18,7 +18,7 @@
  */
 
 function pausecanvas(node){
-    var icon=node.getContext('2d');
+    let icon=node.getContext('2d');
     node.width=24;
     node.height=24;
     icon.fillStyle='#ffff00';
@@ -28,7 +28,7 @@ function pausecanvas(node){
 };
 
 function unpausecanvas(node){
-    var icon=node.getContext('2d')
+    let icon=node.getContext('2d')
     node.width=24;
     node.height=24;
     icon.fillStyle='#00ff00';
@@ -42,7 +42,7 @@ function unpausecanvas(node){
 };
 
 function removecanvas(node){
-    var icon=node.getContext('2d');
+    let icon=node.getContext('2d');
     node.width=24;
     node.height=24;
     icon.fillStyle='#ff0000';
@@ -53,7 +53,7 @@ function removecanvas(node){
 };
 
 function optioncanvas(node){
-    var icon=node.getContext('2d');
+    let icon=node.getContext('2d');
     node.width=24;
     node.height=24;
     icon.fillStyle='#a0a0a0';
@@ -73,7 +73,7 @@ function optioncanvas(node){
 };
 
 function close_option(node){
-    var icon=node.getContext('2d');
+    let icon=node.getContext('2d');
     node.width=20;
     node.height=20;
     icon.translate(10,10)

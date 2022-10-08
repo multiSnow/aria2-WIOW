@@ -18,8 +18,8 @@
  */
 
 function adduri(){
-    var ul=new Array();
-    var rl=document.getElementById('adduri').value.match(/[^\n\r]+/g);
+    let ul=new Array();
+    let rl=document.getElementById('adduri').value.match(/[^\n\r]+/g);
     for(let i=0;i<rl.length;i++){
         if(rl[i].match(/(^https?:\/\/|^ftp:\/\/)/i)||rl[i].match(/^magnet:/)){
             ul.push(rl[i]);
@@ -31,8 +31,8 @@ function adduri(){
         alert('no uri is added.');
         return 0;
     };
-    var sendurl=function(ul){
-        var params=new Array(ul);
+    let sendurl=function(ul){
+        let params=new Array(ul);
         if(document.getElementById('add_with_option').checked){
             params.push(JSON.parse(document.getElementById('addcache').innerHTML));
         };
@@ -53,10 +53,10 @@ function addtorrent(){
         alert('no file is selected.');
         return 0;
     };
-    var sendbt=function(file){
-        var reader=new FileReader();
+    let sendbt=function(file){
+        let reader=new FileReader();
         reader.onload=function(file_event){
-            var params=new Array(file_event.target.result.replace(/^data:application\/.*;base64,/,''),[]);// 2nd element should be used for web-seeding.
+            let params=new Array(file_event.target.result.replace(/^data:application\/.*;base64,/,''),[]);// 2nd element should be used for web-seeding.
             if(document.getElementById('add_with_option').checked==true){
                 params.push(JSON.parse(document.getElementById('addcache').innerHTML));
             };
@@ -64,7 +64,7 @@ function addtorrent(){
         };
         reader.readAsDataURL(file);
     };
-    var fl=document.getElementById('addtorrent').files;
+    let fl=document.getElementById('addtorrent').files;
     for(let i=0;i<fl.length;i++){
         sendbt(fl[i]);
     };
@@ -76,10 +76,10 @@ function addmetalink(){
         alert('no file is selected.');
         return 0;
     };
-    var sendml=function(file){
-        var reader=new FileReader();
+    let sendml=function(file){
+        let reader=new FileReader();
         reader.onload=function(file_event){
-            var params=new Array(file_event.target.result.replace(/data:application\/.*;base64,/,''));
+            let params=new Array(file_event.target.result.replace(/data:application\/.*;base64,/,''));
             if(document.getElementById('add_with_option').checked==true){
                 json.params[1]=JSON.parse(document.getElementById('addcache').innerHTML);
             };
@@ -87,7 +87,7 @@ function addmetalink(){
         };
         reader.readAsDataURL(file);
     };
-    var fl=document.getElementById('addmetalink').files;
+    let fl=document.getElementById('addmetalink').files;
     for(let i=0;i<fl.length;i++){
         sendml(fl[i]);
     };

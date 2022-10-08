@@ -27,11 +27,11 @@ function receive_purgestopped(input_data){
 };
 
 function receive_version(input_data){
-    var sideinfo=document.getElementById('sideinfo_static');
-    var node1=document.createElement('div');
-    var node2=document.createElement('div');
-    var node3=document.createElement('div');
-    var node4=document.createElement('sup');
+    let sideinfo=document.getElementById('sideinfo_static');
+    let node1=document.createElement('div');
+    let node2=document.createElement('div');
+    let node3=document.createElement('div');
+    let node4=document.createElement('sup');
     sideinfo.innerHTML='';
     node1.textContent='Connected';
     node2.textContent=ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
@@ -45,9 +45,9 @@ function receive_version(input_data){
 };
 
 function receive_stat(input_data){
-    var sideinfo=document.getElementById('sideinfo');
-    var dspd=human_read(input_data.result.downloadSpeed)+'/s';
-    var uspd=human_read(input_data.result.uploadSpeed)+'/s';
+    let sideinfo=document.getElementById('sideinfo');
+    let dspd=human_read(input_data.result.downloadSpeed)+'/s';
+    let uspd=human_read(input_data.result.uploadSpeed)+'/s';
     document.title='⬇'+dspd+' ⬆'+uspd;
     setattr(sideinfo,'data-numstopped',input_data.result.numStopped);
     setattr(sideinfo,'data-numwaiting',input_data.result.numWaiting);
@@ -61,7 +61,7 @@ function receive_stat(input_data){
 
 function receive_active(input_data){
     input_data.result.forEach(function(result,i){
-        var dict=new Object();
+        let dict=new Object();
         dict['downloadSpeed']=result.downloadSpeed;
         dict['uploadSpeed']=result.uploadSpeed;
         dict['completedLength']=result.completedLength;
@@ -88,14 +88,14 @@ function receive_active(input_data){
 
 function receive_stopped(input_data){
     input_data.result.forEach(function(result,i){
-        var dict=new Object();
+        let dict=new Object();
         dict['completedLength']=result.completedLength;
         dict['totalLength']=result.totalLength;
         dict['name']=result.files[0].path;
         dict['i']=i;
         opr_stopped(result.gid,dict);
     });
-    var purge_button=document.getElementById('purge_button');
+    let purge_button=document.getElementById('purge_button');
     if(input_data.result&&input_data.result.length>0&&purge_button){
     }else if(input_data.result&&input_data.result.length>0){
         purge_button=document.createElement('button');
@@ -112,7 +112,7 @@ function receive_stopped(input_data){
 
 function receive_waiting(input_data){
     input_data.result.forEach(function(result,i){
-        var dict=new Object();
+        let dict=new Object();
         dict['downloadSpeed']=result.downloadSpeed;
         dict['uploadSpeed']=result.uploadSpeed;
         dict['completedLength']=result.completedLength;
@@ -139,7 +139,8 @@ function receive_waiting(input_data){
 };
 
 function receive_singlestat(input_data){
-    var result=input_data.result,type=input_data.id.split('_')[1];
+    let result=input_data.result;
+    let type=input_data.id.split('_')[1];
     document.getElementById('showoption_status_gid').innerHTML=result.gid;
     document.getElementById('showoption_status_dir').innerHTML=result.dir;
     document.getElementById('showoption_status_status').innerHTML=result.status;
@@ -153,13 +154,13 @@ function receive_singlestat(input_data){
     document.getElementById('showoption_statue_file').style.display='block';
 
     for(let file of result.files){
-        var files=document.createElement('div');
-        var files_index_path=document.createElement('div');
-        var progress_bar=document.createElement('progress');
-        var selected=document.createElement('div');
-        var completedLength=file.completedLength;
-        var totalLength=file.length;
-        var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
+        let files=document.createElement('div');
+        let files_index_path=document.createElement('div');
+        let progress_bar=document.createElement('progress');
+        let selected=document.createElement('div');
+        let completedLength=file.completedLength;
+        let totalLength=file.length;
+        let size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
@@ -175,11 +176,11 @@ function receive_singlestat(input_data){
         files.appendChild(selected);
 
         if(type==='ahttp'){
-            var download_from=document.createElement('div');
-            var files_uris=document.createElement('blockquote');
+            let download_from=document.createElement('div');
+            let files_uris=document.createElement('blockquote');
             files_uris.className='files_uris'
             for(let uri of file.uris){
-                var files_uris_single=document.createElement('div');
+                let files_uris_single=document.createElement('div');
                 files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
                 files_uris_single.appendChild(document.createTextNode(uri.uri));
                 files_uris.appendChild(files_uris_single);
@@ -201,7 +202,7 @@ function receive_singlestat(input_data){
         document.getElementById('showoption_status_numseeders').innerHTML=result.numSeeders;
         for(let anon of result.bittorrent.announceList){
             for(let url of anon){
-                var announceurl=document.createElement('div');
+                let announceurl=document.createElement('div');
                 announceurl.appendChild(document.createTextNode(url));
                 document.getElementById('showoption_status_announcelist').appendChild(announceurl);
             };
@@ -225,10 +226,10 @@ function receive_singleopt(input_data){
 
 function receive_singlepeer(input_data){
     for(let result of input_data.result){
-        var peer=document.createElement('div');
-        var peer_id_addr=document.createElement('div');
-        var peer_spd=document.createElement('div');
-        var peer_addr=(result.ip.match(':')?' from [_]:':' from _:').replace('_',result.ip)+result.port;
+        let peer=document.createElement('div');
+        let peer_id_addr=document.createElement('div');
+        let peer_spd=document.createElement('div');
+        let peer_addr=(result.ip.match(':')?' from [_]:':' from _:').replace('_',result.ip)+result.port;
 
         peer.className='peer';
         peer_id_addr.className='peer_addr';
@@ -244,12 +245,12 @@ function receive_singlepeer(input_data){
         peer.appendChild(peer_spd);
 
         if(result.amChoking==='true'){
-            var amChoking=document.createElement('div');
+            let amChoking=document.createElement('div');
             amChoking.appendChild(document.createTextNode('amChoking'));
             peer.appendChild(amChoking);
         };
         if(result.peerChoking==='true'){
-            var peerChoking=document.createElement('div');
+            let peerChoking=document.createElement('div');
             peerChoking.appendChild(document.createTextNode('peerChoking'));
             peer.appendChild(peerChoking);
         };
@@ -285,15 +286,15 @@ function receive_stoppedstatus(input_data){
     document.getElementById('showoption_statue_file').innerHTML='';
 
     for(let file of input_data.result.files){
-        var files=document.createElement('div');
-        var files_index_path=document.createElement('div');
-        var progress_bar=document.createElement('progress');
-        var selected=document.createElement('div');
-        var download_from=document.createElement('div');
-        var files_uris=document.createElement('blockquote');
-        var completedLength=file.completedLength;
-        var totalLength=file.length;
-        var size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
+        let files=document.createElement('div');
+        let files_index_path=document.createElement('div');
+        let progress_bar=document.createElement('progress');
+        let selected=document.createElement('div');
+        let download_from=document.createElement('div');
+        let files_uris=document.createElement('blockquote');
+        let completedLength=file.completedLength;
+        let totalLength=file.length;
+        let size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
 
         files.className='files';
         files_index_path.className='files_index_path';
@@ -304,7 +305,7 @@ function receive_stoppedstatus(input_data){
         selected.appendChild(document.createTextNode((file.selected==='true')?'selected':'unselected'));
         files_uris.className='files_uris'
         for(let uri of file.uris){
-            var files_uris_single=document.createElement('div');
+            let files_uris_single=document.createElement('div');
             files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
             files_uris_single.appendChild(document.createTextNode(uri.uri));
             files_uris.appendChild(files_uris_single);

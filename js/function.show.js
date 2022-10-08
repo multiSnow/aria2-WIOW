@@ -64,7 +64,7 @@ function globaloption(){
 };
 
 function showoption(gid){
-    var artype=getattr(document.getElementById(gid),'data-artype');
+    let artype=getattr(document.getElementById(gid),'data-artype');
     if(artype=='stop'){
         wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
     }else{
@@ -85,9 +85,9 @@ function hideoption(){
 };
 
 function start_autorefresh(){
-    var idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+    let idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
     return setInterval(function(){
-        var showtagname=getattr(document.getElementById('sidetags'),'data-crtshow');
+        let showtagname=getattr(document.getElementById('sidetags'),'data-crtshow');
         getstat();
         if(document.getElementById('autorefresh').checked){
             if(showtagname in idfunc_dict){
