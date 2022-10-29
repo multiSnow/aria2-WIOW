@@ -32,31 +32,31 @@ function default_option(){
         return wsreq('default_option','aria2.getGlobalOption');
     }else{
         document.getElementById('add_option').style.display='none';
-        document.getElementById('addcache').innerHTML='';
+        clearnode(document.getElementById('addcache'));
     };
 };
 
 function showactive(){
-    return wsreq('showactive','aria2.tellActive',
-                 new Array(['gid','status','totalLength','completedLength','uploadLength',
-                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                            'numPieces','connections','errorCode','files','bittorrent']));
+    return wsreq('showactive','aria2.tellActive',new Array(
+        ['gid','status','totalLength','completedLength','uploadLength',
+         'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+         'numPieces','connections','errorCode','files','bittorrent']));
 };
 
 function showstopped(){
-    return wsreq('showstopped','aria2.tellStopped',
-                 new Array(0,parseInt(getattr(document.getElementById('sideinfo'),'data-numstopped')),
-                           ['gid','status','totalLength','completedLength','uploadLength',
-                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                            'numPieces','connections','errorCode','files','bittorrent']));
+    return wsreq('showstopped','aria2.tellStopped',new Array(
+        0,parseInt(getattr(document.getElementById('sideinfo'),'data-numstopped')),
+        ['gid','status','totalLength','completedLength','uploadLength',
+         'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+         'numPieces','connections','errorCode','files','bittorrent']));
 };
 
 function showwaiting(){
-    return wsreq('showwaiting','aria2.tellWaiting',
-                 new Array(0,parseInt(getattr(document.getElementById('sideinfo'),'data-numwaiting')),
-                           ['gid','status','totalLength','completedLength','uploadLength',
-                            'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
-                            'numPieces','connections','errorCode','files','bittorrent']))
+    return wsreq('showwaiting','aria2.tellWaiting',new Array(
+        0,parseInt(getattr(document.getElementById('sideinfo'),'data-numwaiting')),
+        ['gid','status','totalLength','completedLength','uploadLength',
+         'downloadSpeed','uploadSpeed','infoHash','numSeeders','pieceLength',
+         'numPieces','connections','errorCode','files','bittorrent']))
 };
 
 function globaloption(){
@@ -68,14 +68,13 @@ function showoption(gid){
     if(artype=='stop'){
         wsreq('showoption_stop','aria2.tellStatus',new Array(String(gid)));
     }else{
-        wsreq('showoption_'+artype+'_stat','aria2.tellStatus',new Array(String(gid)));
-        wsreq('showoption_'+artype+'_opt','aria2.getOption',new Array(String(gid)));
-        if(artype=='abtml'){
-            wsreq('showoption_'+artype+'_peer','aria2.getPeers',new Array(String(gid)));
-        };
+        wsreq(`showoption_${artype}_stat`,'aria2.tellStatus',new Array(String(gid)));
+        wsreq(`showoption_${artype}_opt`,'aria2.getOption',new Array(String(gid)));
+        if(artype=='abtml')
+            wsreq(`showoption_${artype}_peer`,'aria2.getPeers',new Array(String(gid)));
     };
     document.getElementById('showoption').style.display='block';
-    document.getElementById('singlecache').innerHTML='';
+    clearnode(document.getElementById('singlecache'));
     return 0;
 };
 
@@ -85,7 +84,11 @@ function hideoption(){
 };
 
 function start_autorefresh(){
-    let idfunc_dict={'mainactive':showactive,'mainstopped':showstopped,'mainwaiting':showwaiting};
+    let idfunc_dict={
+        'mainactive':showactive,
+        'mainstopped':showstopped,
+        'mainwaiting':showwaiting
+    };
     return setInterval(function(){
         let showtagname=getattr(document.getElementById('sidetags'),'data-crtshow');
         getstat();

@@ -42,41 +42,43 @@
 //2 normal notification
 //3 warning and error
 
-var msgdict={'aria2.onDownloadStart':['nor','Download Start'],
-             'aria2.onDownloadPause':['nor','Download Paused'],
-             'aria2.onDownloadStop':['nor','Download Stopped'],
-             'aria2.onDownloadComplete':['chr','Download Complete'],
-             'aria2.onDownloadError':['war','Download Error'],
-             'aria2.onBtDownloadComplete':['chr','BitTorrent Download Complete'],
-             'adduri':['lgt','Add Download via uri'],
-             'addtorrent':['lgt','Add Download via torrent file'],
-             'addmetalink':['lgt','Add Download via metalink file'],
-             'pause':['lgt','Pause Download Required'],
-             'remove_active':['lgt','Remove Download Required'],
-             'remove_stopped':['lgt','Clear Download Result'],
-             'unpause':['lgt','Continue Download Required'],
-             'shutdown':['lgt','Shutdown aria2'],
-             'purgestopped':['lgt','Clear All Download Result'],
-             'change_global_option':['lgt','Global Option Changed'],
-             'change_single_option':['lgt','Option Changed']}
+var msgdict={
+    'aria2.onDownloadStart':['nor','Download Start'],
+    'aria2.onDownloadPause':['nor','Download Paused'],
+    'aria2.onDownloadStop':['nor','Download Stopped'],
+    'aria2.onDownloadComplete':['chr','Download Complete'],
+    'aria2.onDownloadError':['war','Download Error'],
+    'aria2.onBtDownloadComplete':['chr','BitTorrent Download Complete'],
+    'adduri':['lgt','Add Download via uri'],
+    'addtorrent':['lgt','Add Download via torrent file'],
+    'addmetalink':['lgt','Add Download via metalink file'],
+    'pause':['lgt','Pause Download Required'],
+    'remove_active':['lgt','Remove Download Required'],
+    'remove_stopped':['lgt','Clear Download Result'],
+    'unpause':['lgt','Continue Download Required'],
+    'shutdown':['lgt','Shutdown aria2'],
+    'purgestopped':['lgt','Clear All Download Result'],
+    'change_global_option':['lgt','Global Option Changed'],
+    'change_single_option':['lgt','Option Changed'],
+}
 
 function notification(input_json){
     let rnode=document.getElementById('notification');
-    let nnode=document.createElement('div');
+    let nnode=newtag('div');
     if('method' in input_json){
-        nnode.className='note_'+msgdict[input_json.method][0];
-        nnode.appendChild(document.createTextNode(new Date().toLocaleString()));
-        nnode.appendChild(document.createElement('br'));
-        nnode.appendChild(document.createTextNode(msgdict[input_json.method][1]));
-        nnode.appendChild(document.createElement('br'));
-        nnode.appendChild(document.createTextNode(input_json.params[0].gid));
+        nnode.className=`note_${msgdict[input_json.method][0]}`;
+        newtxt(new Date().toLocaleString(),nnode);
+        newtag('br',nnode);
+        newtxt(msgdict[input_json.method][1],nnode);
+        newtag('br',nnode);
+        newtxt(input_json.params[0].gid,nnode);
     }else if('id' in input_json){
-        nnode.className='note_'+msgdict[input_json.id][0];
-        nnode.appendChild(document.createTextNode(new Date().toLocaleString()));
-        nnode.appendChild(document.createElement('br'));
-        nnode.appendChild(document.createTextNode(msgdict[input_json.id][1]));
-        nnode.appendChild(document.createElement('br'));
-        nnode.appendChild(document.createTextNode((typeof input_json.result===typeof [])?input_json.result.join():input_json.result));
+        nnode.className=`note_${msgdict[input_json.id][0]}`;
+        newtxt(new Date().toLocaleString(),nnode);
+        newtag('br',nnode);
+        newtxt(msgdict[input_json.id][1],nnode);
+        newtag('br',nnode);
+        newtxt((typeof input_json.result===typeof [])?input_json.result.join():input_json.result,nnode);
     }else{
         return 1;
     };
@@ -87,7 +89,5 @@ function notification(input_json){
 
 function clearnotif(node){
     node.style.display='none';
-    while(node.lastChild){
-        node.removeChild(node.lastChild)
-    };
+    clearnode(node);
 };

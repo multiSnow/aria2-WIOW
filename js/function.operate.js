@@ -18,13 +18,23 @@
  */
 
 function pause(gid){
-    if(confirm('Are you sure to pause it?')&&confirm('Really?')){
+    let title='';
+    try{
+        title=document.getElementById(gid).getElementsByClassName('item_title')[0].textContent;
+        title=`\n${title}`
+    }catch(e){}
+    if(confirm(`Are you sure to pause it?${title}`)&&confirm(`Really?${title}`)){
         return wsreq('pause','aria2.pause',new Array(String(gid)));
     };
 };
 
 function remove_active(gid){
-    if(confirm('Are you sure to remove it?')&&confirm('Really?')){
+    let title='';
+    try{
+        title=document.getElementById(gid).getElementsByClassName('item_title')[0].textContent;
+        title=`\n${title}`
+    }catch(e){}
+    if(confirm(`Are you sure to remove it?${title}`)&&confirm(`Really?${title}`)){
         return wsreq('remove_active','aria2.remove',new Array(String(gid)));
     };
 };
@@ -34,7 +44,12 @@ function remove_stopped(gid){
 };
 
 function unpause(gid){
-    if(confirm('Are you sure to start it?')&&confirm('Really?')){
+    let title='';
+    try{
+        title=document.getElementById(gid).getElementsByClassName('item_title')[0].textContent;
+        title=`\n${title}`
+    }catch(e){}
+    if(confirm(`Are you sure to start it?${title}`)&&confirm(`Really?${title}`)){
         return wsreq('unpause','aria2.unpause',new Array(String(gid)));
     };
 };

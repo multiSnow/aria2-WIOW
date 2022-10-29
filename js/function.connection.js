@@ -105,7 +105,7 @@ function connect(){
         nwsaddr.style.display='none';
         document.getElementById('connect').style.display='none';
         autorefresh=start_autorefresh()
-	return 0;
+        return 0;
     };
     return 0;
 };

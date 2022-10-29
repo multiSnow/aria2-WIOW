@@ -17,6 +17,22 @@
  *PERFORMANCE OF THIS SOFTWARE.
  */
 
+function newtag(tagname,root){
+    let node=document.createElement(tagname);
+    if(root!==undefined)root.appendChild(node);
+    return node;
+}
+
+function newtxt(text,root){
+    let node=document.createTextNode(text);
+    if(root!==undefined)root.appendChild(node);
+    return node;
+}
+
+function clearnode(node){
+    while(node.lastChild)node.lastChild.remove();
+}
+
 function setattr(node,attr,value){
     return node.setAttribute(attr,value);
 };

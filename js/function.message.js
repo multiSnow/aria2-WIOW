@@ -28,19 +28,15 @@ function receive_purgestopped(input_data){
 
 function receive_version(input_data){
     let sideinfo=document.getElementById('sideinfo_static');
-    let node1=document.createElement('div');
-    let node2=document.createElement('div');
-    let node3=document.createElement('div');
-    let node4=document.createElement('sup');
-    sideinfo.innerHTML='';
+    clearnode(sideinfo);
+    let node1=newtag('div',sideinfo);
+    let node2=newtag('div',sideinfo);
+    let node3=newtag('div',sideinfo);
     node1.textContent='Connected';
     node2.textContent=ws.url.replace(/^wss?:\/\/(.*)\/jsonrpc$/,'$1');
     node3.textContent='aria2';
-    node3.appendChild(node4);
+    let node4=newtag('sup',node3);
     node4.textContent=input_data.result.version;
-    sideinfo.appendChild(node1);
-    sideinfo.appendChild(node2);
-    sideinfo.appendChild(node3);
     return 0;
 };
 
@@ -87,7 +83,8 @@ function receive_active(input_data){
 };
 
 function receive_stopped(input_data){
-    input_data.result.forEach(function(result,i){
+    let result=input_data.result;
+    result.forEach(function(result,i){
         let dict=new Object();
         dict['completedLength']=result.completedLength;
         dict['totalLength']=result.totalLength;
@@ -96,16 +93,16 @@ function receive_stopped(input_data){
         opr_stopped(result.gid,dict);
     });
     let purge_button=document.getElementById('purge_button');
-    if(input_data.result&&input_data.result.length>0&&purge_button){
-    }else if(input_data.result&&input_data.result.length>0){
-        purge_button=document.createElement('button');
-        purge_button.id='purge_button';
-        purge_button.type='button';
-        setattr(purge_button,'onclick','purgestopped();');
-        purge_button.appendChild(document.createTextNode('Purge Stopped'));
-        document.getElementById('mainstopped').appendChild(purge_button);
+    if(result&&result.length>0){
+        if(!purge_button){
+            purge_button=newtag('button',document.getElementById('mainstopped'));
+            purge_button.id='purge_button';
+            purge_button.type='button';
+            setattr(purge_button,'onclick','purgestopped();');
+            newtxt('Purge Stopped',purge_button);
+        }
     }else if(purge_button){
-        purge_button.parentNode.removeChild(purge_button);
+        purge_button.remove();
     };
     return 0;
 };
@@ -144,51 +141,52 @@ function receive_singlestat(input_data){
     document.getElementById('showoption_status_gid').innerHTML=result.gid;
     document.getElementById('showoption_status_dir').innerHTML=result.dir;
     document.getElementById('showoption_status_status').innerHTML=result.status;
-    document.getElementById('showoption_status_progress').value=result.completedLength;
-    document.getElementById('showoption_status_progress').max=result.totalLength;
     document.getElementById('showoption_status_completedlength').innerHTML=human_read(result.completedLength);
     document.getElementById('showoption_status_totallength').innerHTML=human_read(result.totalLength);
     document.getElementById('showoption_status_connections').innerHTML=result.connections;
-    document.getElementById('showoption_statue_file').innerHTML='';
     document.getElementById('showoption_status_basic').style.display='block';
-    document.getElementById('showoption_statue_file').style.display='block';
+
+    let progress=document.getElementById('showoption_status_progress');
+    progress.value=result.completedLength;
+    progress.max=result.totalLength;
+
+    let file_node=document.getElementById('showoption_statue_file');
+    clearnode(file_node);
+    file_node.style.display='block';
 
     for(let file of result.files){
-        let files=document.createElement('div');
-        let files_index_path=document.createElement('div');
-        let progress_bar=document.createElement('progress');
-        let selected=document.createElement('div');
+        let files=newtag('div',file_node);
+        let files_index_path=newtag('div',files);
+        let progress_bar=newtag('progress',files);
         let completedLength=file.completedLength;
         let totalLength=file.length;
-        let size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
+        let size=newtxt(
+            [`${(completedLength/totalLength*100).toFixed(2)}%`,
+             `(${human_read(completedLength)}/${human_read(totalLength)})`].join(''),
+            files
+        );
+        let selected=newtag('div',files);
 
         files.className='files';
         files_index_path.className='files_index_path';
-        files_index_path.appendChild(document.createTextNode(file.index+' '+file.path.replace(result.dir+'/','')))
+        let path=file.path.replace(`${result.dir}/`,'');
+        newtxt(`${file.index} ${path}`,files_index_path);
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
         selected.style.color=(file.selected==='true')?'#40ff40':'#808080';
 
-        selected.appendChild(document.createTextNode((file.selected==='true')?'selected':'unselected'));
-        files.appendChild(files_index_path);
-        files.appendChild(progress_bar);
-        files.appendChild(size);
-        files.appendChild(selected);
+        newtxt((file.selected==='true')?'selected':'unselected',selected);
 
         if(type==='ahttp'){
-            let download_from=document.createElement('div');
-            let files_uris=document.createElement('blockquote');
+            let download_from=newtag('div',files);
+            let files_uris=newtag('blockquote',download_from);
             files_uris.className='files_uris'
             for(let uri of file.uris){
-                let files_uris_single=document.createElement('div');
+                let files_uris_single=newtag('div',files_uris);
                 files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
-                files_uris_single.appendChild(document.createTextNode(uri.uri));
-                files_uris.appendChild(files_uris_single);
+                newtxt(uri.uri,files_uris_single);
             };
-            download_from.appendChild(files_uris);
-            files.appendChild(download_from);
         };
-        document.getElementById('showoption_statue_file').appendChild(files);
     };
 
     if(type.substring(1)=='http'){
@@ -196,15 +194,16 @@ function receive_singlestat(input_data){
     }else{
         document.getElementById('showoption_status_bittorrent').style.display='block';
         document.getElementById('showoption_statue_peers').style.display='block';
-        document.getElementById('showoption_status_announcelist').innerHTML='';
-        document.getElementById('showoption_statue_peers').innerHTML='';
         document.getElementById('showoption_status_infohash').innerHTML=result.infoHash;
         document.getElementById('showoption_status_numseeders').innerHTML=result.numSeeders;
+        let announcelist=document.getElementById('showoption_status_announcelist');
+        clearnode(announcelist);
+        clearnode(document.getElementById('showoption_statue_peers'));
         for(let anon of result.bittorrent.announceList){
+            let announcegroup=newtag('div',announcelist);
             for(let url of anon){
-                let announceurl=document.createElement('div');
-                announceurl.appendChild(document.createTextNode(url));
-                document.getElementById('showoption_status_announcelist').appendChild(announceurl);
+                let announceurl=newtag('div',announcegroup);
+                newtxt(url,announceurl);
             };
         };
     };
@@ -225,36 +224,32 @@ function receive_singleopt(input_data){
 };
 
 function receive_singlepeer(input_data){
+    let peers_node=document.getElementById('showoption_statue_peers');
     for(let result of input_data.result){
-        let peer=document.createElement('div');
-        let peer_id_addr=document.createElement('div');
-        let peer_spd=document.createElement('div');
-        let peer_addr=(result.ip.match(':')?' from [_]:':' from _:').replace('_',result.ip)+result.port;
+        let peer=newtag('div');
+        let peer_id_addr=newtag('div',peer);
+        let peer_spd=newtag('div',peer);
+        let ipaddr=result.ip.match(':')?`[${result.ip}]`:`${result.ip}`;
+        let peer_addr=` from ${ipaddr}:${result.port}`;
 
         peer.className='peer';
         peer_id_addr.className='peer_addr';
-        peer_spd.className='peer_spd'
+        peer_spd.className='peer_spd';
         peer_id_addr.style.color=(result.seeder==='true')?'#40ff40':'#ffff00';
-        peer_id_addr.appendChild(document.createTextNode(unescape(result.peerId)));
-        peer_id_addr.appendChild(document.createTextNode(peer_addr));
-        peer_spd.appendChild(document.createTextNode('D: '+human_read(result.downloadSpeed)+'/s'));
-        peer_spd.appendChild(document.createElement('br'));
-        peer_spd.appendChild(document.createTextNode('U: '+human_read(result.uploadSpeed)+'/s'));
-
-        peer.appendChild(peer_id_addr);
-        peer.appendChild(peer_spd);
+        newtxt(unescape(result.peerId),peer_id_addr);
+        newtxt(peer_addr,peer_id_addr);
+        newtxt(`D: ${human_read(result.downloadSpeed)}/s`,peer_spd);
+        newtag('br',peer_spd);
+        newtxt(`U: ${human_read(result.uploadSpeed)}/s`,peer_spd);
 
         if(result.amChoking==='true'){
-            let amChoking=document.createElement('div');
-            amChoking.appendChild(document.createTextNode('amChoking'));
-            peer.appendChild(amChoking);
+            let amChoking=newtag('div',peer);
+            newtxt('amChoking',amChoking);
         };
         if(result.peerChoking==='true'){
-            let peerChoking=document.createElement('div');
-            peerChoking.appendChild(document.createTextNode('peerChoking'));
-            peer.appendChild(peerChoking);
+            let peerChoking=newtag('div',peer);
+            newtxt('peerChoking',peerChoking);
         };
-        let peers_node=document.getElementById('showoption_statue_peers');
         if(result.seeder==='true'){
             peers_node.insertBefore(peer,peers_node.firstElementChild);
         }else{
@@ -275,55 +270,55 @@ function receive_defaultoption(input_data){
 };
 
 function receive_stoppedstatus(input_data){
+    let result=input_data.result;
     document.getElementById('showoption_option_basic').style.display='none';
     document.getElementById('showoption_option_bittorrent').style.display='none';
     document.getElementById('showoption_option_all').style.display='none';
     document.getElementById('showoption_status_bittorrent').style.display='none';
     document.getElementById('s_o_c').style.display='none';
-    document.getElementById('showoption_status_gid').innerHTML=input_data.result.gid;
-    document.getElementById('showoption_status_dir').innerHTML=input_data.result.dir;
-    document.getElementById('showoption_status_status').innerHTML=input_data.result.status;
-    document.getElementById('showoption_status_progress').value=input_data.result.completedLength;
-    document.getElementById('showoption_status_progress').max=input_data.result.totalLength;
-    document.getElementById('showoption_status_completedlength').innerHTML=human_read(input_data.result.completedLength);
-    document.getElementById('showoption_status_totallength').innerHTML=human_read(input_data.result.totalLength);
-    document.getElementById('showoption_status_connections').innerHTML=input_data.result.connections;
-    document.getElementById('showoption_statue_file').innerHTML='';
+    document.getElementById('showoption_status_gid').innerHTML=result.gid;
+    document.getElementById('showoption_status_dir').innerHTML=result.dir;
+    document.getElementById('showoption_status_status').innerHTML=result.status;
+    document.getElementById('showoption_status_completedlength').innerHTML=human_read(result.completedLength);
+    document.getElementById('showoption_status_totallength').innerHTML=human_read(result.totalLength);
+    document.getElementById('showoption_status_connections').innerHTML=result.connections;
 
-    for(let file of input_data.result.files){
-        let files=document.createElement('div');
-        let files_index_path=document.createElement('div');
-        let progress_bar=document.createElement('progress');
-        let selected=document.createElement('div');
-        let download_from=document.createElement('div');
-        let files_uris=document.createElement('blockquote');
+    let progress=document.getElementById('showoption_status_progress');
+    progress.value=result.completedLength;
+    progress.max=result.totalLength;
+
+    let file_node=document.getElementById('showoption_statue_file');
+    clearnode(file_node);
+
+    for(let file of result.files){
+        let files=newtag('div',file_node);
+        let files_index_path=newtag('div',files);
+        let progress_bar=newtag('progress',files);
         let completedLength=file.completedLength;
         let totalLength=file.length;
-        let size=document.createTextNode((completedLength/totalLength*100).toFixed(2)+'%('+human_read(completedLength)+'/'+human_read(totalLength)+')');
+        let size=newtxt(
+            [`${(completedLength/totalLength*100).toFixed(2)}%`,
+             `(${human_read(completedLength)}/${human_read(totalLength)})`].join(''),
+            files
+        );
+        let selected=newtag('div',files);
+        let download_from=newtag('div',files);
+        let files_uris=newtag('blockquote',download_from);
 
         files.className='files';
         files_index_path.className='files_index_path';
-        files_index_path.appendChild(document.createTextNode(file.index+' '+file.path.replace(input_data.result.dir+'/','')))
+        let path=file.path.replace(`${result.dir}/`,'');
+        newtxt(`${file.index} ${path}`,files_index_path);
         progress_bar.value=completedLength;
         progress_bar.max=totalLength;
         selected.style.color=(file.selected==='true')?'#40ff40':'#808080';
-        selected.appendChild(document.createTextNode((file.selected==='true')?'selected':'unselected'));
+        newtxt((file.selected==='true')?'selected':'unselected',selected);
         files_uris.className='files_uris'
         for(let uri of file.uris){
-            let files_uris_single=document.createElement('div');
+            let files_uris_single=newtag('div',files_uris);
             files_uris_single.style.color=(uri.status==='used')?'#40ff40':'#ffff00';
-            files_uris_single.appendChild(document.createTextNode(uri.uri));
-            files_uris.appendChild(files_uris_single);
+            newtxt(uri.uri,files_uris_single);
         };
-        download_from.appendChild(files_uris);
-
-        files.appendChild(files_index_path);
-        files.appendChild(progress_bar);
-        files.appendChild(size);
-        files.appendChild(selected);
-        files.appendChild(download_from);
-
-        document.getElementById('showoption_statue_file').appendChild(files);
     };
     return 0;
 };
@@ -333,37 +328,39 @@ function ws_notify(input_data){
     return notification(input_data);
 };
 
-var func={'version':receive_version,
-          'globalstat':receive_stat,
-          'adduri':receive_common,
-          'addtorrent':receive_common,
-          'addmetalink':receive_common,
-          'default_option':receive_defaultoption,
-          'pause':receive_common,
-          'remove_active':receive_common,
-          'remove_stopped':receive_common,
-          'unpause':receive_common,
-          'shutdown':receive_common,
-          'purgestopped':receive_purgestopped,
-          'showactive':receive_active,
-          'showstopped':receive_stopped,
-          'showwaiting':receive_waiting,
-          'showoption_stop':receive_stoppedstatus,
-          'showoption_ahttp_stat':receive_singlestat,
-          'showoption_abtml_stat':receive_singlestat,
-          'showoption_whttp_stat':receive_singlestat,
-          'showoption_wbtml_stat':receive_singlestat,
-          'showoption_ahttp_opt':receive_singleopt,
-          'showoption_abtml_opt':receive_singleopt,
-          'showoption_whttp_opt':receive_singleopt,
-          'showoption_wbtml_opt':receive_singleopt,
-          'showoption_abtml_peer':receive_singlepeer,
-          'globaloption':receive_globaloption,
-          'change_global_option':receive_common,
-          'change_single_option':receive_common,
-          'aria2.onDownloadStart':ws_notify,
-          'aria2.onDownloadPause':ws_notify,
-          'aria2.onDownloadStop':ws_notify,
-          'aria2.onDownloadComplete':ws_notify,
-          'aria2.onDownloadError':ws_notify,
-          'aria2.onBtDownloadComplete':ws_notify}
+var func={
+    'version':receive_version,
+    'globalstat':receive_stat,
+    'adduri':receive_common,
+    'addtorrent':receive_common,
+    'addmetalink':receive_common,
+    'default_option':receive_defaultoption,
+    'pause':receive_common,
+    'remove_active':receive_common,
+    'remove_stopped':receive_common,
+    'unpause':receive_common,
+    'shutdown':receive_common,
+    'purgestopped':receive_purgestopped,
+    'showactive':receive_active,
+    'showstopped':receive_stopped,
+    'showwaiting':receive_waiting,
+    'showoption_stop':receive_stoppedstatus,
+    'showoption_ahttp_stat':receive_singlestat,
+    'showoption_abtml_stat':receive_singlestat,
+    'showoption_whttp_stat':receive_singlestat,
+    'showoption_wbtml_stat':receive_singlestat,
+    'showoption_ahttp_opt':receive_singleopt,
+    'showoption_abtml_opt':receive_singleopt,
+    'showoption_whttp_opt':receive_singleopt,
+    'showoption_wbtml_opt':receive_singleopt,
+    'showoption_abtml_peer':receive_singlepeer,
+    'globaloption':receive_globaloption,
+    'change_global_option':receive_common,
+    'change_single_option':receive_common,
+    'aria2.onDownloadStart':ws_notify,
+    'aria2.onDownloadPause':ws_notify,
+    'aria2.onDownloadStop':ws_notify,
+    'aria2.onDownloadComplete':ws_notify,
+    'aria2.onDownloadError':ws_notify,
+    'aria2.onBtDownloadComplete':ws_notify
+}
